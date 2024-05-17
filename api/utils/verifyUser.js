@@ -1,17 +1,5 @@
-import Jwt from "jsonwebtoken";
+import jwt from "jsonwebtoken";
 import { errorHandler } from "./error.js";
-import crypto from "crypto"
-import { config } from "dotenv";
-import session from "express-session";
-
-
-
-config();
-
-const jwtSecret = crypto.randomBytes(32).toString("hex");
-// console.log("JWT Secret:", jwtSecret);
-
-process.env.JWT_SECRET = jwtSecret;
 
 
 
@@ -20,7 +8,7 @@ export const verifyToken = (req, res, next) => {
 
   if (!token) return next(errorHandler(401, "Unauthorized"));
 
-  Jwt.verify(token, process.env.JWT_SECRET, (err, user) => {
+  jwt.verify(token, process.env.JWT_SECRET, (err, user) => {
     if (err) return next(errorHandler(403, "forbidden"));
 
     req.user = user;
@@ -28,9 +16,3 @@ export const verifyToken = (req, res, next) => {
   });
   
 };
-export const sessionMiddleware = session({
-  secret: jwtSecret,
-  resave: false,
-  saveUninitialized: false,
-  cookie: { maxAge: 3600000 } // Session expires after 1 hour of inactivity
-});
