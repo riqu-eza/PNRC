@@ -5,19 +5,14 @@ import { useEffect, useState } from "react";
 import "../pages/page.css";
 
 export default function Header() {
-  const { currentUser } = useSelector((state) => state.user);
   const [searchTerm, setSearchTerm] = useState("");
-  const [showLinks, setShowLinks] = useState(false);
 
   const navigate = useNavigate();
   const location = useLocation();
 
-  const toggleLinks = () => {
-    setShowLinks(!showLinks);
-  };
-
+  
   return (
-    <header className="bg-blue-800 ">
+    <header className="bg-transparent-800 ">
       <div className="flex justify-between items-center max-w-6xl mx-auto p-3">
         <Link to="/" className="logo" >
           <img src="" ></img>
