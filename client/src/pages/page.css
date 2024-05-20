@@ -1,41 +1,52 @@
-@import url("https://fonts.googleapis.com/css2?family=Inconsolata:wght@200..900&family=Jacquard+24+Charted&family=Ojuju:wght@200..800&display=swap");
-@import url("https://fonts.googleapis.com/css2?family=Inconsolata:wght@200..900&family=Jacquard+24+Charted&family=Jaro:opsz@6..72&family=Ojuju:wght@200..800&display=swap");
-@import url("https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inconsolata:wght@200..900&family=Jacquard+24+Charted&family=Jaro:opsz@6..72&family=Ojuju:wght@200..800&display=swap");
-@import url("https://fonts.googleapis.com/css2?family=Agbalumo&family=Anta&family=Bebas+Neue&family=Inconsolata:wdth,wght@113.7,200..900&family=Jacquard+24+Charted&family=Jaro:opsz@6..72&family=Ojuju:wght@200..800&family=Sedan+SC&display=swap");
-@import url("https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inconsolata:wdth,wght@113.7,200..900&family=Jacquard+24+Charted&family=Jaro:opsz@6..72&family=Ojuju:wght@200..800&family=Sedan+SC&display=swap");
-@import url("https://fonts.googleapis.com/css2?family=Agbalumo&family=Bebas+Neue&family=Inconsolata:wdth,wght@113.7,200..900&family=Jacquard+24+Charted&family=Jaro:opsz@6..72&family=Ojuju:wght@200..800&family=Sedan+SC&display=swap");
-@import url("https://fonts.googleapis.com/css2?family=Agbalumo&family=Anta&family=Bebas+Neue&family=Berkshire+Swash&family=Inconsolata:wdth,wght@113.7,200..900&family=Jacquard+24+Charted&family=Jaro:opsz@6..72&family=Ojuju:wght@200..800&family=Sedan+SC&display=swap");
-@import url("https://fonts.googleapis.com/css2?family=Agbalumo&family=Anta&family=Bebas+Neue&family=Berkshire+Swash&family=Inconsolata:wdth,wght@113.7,200..900&family=Jacquard+24+Charted&family=Jaro:opsz@6..72&family=Ojuju:wght@200..800&family=Reggae+One&family=Sedan+SC&display=swap");
-@import url("https://fonts.googleapis.com/css2?family=Agbalumo&family=Aladin&family=Anta&family=Bebas+Neue&family=Berkshire+Swash&family=Inconsolata:wdth,wght@113.7,200..900&family=Jacquard+24+Charted&family=Jaro:opsz@6..72&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Ojuju:wght@200..800&family=Platypi:ital,wght@0,300..800;1,300..800&family=Poetsen+One&family=Reggae+One&family=Sedan+SC&display=swap");
-@import url("https://fonts.googleapis.com/css2?family=Agbalumo&family=Aladin&family=Anta&family=Bebas+Neue&family=Berkshire+Swash&family=Inconsolata:wdth,wght@113.7,200..900&family=Jacquard+24+Charted&family=Jaro:opsz@6..72&family=Kalam:wght@300;400;700&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Ojuju:wght@200..800&family=Platypi:ital,wght@0,300..800;1,300..800&family=Poetsen+One&family=Reggae+One&family=Sedan+SC&display=swap");
-@import url("https://fonts.googleapis.com/css2?family=Agbalumo&family=Aladin&family=Anta&family=Bebas+Neue&family=Berkshire+Swash&family=Inconsolata:wdth,wght@113.7,200..900&family=Jacquard+24+Charted&family=Jaro:opsz@6..72&family=Kalam:wght@300;400;700&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Ojuju:wght@200..800&family=Orbitron:wght@400..900&family=Platypi:ital,wght@0,300..800;1,300..800&family=Poetsen+One&family=Reggae+One&family=Sedan+SC&display=swap");
+
 @import url('https://fonts.googleapis.com/css2?family=Agbalumo&family=Aladin&family=Anta&family=Bebas+Neue&family=Berkshire+Swash&family=Concert+One&family=Inconsolata:wdth,wght@113.7,200..900&family=Jacquard+24+Charted&family=Jaro:opsz@6..72&family=Kalam:wght@300;400;700&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Ojuju:wght@200..800&family=Orbitron:wght@400..900&family=Platypi:ital,wght@0,300..800;1,300..800&family=Poetsen+One&family=Reggae+One&family=Sedan+SC&display=swap');
 /*citylisting page*/
+
+@font-face {
+  font-family: "Trajanpro";
+  src: url(../Assets/fonts/TrajanPro-Bold.otf) format("opentype");
+  font-weight: bolder;
+  font-style: normal;
+}
+@font-face {
+  font-family: "Lithosregular";
+  src: url(../Assets/fonts/LithosPro-Regular.otf) format("opentype");
+  font-weight:bolder;
+  font-style: normal;
+}
+
+
 .countyinfo {
   font-family: "Kalam", cursive;
 }
+
 .countyname {
   font-family: "Platypi", serif;
   font-optical-sizing: auto;
 }
 
 /*citycontent page*/
-.cityhead{
+.cityhead {
   font-family: "Orbitron", sans-serif;
   font-optical-sizing: auto;
 }
-.categoryname{
+
+.categoryname {
   font-family: "Concert One", sans-serif;
 
 }
+
 .logo {
   display: block;
-  width: 50px; /* Set the desired width */
-  height: 50px; /* Set the desired height */
+  width: 50px;
+  /* Set the desired width */
+  height: 50px;
+  /* Set the desired height */
   background-image: url("../imgaes/PNRClogo-depositphotos-bgremover.png");
   background-size: cover;
   background-position: center;
 }
+
 .neon-text {
   color: #2b9c2b;
   text-shadow:
@@ -44,24 +55,25 @@
     0 0 15px #2b9c2b;
   /* letter-spacing: 3px; */
 }
+
 .main-text {
   text-align: center;
-  letter-spacing: 5px;
+  letter-spacing: 1px;
   font-size: 4em;
   font-weight: 900;
-  color: rgb(5, 2, 7);
-  font-family: "Agbalumo", system-ui;
-  font-style: normal;
+  color: #fff;
+  font-family: "Lithosregular";
 }
+
 .main-text1 {
   text-align: center;
   letter-spacing: 10px;
   font-size: 5em;
-  color: rgb(183, 216, 65);
-  font-family: "Reggae One", system-ui;
-  font-weight: 900;
-  font-style: normal;
+  color: #fff;
+  font-family: "Trajanpro";
+  
 }
+
 /* Custom neon color styles */
 .text-slate-600 {
   text-shadow:
@@ -79,11 +91,12 @@
   font-size: 53px;
   color: gold;
 }
-.bg-image {
+
+.bgimage {
   background-image: url("../imgaes/Homebackground.jpg");
   background-size: cover;
   background-position: center;
-  height: 17cm;
+  height: auto;
 }
 
 .text-neon {
@@ -100,17 +113,18 @@
   font-style: normal;
   font-variation-settings: "wdth" 100;
 }
+/* home discover button */
 .button {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  padding: 15px 30px;
+  padding: 15px 45px;
   border: 0;
   position: relative;
   overflow: hidden;
   border-radius: 10rem;
   transition: all 0.02s;
-  font-weight: bold;
+  font-weight: bolder;
   color: rgb(104, 9, 2);
   z-index: 0;
   box-shadow: 0 0px 7px -5px rgba(0, 0, 0, 0.5);
@@ -139,12 +153,10 @@
 
 .hoverEffect div {
   background: rgb(222, 0, 75);
-  background: linear-gradient(
-    90deg,
-    rgba(222, 0, 75, 1) 0%,
-    rgba(191, 70, 255, 1) 49%,
-    rgba(0, 212, 255, 1) 100%
-  );
+  background: linear-gradient(90deg,
+      rgba(222, 0, 75, 1) 0%,
+      rgba(191, 70, 255, 1) 49%,
+      rgba(0, 212, 255, 1) 100%);
   border-radius: 40rem;
   width: 10rem;
   height: 10rem;
