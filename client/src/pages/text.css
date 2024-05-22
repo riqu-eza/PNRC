@@ -1,0 +1,76 @@
+@charset "UTF-8";
+
+
+body{
+    font: 16px/1.5 "georgia", serif;
+    background-color: #f6f6f6;
+    color: #373839;
+    text-rendering: optimizeLegibility;
+}
+.main{
+    margin: 0 auto;
+    /* padding-top: 100px; */
+    width: 650px;
+}
+h1{
+    font-size: 98px;
+    line-height: 1;
+    font-style: italic;
+    padding: 0;
+    margin:0;
+    text-indent: -12px;
+}
+
+blockquote{
+    position: relative;
+    padding: 6px 0 0 72px;
+
+}
+blockquote:before{
+    content: "";
+    position: absolute;
+    font-size: 144px;
+    line-height: 1;
+    text-indent:-72px;
+    top:-18px;
+    color: #9e9d9d;
+}
+blockquote p{
+    color: #cc3945;
+    font-size: 18px;
+    font-style: italic;
+}
+
+p{
+    margin: 0;
+    padding-bottom: 16px;
+}
+.cols{
+    position: relative;
+    column-count: 2;
+    column-gap:32px;
+    column-fill: balance;
+    border: solid #e4e4e4;
+    border: 6px 0 ;
+    padding: 21px 0;
+    text-align: justify;
+    text-justify: inner-content;
+    word-break: break-word;
+    hyphens: auto;
+}
+.cols p{
+    border-bottom: 1px solid #aaa;
+}
+.cols p::first-letter{
+    float: left;
+    font-size: 72px;
+    font-weight: bold;
+    line-height: 1;
+    margin-right: 14px;
+}
+.colophon{
+    font-style: italic;
+    color: #aaa;
+    text-align: right;
+    padding:16px 0 0;
+}

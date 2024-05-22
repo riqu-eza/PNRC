@@ -78,7 +78,7 @@ const ListingsByCounty = () => {
         </div>
       ) : (
         <div className="container ">
-          <div className="county-list grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10 ">
+          <div className="county-list grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10 ml-20 mt-10">
             {uniqueCounties.map((county) => (
               <div
                 key={county}
