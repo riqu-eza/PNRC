@@ -10,8 +10,7 @@ const MyComponent = () => {
         {/* Left Section with Links */}
         <div className="w-1/3 shadow-lg rounded-lg bg-white p-4 mr-6">
           <nav className="flex flex-col space-y-4">
-            <Link to="#link1" className="text-blue-500 hover:underline">
-              brand</Link>
+            <Link to="#link1" className="text-blue-500 hover:underline"> --brand--</Link>
             <Link to="#link2" className="text-blue-500 hover:underline">Content Marketing</Link>
             <Link to="#link3" className="text-blue-500 hover:underline">Data & Analytics</Link>
             <Link to="#link4" className="text-blue-500 hover:underline">Digital Marketing</Link>
