@@ -7,7 +7,7 @@ const AppLayout = () => {
 
   return (
     <div>
-      {location.pathname !== '/' && <Header />}
+      {(location.pathname !== '/' && location.pathname !== '/admin') && <Header />}
       <div>
         <Outlet />
       </div>
