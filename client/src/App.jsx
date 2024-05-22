@@ -19,6 +19,8 @@ import Search from "./pages/Search";
 import Blogs from "./pages/Blogs";
 import Admin from "./components/Admin";
 import City from "./pages/city";
+import Footer from "./components/Footer";
+import AppLayout from "./components/Applayout";
 // import Adminblog from "./components/bloglisting";
 
 export default function App() {
@@ -31,7 +33,7 @@ export default function App() {
     < BrowserRouter >
       <Routes>
         <Route path="/" element={<Home />} />
-
+        <Route  element={<AppLayout/>} >
           <Route path="/getstarted" element={<SignUp />} />
           <Route path="/sign-in" element={<SignIn />} />
           <Route path="/sign-up" element={<SignUp />} ></Route>
@@ -48,6 +50,7 @@ export default function App() {
           <Route path="/search" element={<Search />} ></Route>
           <Route path="/admin" element={<Admin />} ></Route>
           <Route path="/addcity" element={<City />}></Route>
+        </Route>
         {/* <Route path="/listing/:listingId" element={<Listing />} /> */}
         <Route element={<PrivateRoute />}>
           <Route path="/profile" element={<Profile />} />
@@ -58,6 +61,7 @@ export default function App() {
           />
         </Route>
       </Routes>
+      {/* <Footer /> */}
     </BrowserRouter >
   );
 }

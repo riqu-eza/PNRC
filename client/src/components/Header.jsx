@@ -18,7 +18,7 @@ export default function Header() {
 
   return (
     <header  >
-    <div className="flex justify-between items-center max-w-6xl mx-auto p-3">
+    <div className="flex justify-between items-center max-w-6xl mx-auto p-3 bg-blue-500 rounded-xl">
       <Link to="/" className="logo" >
         <img src="" ></img>
       </Link>

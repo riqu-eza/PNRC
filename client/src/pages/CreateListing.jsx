@@ -166,13 +166,8 @@ export default function CreateListing() {
       console.error("Error fetching cities:", error);
     }
   };
-  // const countiesInKenya = [
-  //   "Mombasa",
-  //   "Malindi",
-  //   "Watamu",
-  //   "Lamu",
-  //   "Diani"
-  // ];
+
+  
 
   const handleCountyChange = (e) => {
     const value = e.target.value;
@@ -684,7 +679,7 @@ export default function CreateListing() {
               value={formData.selectedCounty}
               onChange={handleCountyChange}
             >
-              <option value="">Select</option>
+              <option value="">Select resort-city</option>
               {countiesInKenya.map((county, index) => (
                 <option key={index} value={county.newcity}>
                   {county.newcity}

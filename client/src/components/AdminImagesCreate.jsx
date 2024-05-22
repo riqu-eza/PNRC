@@ -4,7 +4,7 @@ import {
   ref,
   uploadBytesResumable,
 } from "firebase/storage";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { app } from "../firebase";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
@@ -24,11 +24,7 @@ export default function CreateListing() {
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
-  //firebase rules
-  // allow read;
-  // allow write: if
-  // request.resource.size < 2* 1024 * 1024 &&
-  // request.resource.contentType.matches('image/.*')
+  
 
   const handleImageSubmit = () => {
     if (files.length > 0 && files.length + formData.imageUrls.length < 7) {
@@ -93,15 +89,23 @@ export default function CreateListing() {
       imageUrls: formData.imageUrls.filter((_, i) => i !== index),
     });
   };
-
-  const countiesInKenya = [
-    "Mombasa",
-    "Malindi",
-    "Watamu",
-    "Lamu",
-    "Diani"
-  ];
-
+  useEffect(() => {
+    fetchCounties();
+  }, []);
+  const [countiesInKenya, setCounties] = useState([]);
+  const fetchCounties = async () => {
+    try {
+      const response = await fetch("http://localhost:3000/api/admin/cities");
+      if (!response.ok) {
+        throw new Error("Failed to fetch cities");
+      }
+      const data = await response.json();
+      setCounties(data);
+    } catch (error) {
+      console.error("Error fetching cities:", error);
+    }
+  };
+  
   const handleCountyChange = (e) => {
     const value = e.target.value;
     setFormData((prevState) => ({
@@ -152,7 +156,7 @@ export default function CreateListing() {
   return (
     <main className="p-3 max-w-4xl mx-auto">
       <h1 className="text-3xl font-semibold text-center my-7">
-        Create a county details
+        Create a city details
       </h1>
       <form onSubmit={handleSubmit} className="flex flex-col sm:flex-row gap-4">
         <div className="flex flex-col gap-4 flex-1">
@@ -209,10 +213,10 @@ export default function CreateListing() {
               value={formData.selectedCounty}
               onChange={handleCountyChange}
             >
-              <option value="">Select resortcity</option>
+              <option value="">Select resort-city</option>
               {countiesInKenya.map((county, index) => (
-                <option key={index} value={county}>
-                  {county}
+                <option key={index} value={county.newcity}>
+                  {county.newcity}
                 </option>
               ))}
             </select>
@@ -235,7 +239,7 @@ export default function CreateListing() {
             disabled={loading || uploading}
             className="p-3 bg-slate-700 text-white rounded-lg uppercase hover:opacity-95 disabled:opacity-80"
           >
-            {loading ? "Creating..." : "Create county details"}
+            {loading ? "Creating..." : "Create city details"}
           </button>
           {error && <p className="text-red-700 text-sm">{error}</p>}
         </div>

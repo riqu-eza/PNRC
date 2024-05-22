@@ -5,6 +5,7 @@ import { Link } from "react-router-dom";
 
 import Countylisting from "./countylisting";
 import "./page.css";
+import "../components/loading.css";
 
 const ListingsByCounty = () => {
   const [uniqueCounties, setUniqueCounties] = useState([]);
@@ -73,11 +74,11 @@ const ListingsByCounty = () => {
     <>
       {isLoading ? (
         <div className="container mx-auto flex justify-center items-center h-screen">
-          <div>Loading...</div>
+          <div className="loader">Loading...</div>
         </div>
       ) : (
-        <div className="container mx-auto">
-          <div className="county-list grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10">
+        <div className="container ">
+          <div className="county-list grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10 ">
             {uniqueCounties.map((county) => (
               <div
                 key={county}

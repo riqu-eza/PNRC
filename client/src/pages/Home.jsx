@@ -147,7 +147,7 @@ export default function Home() {
 
         <Link to={"/resortcities"} className="text-center">
           <button class="button">
-            DISCOVER
+            DISCOVER 
             <div class="hoverEffect">
               <div></div>
             </div>

@@ -125,7 +125,7 @@
   border-radius: 10rem;
   transition: all 0.02s;
   font-weight: bolder;
-  color: rgb(104, 9, 2);
+  color: rgb(28, 13, 155);
   z-index: 0;
   box-shadow: 0 0px 7px -5px rgba(0, 0, 0, 0.5);
 }
@@ -152,11 +152,11 @@
 }
 
 .hoverEffect div {
-  background: rgb(222, 0, 75);
+  background: rgb(248, 3, 85);
   background: linear-gradient(90deg,
-      rgba(222, 0, 75, 1) 0%,
-      rgba(191, 70, 255, 1) 49%,
-      rgba(0, 212, 255, 1) 100%);
+      rgb(250, 2, 85) 0%,
+      rgb(113, 14, 167) 49%,
+      rgb(12, 125, 148) 100%);
   border-radius: 40rem;
   width: 10rem;
   height: 10rem;
