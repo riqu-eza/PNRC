@@ -10,10 +10,13 @@ import "swiper/css/bundle";
 import {
   FaBath,
   FaBed,
+  FaBuilding,
   FaCalendar,
   FaCalendarAlt,
   FaCar,
   FaChair,
+  FaClipboard,
+  FaDumbbell,
   FaLock,
   FaMapMarkerAlt,
   FaParking,
@@ -21,6 +24,8 @@ import {
   FaShare,
   FaShieldAlt,
   FaSwimmer,
+  FaUserShield,
+  FaVideo,
 } from "react-icons/fa";
 import Contact from "../components/Contact";
 import {
@@ -43,7 +48,7 @@ export default function Itemlisting() {
   const [text, setText] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
   const [comments, setComments] = useState([]);
-  const [newComment, setNewComment] = useState({ author: "", content: "" });
+  const [newComment, setNewComment] = useState({ author: "", content: "", listingid: "" });
 
   const [formData, setFormData] = useState({
     arrivalDate: "",
@@ -109,11 +114,13 @@ export default function Itemlisting() {
 
       const userEmail = currentUser.email;
       const username = currentUser.username;
+      const listingid = listing._id
       const formDataWithUserEmail = {
         ...formData,
         userEmail: userEmail,
         listingEmail: listing.email,
         userName: username,
+        listingid: listingid
       };
 
       const response = await fetch("http://localhost:3000/api/booking/create", {
@@ -135,7 +142,8 @@ export default function Itemlisting() {
         numberOfPeople: "",
         comment: "",
       });
-     window.alert("check your email for booking confimation ")
+      window.alert("check your email for booking confimation ")
+
       console.log("Form data sent successfully!");
       // setTimeout(() => {
       //   setBookingSent(true);
@@ -185,15 +193,14 @@ export default function Itemlisting() {
       console.error("Error:", error);
     }
   };
-  //comments
   useEffect(() => {
     fetchComments();
   }, []);
-
+  // comment functions
   const fetchComments = async () => {
     try {
       const response = await fetch(
-        "http://localhost:3000/api/comment/getcomment"
+        "http://localhost:3000/api/comment/getcomment?listingId=${listingId}"
       );
       if (response.ok) {
         const data = await response.json();
@@ -213,15 +220,17 @@ export default function Itemlisting() {
   const handlecommentSubmit = async (e) => {
     e.preventDefault();
     try {
+      const listingid = listing._id
       const response = await fetch("http://localhost:3000/api/comment/create", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(newComment),
+
+        body: JSON.stringify({ ...newComment, listingid }),
       });
       const data = await response.json();
-      console.log("Comment succesefull", data);
+      // console.log("Comment succesefull", data);
       setComments(comments ? [...comments, data] : [data]);
 
       setNewComment({ author: "", content: "" });
@@ -438,36 +447,48 @@ export default function Itemlisting() {
                 {listing.parking && (
                   <ul className="gap-5 ">
                     <li className="flex items-center gap-1 whitespace-nowrap shadow border border-gray-300 rounded p-2">
-                      <FaParking className="text-lg" />
-                      Parking Spot available
+                      <FaCar className="text-lg" />
+                      Open Parking Lot
                     </li>
                     <li className="flex items-center gap-1 whitespace-nowrap shadow border border-gray-300 rounded p-2">
                       <FaParking className="text-lg" />
-                      Parking Spot available
-                    </li>
-                  </ul>
-                )}
-                {listing.furnished && (
-                  <ul className="gap-5">
-                    <li className="flex items-center gap-1 whitespace-nowrap shadow border border-gray-300 rounded p-2">
-                      <FaParking className="text-lg" />
-                      Parking Spot available
-                    </li>
-                    <li className="flex items-center gap-1 whitespace-nowrap shadow border border-gray-300 rounded p-2">
-                      <FaParking className="text-lg" />
-                      Parking Spot available
+                      Parking Garage
                     </li>
                   </ul>
                 )}
-                {listing.furnished && (
-                  <ul className="gap-5">
+                {listing.security && (
+                  <ul className="gap-5 ">
                     <li className="flex items-center gap-1 whitespace-nowrap shadow border border-gray-300 rounded p-2">
-                      <FaParking className="text-lg" />
-                      Parking Spot available
+                      <FaVideo className="text-lg" />
+                      CCtv Suivailance
                     </li>
                     <li className="flex items-center gap-1 whitespace-nowrap shadow border border-gray-300 rounded p-2">
-                      <FaParking className="text-lg" />
-                      Parking Spot available
+                      <FaUserShield className="text-lg" />
+                      Security Guards
+                    </li>
+                  </ul>
+                )}
+                {listing.eventfacilities && (
+                    <ul className="gap-5">
+                      <li className="flex items-center gap-1 whitespace-nowrap shadow border border-gray-300 rounded p-2">
+                        <FaBuilding className="text-lg" />
+                        Conference Rooms
+                      </li>
+                      <li className="flex items-center gap-1 whitespace-nowrap shadow border border-gray-300 rounded p-2">
+                        <FaClipboard className="text-lg" />
+                        Meeting Rooms
+                      </li>
+                    </ul>
+                  )}
+                {listing.recreation && (
+                  <ul className="gap-5">
+                    <li className="flex items-center gap-1 whitespace-nowrap shadow border border-gray-300 rounded p-2">
+                      <FaDumbbell className="text-lg" />
+                      gym
+                    </li>
+                    <li className="flex items-center gap-1 whitespace-nowrap shadow border border-gray-300 rounded p-2">
+                      <FaSwimmer className="text-lg" />
+                      SWimming pool
                     </li>
                   </ul>
                 )}
@@ -562,87 +583,44 @@ export default function Itemlisting() {
                 </div>
               )}
 
-              {/* <div className="flex gap-5">
-                {listing.parking && (
-                  <ul className="gap-5">
-                    <li className="flex items-center gap-1 whitespace-nowrap">
-                      <FaParking className="text-lg" />
-                      Parking Spot available
-                    </li>
-                    <li className="flex items-center gap-1 whitespace-nowrap">
-                      <FaParking className="text-lg" />
-                      Parking Spot available
-                    </li>
-                  </ul>
-                )}
-                {listing.furnished && (
-                  <ul>
-                    <li className="flex items-center gap-1 whitespace-nowrap">
-                      <FaParking className="text-lg" />
-                      Parking Spot available
-                    </li>
-                    <li className="flex items-center gap-1 whitespace-nowrap">
-                      <FaParking className="text-lg" />
-                      Parking Spot available
-                    </li>
-                  </ul>
-                )}
-                {listing.furnished && (
-                  <ul>
-                    <li className="flex items-center gap-1 whitespace-nowrap">
-                      <FaParking className="text-lg" />
-                      Parking Spot available
-                    </li>
-                    <li className="flex items-center gap-1 whitespace-nowrap">
-                      <FaParking className="text-lg" />
-                      Parking Spot available
-                    </li>
-                  </ul>
-                )}
-              </div> */}
+
             </div>
           </div>
           <div className="max-w-md mx-auto bg-gray-100 p-4 rounded-md">
-            <h2 className="text-xl font-semibold mb-4">
-              friends this was my experience
-            </h2>
-            {comments && comments.length > 0 ? (
+            <h2 className="text-xl font-semibold mb-4">Friends, this was my experience</h2>
+            <div className="max-h-60 overflow-y-auto">
               <ul>
-                {comments.map((comment) => (
-                  <li key={comment._id}>
-                    <strong className="text-blue-500">{comment.author}</strong>{" "}
-                    {comment.content}
-                  </li>
-                ))}
+                {comments && comments.length > 0 ? (
+                  comments.map((comment) => (
+                    <li key={comment._id} className="mb-2">
+                      <strong className="text-blue-500">{comment.author}</strong>{" "}
+                      <span className="text-gray-700">{comment.content}</span>
+                    </li>
+                  ))
+                ) : (
+                  <p className="text-gray-700">No comments available</p>
+                )}
               </ul>
-            ) : (
-              <p>No comments available</p>
-            )}
+            </div>
 
             <form onSubmit={handlecommentSubmit} className="mt-4">
-              {/* <div>
-                <label htmlFor="author">Author:</label>
-                <input
-                  type="text"
-                  id="author"
-                  name="author"
-                  value={newComment.author}
-                  onChange={handleInputChange}
-                />
-              </div> */}
               <div className="mb-4">
                 <textarea
-                  placeholder="comment"
+                  placeholder="Add your comment here"
                   id="content"
                   name="content"
                   value={newComment.content}
                   onChange={handleInputChange}
-                  className="w-full border border-gray-300 rounded-md py-1 px-3 focus:outline-none focus:border-blue-500"
+                  className="w-full border border-gray-300 rounded-md py-2 px-3 focus:outline-none focus:border-blue-500"
                 />
               </div>
-              <button type="submit">Add Comment</button>
+              <button type="submit" className="bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600 focus:outline-none focus:bg-blue-600">
+                Add Comment
+              </button>
             </form>
           </div>
+
+
         </>
       )}
     </main>
