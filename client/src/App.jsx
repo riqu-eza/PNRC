@@ -48,7 +48,7 @@ export default function App() {
           <Route path="/addimage" element={<AdminImageUploadPage />} ></Route>
           <Route path="/listings/:county/:categoryname" element={<Categorysearch />} />
           <Route path="/search" element={<Search />} ></Route>
-          <Route path="/admin" element={<Admin />} ></Route>
+          {/* <Route path="/admin" element={<Admin />} ></Route> */}
           <Route path="/addcity" element={<City />}></Route>
         </Route>
         {/* <Route path="/listing/:listingId" element={<Listing />} /> */}

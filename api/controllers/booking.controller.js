@@ -1,4 +1,5 @@
 import Booking from "../models/Booking.model.js";
+
 import { sendEmail } from "../utils/email.js";
 
 export const createBooking = async (req, res, next) => {
@@ -11,17 +12,16 @@ export const createBooking = async (req, res, next) => {
 
 
     const emailBody = `
-    Dear User,
+    Dear friend, <br><br><br>
 
-    Your booking details:
-    Arrival Date: ${arrivalDate}
-    Departure Date: ${departureDate}
-    Number of People: ${numberOfPeople}
+    Your booking details:<br>
+    Arrival Date: ${arrivalDate} <br>
+    Departure Date: ${departureDate} <br>
+    Number of People: ${numberOfPeople}<br>
+    Thank you for your booking. <br><br><br>
 
-    Thank you for your booking.
-
-    Best regards,
-    Your Company
+    Best regards, <br>
+    Palmnazi-RC, <br>
   `;
 
   await sendEmail(listingEmail, "New Booking", emailBody);

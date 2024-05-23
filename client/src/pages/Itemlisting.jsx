@@ -108,11 +108,12 @@ export default function Itemlisting() {
       }
 
       const userEmail = currentUser.email;
-
+      const username = currentUser.username;
       const formDataWithUserEmail = {
         ...formData,
         userEmail: userEmail,
         listingEmail: listing.email,
+        userName: username,
       };
 
       const response = await fetch("http://localhost:3000/api/booking/create", {
@@ -134,7 +135,7 @@ export default function Itemlisting() {
         numberOfPeople: "",
         comment: "",
       });
-
+     window.alert("check your email for booking confimation ")
       console.log("Form data sent successfully!");
       // setTimeout(() => {
       //   setBookingSent(true);

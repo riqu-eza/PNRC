@@ -15,8 +15,8 @@ const MyComponent = () => {
             <Link to="#link3" className="text-blue-500 hover:underline">Data & Analytics</Link>
             <Link to="#link4" className="text-blue-500 hover:underline">Digital Marketing</Link>
             <Link to="#link5" className="text-blue-500 hover:underline">Marketing Automation</Link>
-            <Link to="#link5" className="text-blue-500 hover:underline">Event Marketing</Link>
-            <Link to="#link5" className="text-blue-500 hover:underline">Multi-location Marketing</Link>
+            <Link to="#link6" className="text-blue-500 hover:underline">Event Marketing</Link>
+            <Link to="#link7" className="text-blue-500 hover:underline">Multi-location Marketing</Link>
 
           </nav>
         </div>

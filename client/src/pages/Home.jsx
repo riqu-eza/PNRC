@@ -105,11 +105,11 @@ export default function Home() {
                 Get Started
               </li>
             </Link>
-            <Link to="/admin">
+            {/* <Link to="/admin">
               <li className="text-white no-underline px-2 text-xl transition duration-300 ease-in-out bg-transparent hover:bg-blue-600 ">
                 admin
               </li>
-            </Link>
+            </Link> */}
             <Link to="/profile">
               {currentUser ? (
                 <img
