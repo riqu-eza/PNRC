@@ -18,7 +18,7 @@ export default function Header() {
 
   return (
     <header  >
-    <div className="flex justify-between items-center max-w-6xl mx-auto p-3 bg-blue-500 rounded-xl">
+    <div className="flex justify-between items-center max-w-6xl mx-auto p-3 bg-grey-300 rounded-xl">
       <Link to="/" className="logo" >
         <img src="" ></img>
       </Link>
@@ -27,32 +27,32 @@ export default function Header() {
 
       >
         <Link to="/">
-          <li className="text-white no-underline px-2 text-xl transition duration-300 ease-in-out bg-transparent hover:bg-blue-600 ">
+          <li className="text-black no-underline px-2 text-xl transition duration-300 ease-in-out bg-transparent hover:underline ">
             Home
           </li>
         </Link>
         <Link to="/About">
-          <li className="text-white no-underline px-2 text-xl transition duration-300 ease-in-out bg-transparent hover:bg-blue-600 ">
+          <li className="text-black no-underline px-2 text-xl transition duration-300 ease-in-out bg-transparent hover:underline">
             About
           </li>
         </Link>
         <Link to="/resortcities">
-          <li className="text-white no-underline px-2 text-xl transition duration-300 ease-in-out bg-transparent hover:bg-blue-600 ">
+          <li className="text-black no-underline px-2 text-xl transition duration-300 ease-in-out bg-transparent hover:underline ">
             Resortcities
           </li>
         </Link>
         <Link to="/bussinesspage">
-          <li className="text-white no-underline px-2 text-xl transition duration-300 ease-in-out bg-transparent hover:bg-blue-600 ">
+          <li className="text-black no-underline px-2 text-xl transition duration-300 ease-in-out bg-transparent hover:underline ">
             Bussiness
           </li>
         </Link>
         <Link to="/blogspage">
-          <li className="text-white no-underline px-2 text-xl transition duration-300 ease-in-out bg-transparent hover:bg-blue-600 ">
+          <li className="text-black no-underline px-2 text-xl transition duration-300 ease-in-out bg-transparent hover:underline ">
             Blogs
           </li>
         </Link>
         <Link to="/getstarted">
-          <li className="text-white no-underline px-2 text-xl transition duration-300 ease-in-out bg-transparent hover:bg-blue-600 ">
+          <li className="text-black no-underline px-2 text-xl transition duration-300 ease-in-out bg-transparent hover:underline">
             Get Started
           </li>
         </Link>

@@ -76,32 +76,32 @@ export default function Home() {
 
           >
             <Link to="/">
-              <li className="text-white no-underline px-2 text-xl transition duration-300 ease-in-out bg-transparent hover:bg-blue-600 ">
+              <li className="text-white no-underline px-2 text-xl transition duration-300 ease-in-out bg-transparent hover:underline ">
                 Home
               </li>
             </Link>
             <Link to="/About">
-              <li className="text-white no-underline px-2 text-xl transition duration-300 ease-in-out bg-transparent hover:bg-blue-600 ">
+              <li className="text-white no-underline px-2 text-xl transition duration-300 ease-in-out bg-transparent hover:underline ">
                 About
               </li>
             </Link>
             <Link to="/resortcities">
-              <li className="text-white no-underline px-2 text-xl transition duration-300 ease-in-out bg-transparent hover:bg-blue-600 ">
+              <li className="text-white no-underline px-2 text-xl transition duration-300 ease-in-out bg-transparent hover:underline">
                 Resortcities
               </li>
             </Link>
             <Link to="/bussinesspage">
-              <li className="text-white no-underline px-2 text-xl transition duration-300 ease-in-out bg-transparent hover:bg-blue-600 ">
+              <li className="text-white no-underline px-2 text-xl transition duration-300 ease-in-out bg-transparent hover:underline ">
                 Bussiness
               </li>
             </Link>
             <Link to="/blogspage">
-              <li className="text-white no-underline px-2 text-xl transition duration-300 ease-in-out bg-transparent hover:bg-blue-600 ">
+              <li className="text-white no-underline px-2 text-xl transition duration-300 ease-in-out bg-transparent hover:underline ">
                 Blogs
               </li>
             </Link>
             <Link to="/getstarted">
-              <li className="text-white no-underline px-2 text-xl transition duration-300 ease-in-out bg-transparent hover:bg-blue-600 ">
+              <li className="text-white no-underline px-2 text-xl transition duration-300 ease-in-out bg-transparent hover:underline">
                 Get Started
               </li>
             </Link>
@@ -141,7 +141,7 @@ export default function Home() {
           </ul>
         </div>
       </header>
-      <div className="relative z-10 flex flex-col gap-6 py-28 px-3 max-w-6xl mx-auto bg-cover bg-center  ">
+      <div className="relative z-10 flex flex-col pt-6 justify-center gap-6 py-28 px-3 max-w-6xl mx-auto bg-cover bg-center min-h-screen  ">
         <h1 className="main-text1">PALMNAZI RC</h1>
         <h1 className="main-text ">Discover Magical Destinations</h1>
 

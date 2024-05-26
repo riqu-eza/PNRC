@@ -2,15 +2,65 @@
 
 .about {
   font-size: 10em;
-  width: auto; /* Set the desired width */
-  height: auto; /* Set the desired height */
+  width: auto;
+  /* Set the desired width */
+  height: auto;
+  /* Set the desired height */
   color: rgb(0, 3, 5);
   background-image: url("../imgaes/about1.jpg"), url("../imgaes/about2.jpg");
   background-size: cover;
-  background-position: top left, bottom right; /* Corrected property name */
+  background-position: top left, bottom right;
+  /* Corrected property name */
   background-color: rgba(117, 102, 102, 0.8);
 }
 
+.about-img {
+  background-image: url(../imgaes/aboutintro.png);
+  width: 200em;
+}
+
+
+.whyus::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: url(../imgaes/about2.jpg);
+  background-size: cover;
+  background-position: center;
+  opacity: 0.3; /* Adjust the opacity as needed */
+  z-index: 1;
+}
+.whyus {
+  position: relative;
+  overflow: hidden;
+}
+.service,
+.team,
+.deal {
+  width: 400px;
+  height: 400px;
+  border: solid 2px black;
+  border-radius: 10px;
+
+}
+.seviceimg{
+  background-image: url(../imgaes/amboseli.jpg);
+  height: 50%;
+  border-radius: 10px;
+}
+.teamimg{
+  background-image: url(../imgaes/Beach2.jpg);
+  height: 50%;
+  border-radius: 10px;
+}
+.dealimg{
+  background-image: url(../imgaes/Coastanim1.jpg);
+  height: 50%;
+  border-radius:10px;
+}
 .about-content {
   color: #000;
   font-size: 50px;
@@ -29,4 +79,20 @@
   text-align: center;
   letter-spacing: 10px;
   margin-bottom: 20px;
+}
+
+.icon1 {
+  background-image: url("../imgaes/channel.png");
+}
+
+.icon2 {
+  background-image: url("../imgaes/traveler.png")
+}
+
+.icon3 {
+  background-image: url("../imgaes/hotel.png");
+}
+
+.icon4 {
+  background-image: url("../imgaes/");
 }
