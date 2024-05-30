@@ -36,7 +36,7 @@ export default function App() {
         <Route  element={<AppLayout/>} >
           <Route path="/getstarted" element={<SignUp />} />
           <Route path="/sign-in" element={<SignIn />} />
-          <Route path="/sign-up" element={<SignUp />} ></Route>
+          <Route path="/sign-up" element={<SignUp />} > </Route>
           <Route path="/bussinesspage" element={<Bussinesspage />} />
           <Route path="/createlisting" element={<CreateListing />} />
           <Route path="/about" element={<About />} />
@@ -61,7 +61,7 @@ export default function App() {
           />
         </Route>
       </Routes>
-      {/* <Footer /> */}
+      <Footer />
     </BrowserRouter >
   );
 }
