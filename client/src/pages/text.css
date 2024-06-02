@@ -1,11 +1,17 @@
 @charset "UTF-8";
 
 
-body{
-    /* font: 16px/1.5 "georgia", serif; */
-    background-color: #f6f6f6;
-    color: #373839;
-    text-rendering: optimizeLegibility;
+.market{
+    background-image: url(../imgaes/marketing.jpg);
+    background-position: center;
+    background-size: cover;
+    height: 300px;
+    justify-content: center;
+    align-items: center;
+}
+.market h1{
+    text-align: center;
+    background-position: center;
 }
 .main{
     margin: 0 auto;
@@ -72,4 +78,7 @@ p{
     color: #aaa;
     text-align: right;
     padding:16px 0 0;
+}
+.team{
+    
 }

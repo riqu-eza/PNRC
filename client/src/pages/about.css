@@ -1,5 +1,12 @@
 @import url("https://fonts.googleapis.com/css2?family=Agbalumo&family=Aladin&family=Anta&family=Bebas+Neue&family=Berkshire+Swash&family=Inconsolata:wdth,wght@113.7,200..900&family=Jacquard+24+Charted&family=Jaro:opsz@6..72&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Ojuju:wght@200..800&family=Reggae+One&family=Sedan+SC&display=swap");
 
+@font-face {
+  font-family: "well";
+  src: url(../Assets/fonts/1AdobeArabic-Regular.otf);
+  font-weight: 100;
+}
+
+
 .about {
   background-image: url("../imgaes/about1.jpg");
   background-position: cover;

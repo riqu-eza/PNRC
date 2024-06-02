@@ -85,8 +85,8 @@ const Footer = () => {
 
         </div>
       </div>
-      < p className=' text-center'>Copyright  2024 @Palmnazi </p>
-      <p className='text-center text-grey'>Designed & Developed & Maitained by Kang`ethe wa Muthunga</p>
+      < p className=' text-center'>Copyright  2024  @Palmnazi </p>
+      {/* <p className='text-center text-grey'>Designed & Developed & Maitained by Kang`ethe wa Muthunga</p> */}
 
     </footer>
   );

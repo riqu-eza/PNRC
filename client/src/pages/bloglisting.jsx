@@ -19,6 +19,7 @@ const Bloglisting = () => {
       });
       const data = await response.json();
       console.log("Post created:", data);
+      setFormData({title:"", text: ""})
     } catch (error) {
       console.error("Error creating post:", error);
     }

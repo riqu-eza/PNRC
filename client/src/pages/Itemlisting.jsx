@@ -17,6 +17,7 @@ import {
   FaChair,
   FaClipboard,
   FaDumbbell,
+  FaHome,
   FaLock,
   FaMapMarkerAlt,
   FaParking,
@@ -401,14 +402,14 @@ export default function Itemlisting() {
 
                   {listing.recreation && (
                     <li className="flex items-center gap-1 whitespace-nowrap">
-                      <FaRegCalendarAlt className="text-lg" />
+                      <FaSwimmer className="text-lg" />
                       recreation Facilities available
                     </li>
                   )}
 
                   {listing.eventfacilities && (
                     <li className="flex items-center gap-1 whitespace-nowrap">
-                      <FaParking className="text-lg" />
+                      <FaRegCalendarAlt className="text-lg" />
                       Have your events here
                     </li>
                   )}

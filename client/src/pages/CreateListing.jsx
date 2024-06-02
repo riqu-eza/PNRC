@@ -129,25 +129,36 @@ export default function CreateListing() {
     }
   };
 
+
   const handleChange = (e) => {
-    if (e.target.id === "sale" || e.target.id === "rent") {
-      setFormData({ ...formData, type: e.target.id });
+    const { id, type, checked, value } = e.target;
+
+    if (type === "checkbox") {
+        setFormData({ ...formData, [id]: checked });
+    } else if (type === "number" || type === "text" || type === "textarea") {
+        setFormData({ ...formData, [id]: value });
     }
-    if (
-      e.target.id === "parking" ||
-      e.target.id === "furnished" ||
-      e.target.id === "offer"
-    ) {
-      setFormData({ ...formData, [e.target.id]: e.target.checked });
-    }
-    if (
-      e.target.type === "number" ||
-      e.target.type === "text" ||
-      e.target.type === "textarea"
-    ) {
-      setFormData({ ...formData, [e.target.id]: e.target.value });
-    }
-  };
+};
+  // const handleChange = (e) => {
+  //   if (e.target.id === "sale" || e.target.id === "rent") {
+  //     setFormData({ ...formData, type: e.target.id });
+  //   }
+  //   if (
+  //     e.target.id === "parking" ||
+  //     e.target.id === "furnished" ||
+  //     e.target.id === "offer" ||
+  //     e.target.id ===  "recreation"
+  //   ) {
+  //     setFormData({ ...formData, [e.target.id]: e.target.checked });
+  //   }
+  //   if (
+  //     e.target.type === "number" ||
+  //     e.target.type === "text" ||
+  //     e.target.type === "textarea"
+  //   ) {
+  //     setFormData({ ...formData, [e.target.id]: e.target.value });
+  //   }
+  // };
 
   useEffect(() => {
     fetchCounties();

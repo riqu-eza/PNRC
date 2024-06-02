@@ -179,3 +179,7 @@
     transform: rotate(360deg);
   }
 }
+.blog{
+  background-image: url(../imgaes/africanpatten.jpg);
+  opacity: 90%;
+}
