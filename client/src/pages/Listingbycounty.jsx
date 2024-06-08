@@ -1,9 +1,6 @@
-import React, { useState, useEffect } from "react";
+import  { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-// import { useHistory } from 'react-router-dom';
-// import { withRouter } from 'react-router-dom';
 
-import Countylisting from "./countylisting";
 import "./page.css";
 import "../components/loading.css";
 
@@ -63,15 +60,21 @@ const ListingsByCounty = () => {
       console.error(error);
     }
   };
-  const logFetchedData = () => {
-    console.log("Unique Counties:", uniqueCounties);
-    console.log("Listings By County:", listingsByCounty);
-    console.log("Selected County:", selectedCounty);
-    console.log("County Backgrounds:", countyBackgrounds);
+  const truncateText = (text, wordLimit) => {
+    const words = text.split(' ');
+    if (words.length <= wordLimit) {
+      return text;
+    }
+    return words.slice(0, wordLimit).join(' ') + ' ...';
   };
+  console.log("Unique Counties:", uniqueCounties);
+  console.log("Listings By County:", listingsByCounty);
+  console.log("Selected County:", selectedCounty);
+  console.log("County Backgrounds:", countyBackgrounds);
 
   return (
     <>
+      <h1 className="text-center text-3xl m-4 text-bold" >Ooh!  behold our resort cities</h1>
       {isLoading ? (
         <div className="container mx-auto flex justify-center items-center h-screen">
           <div className="loader">Loading...</div>
@@ -87,7 +90,7 @@ const ListingsByCounty = () => {
                   backgroundImage: `url(${countyBackgrounds[county]})`,
                   backgroundSize: "cover",
                   backgroundPosition: "center",
-                  height: "200px", // Set height to 50px
+                  height: "250px",
                 }}
               >
                 <Link
@@ -95,7 +98,8 @@ const ListingsByCounty = () => {
                   //   pathname: `/listings/${county}`,
                   //   state: { backgroundUrl: countyBackgrounds[county] },
                   // }}
-                  to={`/listings/${county}?backgroundUrl=${encodeURIComponent(countyBackgrounds[county])}`}
+                  to={`/listings/${county}?backgroundUrl=${encodeURIComponent(countyBackgrounds[county])}&county=${encodeURIComponent(county)}&countyInfo=${encodeURIComponent(cityinfo[county])}`}
+
                   className="block w-full h-full flex items-end justify-center"
                   onClick={() => {
                     console.log(
@@ -110,8 +114,9 @@ const ListingsByCounty = () => {
                     <span className="absolute top-0  text-3xl font-bold uppercase countyname">
                       {county}
                     </span>
-                    <h4 className="absolute bottom-0 bg-black bg-opacity-50 text-white p-2 countyinfo">
-                      {cityinfo[county]}
+                    <h4 className="absolute bottom-0  bg-black bg-opacity-30 text-center text-white  countyinfo">
+                    {truncateText(cityinfo[county], 15)}
+
                     </h4>
                   </div>
                 </Link>

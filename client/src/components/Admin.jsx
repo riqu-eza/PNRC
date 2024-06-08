@@ -1,11 +1,12 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-
+import { useUser } from "./Adminuser";
 const Admin = () => {
   const [password, setPassword] = useState("");
   const [authenticated, setAuthenticated] = useState(false);
   const [username, setUsername] = useState("");
   const [usernameEntered, setUsernameEntered] = useState(false);
+  const { setUsername: setGlobalUsername } = useUser(); 
 
   const handlePasswordSubmit = (e) => {
     e.preventDefault();
@@ -20,6 +21,7 @@ const Admin = () => {
     e.preventDefault();
     if (username) {
       setUsernameEntered(true);
+      localStorage.setItem('username', username )
     } else {
       alert("Please enter a username");
     }

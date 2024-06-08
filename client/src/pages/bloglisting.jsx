@@ -1,21 +1,27 @@
 import React, { useState } from "react";
+import { useUser } from "../components/Adminuser";
 
 const Bloglisting = () => {
   const [formData, setFormData] = useState({
     title: "",
     text: "",
   });
-
+  const {username} = useUser();
   const handleSubmit = async (event) => {
     event.preventDefault();
 
     try {
+
+      const datatosend ={
+        ...formData,
+        username: username,
+      }
       const response = await fetch("http://localhost:3000/api/blog/create", {
         method: "POST",
         headers: { 
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(formData), 
+        body: JSON.stringify( datatosend), 
       });
       const data = await response.json();
       console.log("Post created:", data);

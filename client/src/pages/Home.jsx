@@ -7,6 +7,7 @@ import { Navigation } from "swiper/modules";
 import "swiper/css/bundle";
 import ListingItem from "../components/ListingItem";
 import { useSelector } from "react-redux";
+import logo from "../imgaes/officiallogo.png";
 <style>
 
 </style>;
@@ -65,96 +66,101 @@ export default function Home() {
 
   return (
     <div className="bgimage relative  ">
-      <div className="bg-black opacity-50 bg-">
-      <header  >
-        <div className="flex justify-between items-center max-w-6xl mx-auto p-3">
-          <Link to="/" className="logo" >
-            <img src="" ></img>
-          </Link>
-          <ul
-            className={`flex gap-4 sm:flex hidden ${showLinks ? "flex-col" : "hidden"}`}
 
-          >
-            <Link to="/">
-              <li className="text-white no-underline px-2 text-xl transition duration-300 ease-in-out bg-transparent hover:underline ">
-                Home
-              </li>
+      <div className="bg-black opacity-60 ">
+
+        <header  >
+          <div className="flex justify-between items-center max-w-6xl mx-auto p-3">
+            <Link to="/" className="" >
+              <img src="" ></img>
             </Link>
-            <Link to="/About">
-              <li className="text-white no-underline px-2 text-xl transition duration-300 ease-in-out bg-transparent hover:underline ">
-                About
-              </li>
-            </Link>
-            <Link to="/resortcities">
-              <li className="text-white no-underline px-2 text-xl transition duration-300 ease-in-out bg-transparent hover:underline">
-                Resortcities
-              </li>
-            </Link>
-            <Link to="/bussinesspage">
-              <li className="text-white no-underline px-2 text-xl transition duration-300 ease-in-out bg-transparent hover:underline ">
-                Bussiness
-              </li>
-            </Link>
-            <Link to="/blogspage">
-              <li className="text-white no-underline px-2 text-xl transition duration-300 ease-in-out bg-transparent hover:underline ">
-                Blogs
-              </li>
-            </Link>
-            <Link to="/getstarted">
-              <li className="text-white no-underline px-2 text-xl transition duration-300 ease-in-out bg-transparent hover:underline">
-                Get Started
-              </li>
-            </Link>
-            {/* <Link to="/admin">
+            <ul
+              className={`flex gap-4 sm:flex hidden ${showLinks ? "flex-col" : "hidden"}`}
+
+            >
+              <Link to="/">
+                <li className="text-white no-underline px-2 text-xl transition duration-300 ease-in-out bg-transparent hover:underline ">
+                  Home
+                </li>
+              </Link>
+              <Link to="/About">
+                <li className="text-white no-underline px-2 text-xl transition duration-300 ease-in-out bg-transparent hover:underline ">
+                  About
+                </li>
+              </Link>
+              <Link to="/resortcities">
+                <li className="text-white no-underline px-2 text-xl transition duration-300 ease-in-out bg-transparent hover:underline">
+                  Resortcities
+                </li>
+              </Link>
+              <Link to="/bussinesspage">
+                <li className="text-white no-underline px-2 text-xl transition duration-300 ease-in-out bg-transparent hover:underline ">
+                  Bussiness
+                </li>
+              </Link>
+              <Link to="/blogspage">
+                <li className="text-white no-underline px-2 text-xl transition duration-300 ease-in-out bg-transparent hover:underline ">
+                  Blogs
+                </li>
+              </Link>
+              <Link to="/getstarted">
+                <li className="text-white no-underline px-2 text-xl transition duration-300 ease-in-out bg-transparent hover:underline">
+                  Get Started
+                </li>
+              </Link>
+              {/* <Link to="/admin">
               <li className="text-white no-underline px-2 text-xl transition duration-300 ease-in-out bg-transparent hover:bg-blue-600 ">
                 admin
               </li>
             </Link> */}
-            <Link to="/profile">
-              {currentUser ? (
-                <img
-                  className="rounded-full h-7 w-7 object-cover hidden sm:block"
-                  src={currentUser.avatar}
-                  alt="profile"
-                />
-              ) : (<></>)}
-            </Link>
-            <li
-              className="text-white no-underline px-2 text-lg transition duration-300 ease-in-out bg-transparent hover:text-blue-400 hover:text-lg sm:hidden"
-              onClick={toggleLinks}
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="h-6 w-6"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
+              <Link to="/profile">
+                {currentUser ? (
+                  <img
+                    className="rounded-full h-7 w-7 object-cover hidden sm:block"
+                    src={currentUser.avatar}
+                    alt="profile"
+                  />
+                ) : (<></>)}
+              </Link>
+              <li
+                className="text-white no-underline px-2 text-lg transition duration-300 ease-in-out bg-transparent hover:text-blue-400 hover:text-lg sm:hidden"
+                onClick={toggleLinks}
               >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M4 6h16M4 12h16m-7 6h7"
-                />
-              </svg>
-            </li>
-          </ul>
-        </div>
-      </header>
-      <div className="relative z-10 flex flex-col pt-6 justify-center gap-6 py-28 px-3 max-w-6xl mx-auto bg-cover bg-center min-h-screen  ">
-        <h1 className="main-text1">PALMNAZI RC</h1>
-        <h1 className="main-text ">Discover Magical Destinations</h1>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="h-6 w-6"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M4 6h16M4 12h16m-7 6h7"
+                  />
+                </svg>
+              </li>
+            </ul>
+          </div>
+        </header>
 
-        <Link to={"/resortcities"} className="text-center">
-          <button class="button">
-            DISCOVER 
-            <div class="hoverEffect">
-              <div></div>
-            </div>
-          </button>
-          {/* Let&#39;s get started... */}
-        </Link>
-      </div>
+        <div className="relative z-10 flex flex-col pt-6 justify-center gap-6 py-28 px-3 max-w-6xl mx-auto bg-cover bg-center min-h-screen  ">
+          <div className=" relative flex flex-col items-center">
+            <div className="logomain"> <img src={logo} alt="" /> </div>
+            <h1 className="main-text1">PALMNAZI RC</h1>
+            <h1 className="main-text ">Discover Magical Destinations</h1>
+          </div>
+          <Link to={"/resortcities"} className="text-center">
+            <button className="button">
+              DISCOVER
+              <div className="hoverEffect">
+                <div></div>
+              </div>
+            </button>
+            {/* Let&#39;s get started... */}
+          </Link>
+        </div>
 
       </div>
     </div>

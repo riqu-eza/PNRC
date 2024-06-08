@@ -3,8 +3,8 @@ import City from "../models/city.model.js";
 
 export const createCountyimg = async (req, res, next) => {
   try {
-    console.log("Received request body:", req.body);
-    console.log("Received files:", req.files);
+    // console.log("Received request body:", req.body);
+    // console.log("Received files:", req.files);
 
     const newcountyimage = await admin.create(req.body);
     return res.status(201).json(newcountyimage);
@@ -14,17 +14,29 @@ export const createCountyimg = async (req, res, next) => {
     next(error);
   }
 };
+// export const createCity = async (req, res, next) =>{
+//   try {
+//     console.log(req.body)
+//     const newcity = await City.create(req.body)
+//     return res.status(201).json(newcity)
+//   } catch (error) {
+
+//   }
+// }
 
 export const createCity = async (req, res, next) => {
   try {
+    const { newCity, username } = req.body;
+
+    console.log("city:", newCity, "user:", username);
     console.log("Received request body:", req.body);
 
-    if (!req.body.newcity) {
-      return res.status(400).json({ error: "New city name is required" });
-    }
+   
 
-    const newCity = await City.create(req.body);
-    return res.status(201).json(newCity);
+    const newCityEntry = new City({ newcity: newCity, username: username });
+    const savedCity = await newCityEntry.save();
+
+    return res.status(201).json(savedCity);
   } catch (error) {
     if (error.code === 11000 && error.keyPattern && error.keyValue) {
       const duplicatedCityName = error.keyValue.newcity;
@@ -36,6 +48,7 @@ export const createCity = async (req, res, next) => {
     return res.status(500).json({ error: error.message });
   }
 };
+
 
 export const getAllCities = async (req, res, next) => {
   try {

@@ -6,19 +6,11 @@ import {
 } from "firebase/storage";
 import { useEffect, useState } from "react";
 import { app } from "../firebase";
-import { useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
-import PhoneInput from "react-phone-number-input";
-import ReactPhoneInput from "react-phone-input-2";
-
-import { getCountryCallingCode } from "libphonenumber-js";
 import "react-phone-input-2/lib/style.css";
 import { useUser } from "../components/Adminuser";
 
-export default function CreateListing() {
-  // const { currentUser } = useSelector((state) => state.user);
+export default function CreateBusinessListing() {
   const [files, setFiles] = useState([]);
-  const [hovered, setHovered] = useState(false);
 
   const [formData, setFormData] = useState({
     imageUrls: [],
@@ -140,26 +132,7 @@ export default function CreateListing() {
       setFormData({ ...formData, [id]: value });
     }
   };
-  // const handleChange = (e) => {
-  //   if (e.target.id === "sale" || e.target.id === "rent") {
-  //     setFormData({ ...formData, type: e.target.id });
-  //   }
-  //   if (
-  //     e.target.id === "parking" ||
-  //     e.target.id === "furnished" ||
-  //     e.target.id === "offer" ||
-  //     e.target.id ===  "recreation"
-  //   ) {
-  //     setFormData({ ...formData, [e.target.id]: e.target.checked });
-  //   }
-  //   if (
-  //     e.target.type === "number" ||
-  //     e.target.type === "text" ||
-  //     e.target.type === "textarea"
-  //   ) {
-  //     setFormData({ ...formData, [e.target.id]: e.target.value });
-  //   }
-  // };
+
 
   useEffect(() => {
     fetchCounties();
@@ -190,99 +163,68 @@ export default function CreateListing() {
     }));
   };
   const categoriesData = {
-    Relaxation: [
-      "Spa & Wellness Centers",
-      "Yoga Studios",
-      "Meditation Centers",
-      "Parks & Gardens",
-      "Beaches",
-      "Lakes & Rivers",
-      "Picnic Areas",
-      "Hot Springs",
-    ],
-
-    Accommodation: [
-      "Hotels",
-      "Resorts",
-      "Motels",
-      "Bed & Breakfast",
-      "Inns",
-      "Guest Houses",
-      "Hotels",
-      "Vacation Rentals",
-      "Camping Sites",
-    ],
-    Dining: [
-      "Restaurants",
-      "Cafes & Coffee Shops",
-      "Bakeries",
-      "Bars & Pubs",
-      "Food Trucks",
-      "Fine Dining Restaurants",
-      "Ethnic Cuisine Restaurants",
-      "Fast Food Chains",
-    ],
-    Entertainment: [
-      "Movie Theaters",
-      "Concert Halls",
-      "Live Music Venues",
-      "Night Clubs",
-      "Bowling Alleys",
-      "Arcahdes",
-      "Amusement Parks",
-      "Casinos",
-      "Golf Courses",
-    ],
-    Culture_and_Historicalsites: [
-      "Museums",
-      "Art Galleries",
-      "Historic Landmarks",
-      "Monuments",
-      "Archaelogical Sites",
-      "Cultural Sites",
-      "Heritage Sites",
-      "Religious plsces of interest",
-    ],
-    Shopping: [
-      "Shopping Malls",
-      "Boutiques",
-      "Markets",
-      "Antique Stores",
-      "Souvenir Shops",
-      "Department stores",
-      "Outlet Stores",
-      "Speciality Stores",
-    ],
-    Education_and_Learning: [
-      "Libraries",
+    "Retail": [
+      "Clothing Stores",
+      "Electronics Retailers",
+      "Furniture Shops",
       "Bookstores",
-      "Education Centers",
-      "Art Schools",
-      "Cooking Schools",
-      "Language Schools",
-      "Workshops & Classes",
+      "Toy Stores",
+      "Jewelry Stores",
+      "Home Goods Stores",
+      "Cosmetics & Beauty Shops",
+      "Sporting Goods Stores",
+      "Specialty Boutiques"
     ],
-    Health_and_Fitness: [
-      "Sport Clubs",
-      "Swimming Pools",
-      "Martial arts Studios",
-      "Dance Studio",
-      "Rock Climbing Gyms",
-      "Cycling Tracks",
-      "Running Tracks",
-    ],
-    Services: [
-      "Spar & massage centers",
-      "Hair Salons",
-      "Nail Salons",
-      "Dry Cleaners",
-      "Pet Groomers",
+    "Automotive": [
+      "Car Dealerships",
+      "Auto Repair Shops",
+      "Tire Shops",
       "Car Washes",
-      "Post Offices",
-      "Banks and ATMS",
-      "Medical Centers",
+      "Auto Body Shops",
+      "Car Rental Agencies",
+      "Oil Change Services",
+      "Towing Companies",
+      "Auto Detailing Services",
+      "Windshield Repair Services"
     ],
+    "Education & Training": [
+      "Schools (Elementary, Middle, High)",
+      "Tutoring Services",
+      "Language Schools",
+      "Test Preparation Centers",
+      "Music Schools",
+      "Dance Schools",
+      "Art Classes",
+      "Vocational Training Centers",
+      "Driving Schools",
+      "Online Learning Platforms"
+    ],
+    "Manufacturing & Industrial": [
+      "Manufacturing Plants",
+      "Machine Shops",
+      "Fabrication Workshops",
+      "Packaging Companies",
+      "Metal Foundries",
+      "Textile Mills",
+      "Chemical Processing Plants",
+      "Food Processing Facilities",
+      "Printing Companies",
+      "Automotive Assembly Plants"
+    ],
+    "Environmental Services": [
+      "Environmental Consulting Firms",
+      "Waste Management Companies",
+      "Recycling Centers",
+      "Environmental Testing Laboratories",
+      "Hazardous Material Cleanup Services",
+      "Environmental Education Centers",
+      "Sustainable Energy Providers",
+      "Ecotourism Companies",
+      "Wildlife Rehabilitation Centers",
+      "Organic Farming Cooperatives"
+    ]
   };
+
 
   const handleCategoryChange = (category) => {
     setFormData((prevState) => ({
@@ -302,14 +244,14 @@ export default function CreateListing() {
     e.preventDefault();
     try {
 
-    
+
       if (formData.imageUrls.length < 1)
         return setError("You must upload at least one image");
       if (+formData.regularPrice < +formData.discountedPrice)
         return setError("Discount price must be greater than regular price");
       setLoading(true);
       setError(false);
-      const res = await fetch("http://localhost:3000/api/listing/create", {
+      const res = await fetch("http://localhost:3000/api/business/create", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -340,18 +282,10 @@ export default function CreateListing() {
         address: "",
         type: "rent",
         openinghour: "",
-        bedrooms: 1,
-        bathrooms: 1,
-        regularPrice: 50,
-        discountedPrice: 0,
-        offer: false,
-        parking: false,
-        furnished: false,
-        recreation: false,
-        eventfacilities: false,
-        security: false,
-        transportation: false,
-        rooms: 1,
+        productdescription:"",
+        productName:"",
+        productprice:"",
+
       });
       // navigate(`/listing/${data._id}`);
     } catch (error) {
@@ -359,6 +293,8 @@ export default function CreateListing() {
       setLoading(false);
     }
   };
+  console.log(formData)
+
 
   return (
     <main className="p-3 max-w-4xl mx-auto">
@@ -426,7 +362,20 @@ export default function CreateListing() {
             onChange={handleChange}
             value={formData.address}
           />
-
+          <div className="county-selector">
+            <select
+              value={formData.selectedCounty}
+              onChange={handleCountyChange}
+            >
+              <option value="">Select resort-city</option>
+              {countiesInKenya.map((county, index) => (
+                <option key={index} value={county.newcity}>
+                  {county.newcity}
+                </option>
+              ))}
+            </select>
+            {/* <p>Selected County: {selectedCounty}</p> */}
+          </div>
           <div>
             <select
               value={formData.selectedCategory}
@@ -461,12 +410,31 @@ export default function CreateListing() {
         </div>
 
         <div className="flex flex-col gap-4 flex-1">
-          <p className="font-semibold">
-            Images:
-            <span className="font-normal text-gray-600 ml-2">
-              The first image will be the cover (max 6)
-            </span>
-          </p>
+        <input
+
+            onChange={handleChange}
+            value={formData.productName}
+            className="p-2 border border-gray-300 rounded w-full"
+            placeholder="Product Name"
+          type="text"
+          id="productName"
+        />
+        <textarea
+            onChange={handleChange}
+            value={formData.productdescription}
+            className="p-3 border border-gray-300 rounded w-full"
+            placeholder="Product description"
+            id="productdescription"
+          />
+          <input
+            onChange={handleChange}
+            value={formData.productprice}
+            className="p-3 border border-gray-300 rounded w-full"
+            placeholder="Product price"
+            type="number"
+            id="productprice"
+
+          />
           <div className="flex gap-4">
             <input
               onChange={(e) => setFiles(e.target.files)}
@@ -513,197 +481,8 @@ export default function CreateListing() {
               Pin location
             </button>
           </div>
-          <h3>Amenities Available:</h3>
 
-          <div className="flex gap-6 flex-wrap">
-            {/* <div className="flex gap-2">
-              <input
-                type="checkbox"
-                id="sale"
-                className="w-5"
-                onChange={handleChange}
-                checked={formData.type === "sale"}
-              />
-              <span>Sell</span>
-            </div> */}
-            {/* <div className="flex gap-2">
-              <input
-                type="checkbox"
-                id="rent"
-                className="w-5"
-                onChange={handleChange}
-                checked={formData.type === "rent"}
-              />
-              <span>Rent</span>
-            </div> */}
-            <div className="flex gap-2">
-              <input
-                type="checkbox"
-                id="parking"
-                className="w-5"
-                onChange={handleChange}
-                checked={formData.parking === true}
-              />
-              <span>Parking Area</span>
-            </div>
 
-            <div className="flex gap-2">
-              <input
-                type="checkbox"
-                id="recreation"
-                className="w-5"
-                onChange={handleChange}
-                value={formData.recreation === true}
-              />
-              <span>Recreational Facilities</span>
-            </div>
-
-            <div className="flex gap-2">
-              <input
-                type="checkbox"
-                id="eventfacilities"
-                className="w-5"
-                onChange={handleChange}
-                value={formData.eventfacilities === true}
-              />
-              <span>Event Facilities</span>
-            </div>
-            <div className="flex gap-2">
-              <input
-                type="checkbox"
-                id="transportationServices"
-                className="w-5"
-                onChange={handleChange}
-                value={formData.transportation === true}
-              />
-              <span>Transportation Services</span>
-            </div>
-            <div className="flex gap-2">
-              <input
-                type="checkbox"
-                id="security"
-                className="w-5"
-                onChange={handleChange}
-                value={formData.security === true}
-              />
-              <span>Security Survailance</span>
-            </div>
-            <div className="flex gap-2">
-              <input
-                type="checkbox"
-                id="furnished"
-                className="w-5"
-                onChange={handleChange}
-                checked={formData.furnished === true}
-              />
-              <span>Accomodation</span>
-            </div>
-            <div className="flex gap-2">
-              <input
-                type="checkbox"
-                id="offer"
-                className="w-5"
-                onChange={handleChange}
-                checked={formData.offer === true}
-              />
-              <span>Offer</span>
-            </div>
-          </div>
-          <div className="flex flex-wrap gap-6">
-            {formData.furnished && (
-              <div className="flex">
-                <div className="flex items-center gap-2">
-                  <input
-                    type="number"
-                    id="rooms"
-                    min="1"
-                    max="5"
-                    required
-                    className="p-3 border border-gray-300 rounded-lg w-16"
-                    onChange={handleChange}
-                    value={formData.rooms}
-                  />
-                  <p>rooms</p>
-                </div>
-                <div className="flex items-center gap-2">
-                  <input
-                    type="number"
-                    id="bedrooms"
-                    min="1"
-                    max="10"
-                    required
-                    className="p-3 border border-gray-300 rounded-lg w-16"
-                    onChange={handleChange}
-                    value={formData.bedrooms}
-                  />
-                  <p>Beds</p>
-                </div>
-                <div className="flex items-center gap-2">
-                  <input
-                    type="number"
-                    id="bathrooms"
-                    min="1"
-                    max="5"
-                    required
-                    className="p-3 border border-gray-300 rounded-lg w-16"
-                    onChange={handleChange}
-                    value={formData.bathrooms}
-                  />
-                  <p>Baths</p>
-                </div>
-              </div>
-            )}
-
-            <div className="flex items-center gap-2">
-              <input
-                type="number"
-                id="regularPrice"
-                min="50"
-                max="1000000"
-                required
-                className="p-3 border border-gray-300 rounded-lg w-16"
-                onChange={handleChange}
-                value={formData.regularPrice}
-              />
-              <div className="flex flex-col items-center">
-                <p>Regular Price</p>
-                <span className="text-xs">(Ksh/night)</span>
-              </div>
-            </div>
-            {formData.offer && (
-              <div className="flex items-center gap-2">
-                <input
-                  type="number"
-                  id="discountedPrice"
-                  min="0"
-                  max="10000000"
-                  required
-                  className="p-3 border border-gray-300 rounded-lg w-16"
-                  onChange={handleChange}
-                  value={formData.discountedPrice}
-                />
-                <div className="flex flex-col items-center">
-                  <p>Discounted Price</p>
-                  <span className="text-xs">(Ksh / night)</span>
-                </div>
-              </div>
-            )}
-          </div>
-
-          <div className="county-selector">
-            <select
-              value={formData.selectedCounty}
-              onChange={handleCountyChange}
-            >
-              <option value="">Select resort-city</option>
-              {countiesInKenya.map((county, index) => (
-                <option key={index} value={county.newcity}>
-                  {county.newcity}
-                </option>
-              ))}
-            </select>
-            {/* <p>Selected County: {selectedCounty}</p> */}
-          </div>
 
           <button
             disabled={loading || uploading}
@@ -713,6 +492,60 @@ export default function CreateListing() {
           </button>
           {error && <p className="text-red-700 text-sm">{error}</p>}
         </div>
+        {/* <div className="flex flex-col gap-4 flex-1">
+          <textarea
+            onChange={(e) => setProductName(e.target.value)}
+            value={formData.productName}
+            className="p-3 border border-gray-300 rounded w-full"
+            placeholder="Product Name"
+          />
+          <div className="flex gap-4 items-center">
+            <input
+              onChange={(e) => setFiles(e.target.files)}
+              className="hidden"
+              type="file"
+              id="images"
+              accept="image/*"
+              multiple
+            />
+            <label
+              htmlFor="images"
+              className="p-3 border border-gray-300 rounded cursor-pointer"
+            >
+              Choose Product Image
+            </label>
+            {formData.imageUrls.length > 0 &&
+              formData.imageUrls.map((url, index) => (
+                <img
+                  key={index}
+                  src={url}
+                  alt="listing image"
+                  className="w-20 h-20 object-contain rounded-lg"
+                />
+              ))}
+          </div>
+          <input
+            onChange={(e) => setPrice(e.target.value)}
+            value={formData.productprice}
+            className="p-3 border border-gray-300 rounded w-full"
+            type="number"
+            placeholder="Price"
+          />
+          <textarea
+            onChange={(e) => setDescription(e.target.value)}
+            value={formData.productdescription}
+            className="p-3 border border-gray-300 rounded w-full"
+            placeholder="Product Description"
+          />
+          <button
+            disabled={loading || uploading}
+            className="p-3 bg-slate-700 text-black rounded-lg uppercase hover:opacity-95 disabled:opacity-80"
+          >
+            {loading ? "Creating..." : "Create Listing"}
+          </button>
+          {error && <p className="text-red-700 text-sm">{error}</p>}
+        </div> */}
+
       </form>
     </main>
   );

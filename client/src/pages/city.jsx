@@ -1,11 +1,16 @@
 import React, { useEffect, useState } from "react";
 import { FaTimes } from "react-icons/fa"; // Import the delete icon
+import { useUser } from "../components/Adminuser";
 
 const City = () => {
   const [showAddCity, setShowAddCity] = useState(false);
   const [showViewCities, setShowViewCities] = useState(false);
   const [cities, setCities] = useState([]);
-  const [newCity, setNewCity] = useState("");
+  const { username } = useUser("");
+
+  const [city, setCity] = useState({
+    newCity: "",
+  });
 
   const handleAddCity = () => {
     setShowAddCity(true);
@@ -18,19 +23,26 @@ const City = () => {
   };
 
   const handleCityNameChange = (event) => {
-    setNewCity(event.target.value);
+    setCity({
+      ...city,
+      newCity: event.target.value,
+    });
   };
 
   const handleSubmitCity = async () => {
-    if (!newCity) return;
+    if (!city.newCity) return;
 
     try {
+      const cityData = {
+        ...city,
+        username: username, // Include the username from useUser hook
+      };
       const response = await fetch("http://localhost:3000/api/admin/city", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ newcity: newCity }),
+        body: JSON.stringify(cityData),
       });
 
       if (!response.ok) {
@@ -39,10 +51,9 @@ const City = () => {
           `HTTP error! status: ${response.status} - ${errorData.message}`
         );
       }
-
       const data = await response.json();
-      // setCities([...cities, data.newcity]); // Assuming the server returns the added city in the response
-      setNewCity("");
+      console.log(data);
+      setCity({ newCity: "" }); // Clear the city input field
       setShowAddCity(false);
     } catch (error) {
       console.error("There was a problem with the fetch operation:", error);
@@ -91,7 +102,7 @@ const City = () => {
             <input
               type="text"
               placeholder="Enter city name"
-              value={newCity}
+              value={city.newCity}
               onChange={handleCityNameChange}
               className="border p-2 rounded w-full mb-4"
             />
@@ -111,12 +122,6 @@ const City = () => {
               {cities.map((city) => (
                 <li key={city._id} className="mb-2">
                   {city.newcity}{" "}
-                  {/* <button
-                    className="absolute  bg-red-500 text-white p-1 rounded-md ml-8"
-                    onClick={() => onDelete(city._id)}
-                  >
-                    <FaTimes />
-                  </button> */}
                 </li>
               ))}
             </ul>

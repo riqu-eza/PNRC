@@ -15,7 +15,7 @@
   font-style: normal;
 }
 
-
+/* listingbycounty */
 .countyinfo {
   font-family: "Kalam", cursive;
 }
@@ -35,31 +35,41 @@
   font-family: "Concert One", sans-serif;
 
 }
-
+/* homepage */
 .logo {
   display: block;
-  width: 50px;
-  /* Set the desired width */
-  height: 50px;
-  /* Set the desired height */
-  background-image: url("../imgaes/PNRClogo-depositphotos-bgremover.png");
+  width: 200px;
+  height: 200px;
+  background-image: url(../imgaes/PNRCofficlalogo.png);
+  position: absolute;
   background-size: cover;
   background-position: center;
+  top: -180px;
 }
-
-.neon-text {
-  color: #2b9c2b;
-  text-shadow:
-    0 0 5px #2b9c2b,
-    0 0 10px #2b9c2b,
-    0 0 15px #2b9c2b;
-  /* letter-spacing: 3px; */
+.logo-small {
+  display: block;
+  width: 250px; /* Adjust size as needed */
+  height: 250px; /* Adjust size as needed */
+  background-size: cover;
+  background-position: center;
+  position: absolute;
+  left: 10px; /* Adjust position as needed */
+  top: 10%; /* Adjust position as needed */
+  transform: translateY(-50%);
+}
+.logomain{
+  display: block;
+  position: absolute;
+  width: 400px;
+  height: 400px;
+  left: -70px;
+  top: -100%;
 }
 
 .main-text {
   text-align: center;
   letter-spacing: 1px;
-  font-size: 4em;
+  font-size: 2em;
   font-weight: 900;
   color: #fff;
   font-family: "Lithosregular";

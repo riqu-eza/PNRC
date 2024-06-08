@@ -19,7 +19,7 @@ export default function Header() {
   return (
     <header  >
     <div className="flex justify-between items-center max-w-6xl mx-auto p-3 bg-grey-300 rounded-xl">
-      <Link to="/" className="logo" >
+      <Link to="/" className="" >
         <img src="" ></img>
       </Link>
       <ul

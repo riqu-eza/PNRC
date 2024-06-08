@@ -36,12 +36,12 @@ const Footer = () => {
   return (
     <footer className="bg-blue-400 text-white p-8 footer">
       <div className="footerhead">
-        <h1 className='text-center text-3xl m-12'>Subscribe to our news later to get udpated and new trends!</h1>
+        <h1 className='text-center text-3xl m-12'>Subscribe to our news letter to get updates and new trends!</h1>
         <p className='m-8 text-center text-grey-300'>Join Our Database NOW</p>
         <form action="" onSubmit={handlesubscribe} className='text-center m-16'  >
           <input type="text" id='name' placeholder='Name' value={form.name} className='m-8 ' onChange={handleChange} />
           <input type="email" id='email' placeholder='EmailAddress' value={form.email} className='m-8' onChange={handleChange} />
-          <button type='submit'>Subscribe</button>
+          <button type='submit' className='border-2 p-1 rounded-sm hover:border-blue-700'>Subscribe</button>
         </form>
       </div>
       <div className="container mx-auto flex flex-col md:flex-row justify-center items-center text-center md:text-center space-y-6 md:space-y-0">

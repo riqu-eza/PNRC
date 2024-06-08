@@ -99,6 +99,10 @@ const listingSchema = new mongoose.Schema(
     rooms:{
       type:Number,
       default: 1 ,
+    },
+    username:{
+      type: String,
+      required:true,
     }
 
   },

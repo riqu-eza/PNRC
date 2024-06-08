@@ -10,6 +10,7 @@ import bookingRouter from "./routes/booking.route.js";
 import inquriesRouter from "./routes/inquries.route.js";
 import commentRouter from "./routes/comment.route.js";
 import letterRouter from "./routes/letter.route.js";
+import businessRouter from "./routes/business.route.js"
 import cookieParser from "cookie-parser";
 import path from "path";
 import cors from "cors";
@@ -43,6 +44,7 @@ app.use("/api/inquiries", inquriesRouter);
 app.use("/api/booking", bookingRouter);
 app.use("/api/comment", commentRouter);
 app.use("/api/letter", letterRouter)
+app.use("/api/business", businessRouter)
 
 app.use(express.static(path.join(__dirname, "/client/dist")));
 

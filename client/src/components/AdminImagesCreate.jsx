@@ -8,6 +8,7 @@ import { useEffect, useState } from "react";
 import { app } from "../firebase";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { useUser } from "./Adminuser";
 
 export default function CreateListing() {
   // const { currentUser } = useSelector((state) => state.user);
@@ -23,6 +24,7 @@ export default function CreateListing() {
   const [error, setError] = useState(false);
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
+  const {username} = useUser();
 
   
 
@@ -128,7 +130,7 @@ export default function CreateListing() {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          ...formData,
+          ...formData, username,
 
           // userRef: currentUser._id,
         }),

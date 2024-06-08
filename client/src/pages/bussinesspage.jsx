@@ -1,5 +1,4 @@
 
-import React from 'react';
 import { Link } from 'react-router-dom';
 import team1 from '../imgaes/city.png'
 import "./text.css";
@@ -12,10 +11,11 @@ const MyComponent = () => {
       </div> */}
         {/* Main Section with Links and Content */}
         <div className="flex justify-center mb-10">
+          <Link to="/busadmin"></Link>
           {/* Left Section with Links */}
           <div className="w-1/3  rounded-lg p-4 m-6 text-center">
             <nav className="flex flex-col space-y-4">
-              <Link to="#link1" className="text-blue-500 hover:underline"> --brand--</Link>
+              <Link to="/link1" className="text-blue-500 hover:underline"> --brand--</Link>
               <Link to="#link2" className="text-blue-500 hover:underline">Content Marketing</Link>
               <Link to="#link3" className="text-blue-500 hover:underline">Data & Analytics</Link>
               <Link to="#link4" className="text-blue-500 hover:underline">Digital Marketing</Link>
@@ -29,7 +29,7 @@ const MyComponent = () => {
           <div className="border-r-2 border-gray-300 mx-6"></div>
           {/* Right Section with Content */}
           <div className="w-2/3    p-4">
-            <div class="main">
+            <div className="main">
               <h1>Palmnazi ResortCity</h1>
               <blockquote>
                 <p>
@@ -37,16 +37,16 @@ const MyComponent = () => {
                   time
                 </p>
               </blockquote>
-              <div class="cols">
+              <div className="cols">
                 <p>In the heart of the bustling city, amidst the towering skyscrapers and busy streets, lies a quaint
                   little café. Its facade, adorned with colorful flowers, invites passersby to step inside and escape the
                   chaos of the urban jungle. As you enter, the aroma of freshly brewed coffee fills the air, mingling with
                   the sweet scent of pastries baking in the oven. The cozy interior, with its warm lighting and
-                  comfortable seating, beckons you to settle in and unwind. It's a sanctuary from the hustle and bustle
+                  comfortable seating, beckons you to settle in and unwind. Its a sanctuary from the hustle and bustle
                   outside, a place where time seems to slow down, and conversations flow freely. Here, amidst the hustle
-                  and bustle, one finds solace in a simple cup of coffee and the company of friends."</p>
+                  and bustle, one finds solace in a simple cup of coffee and the company of friends.</p>
               </div>
-              <div class="colophon">
+              <div className="colophon">
                 this web thing was set in <strong>Georgia</strong>
               </div>
             </div>
@@ -149,7 +149,7 @@ const MyComponent = () => {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-10">
           {/* CEO Section */}
           <div className="p-6">
-            <h2 className="text-2xl font-bold text-center mb-4 text-gray-800 underline">From the CEO's Desk</h2>
+            <h2 className="text-2xl font-bold text-center mb-4 text-gray-800 underline">From the CEOs Desk</h2>
             <p className="text-gray-700 mb-6">
               Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur euismod orci nec
               ullamcorper facilisis. Phasellus finibus fermentum nulla, in scelerisque lorem luctus nec.
@@ -173,7 +173,7 @@ const MyComponent = () => {
 
           {/* CTO Section */}
           <div className="p-6 rounded-lg ">
-            <h2 className="text-2xl font-bold mb-4 text-gray-800 text-center underline">From the CTO's Desk</h2>
+            <h2 className="text-2xl font-bold mb-4 text-gray-800 text-center underline">From the CTOs Desk</h2>
             <p className="text-gray-700 mb-6">
               Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur euismod orci nec
               ullamcorper facilisis. Phasellus finibus fermentum nulla, in scelerisque lorem luctus nec.

@@ -1,36 +1,28 @@
 // ListingsByCounty.js
 
-import { set } from "mongoose";
-import React, { useEffect, useState } from "react";
+import react, { useEffect, useState } from "react";
 import { Link, useParams, useLocation } from "react-router-dom";
-import {
-  faUtensils,
-  faBed,
-  faTheaterMasks,
-  faShoppingBag,
-  faUniversity,
-  faDumbbell,
-  faHandsHelping,
-  faMapMarkerAlt,
-} from "@fortawesome/free-solid-svg-icons";
 import { useNavigate } from "react-router-dom";
 
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import ListingItem from "../components/ListingItem";
 
 const Countylisting = ({ countyBackgrounds }) => {
-  const { county, category } = useParams();
+  const { county, cityinfo } = useParams();
   const [listingsByCounty, setListingsByCounty] = useState([]);
   const [selectedCounty, setSelectedCounty] = useState([]);
   const [listingsByCategory, setListingsByCategory] = useState({});
   const [searchTerm, setSearchTerm] = useState("");
+  // const countyInfo = queryParams.get("countyInfo");
+
   const navigate = useNavigate();
   const location = useLocation();
   console.log("Location object:", location);
 
   const queryParams = new URLSearchParams(location.search);
   const backgroundUrl = queryParams.get("backgroundUrl");
+  const cityInfo = queryParams.get("countyInfo");
+
   console.log("Background URL from URL parameters:", backgroundUrl);
+  console.log("Background URL from URL parameters:", cityInfo);
 
 
   const handleSearch = () => {
@@ -71,13 +63,8 @@ const Countylisting = ({ countyBackgrounds }) => {
     fetchListingsByCounty(county);
   }, [county]);
 
-  const handleMapClick = (location) => {
-    const [latitude, longitude] = location.split(",");
 
-    const url = `https://www.google.com/maps?q=${latitude},${longitude}`;
 
-    window.open(url, "_blank");
-  };
   console.log("Selected county:", selectedCounty);
   const categories = [
     { name: "Accommodation" },
@@ -87,45 +74,45 @@ const Countylisting = ({ countyBackgrounds }) => {
     { name: "Education" },
     { name: "Fitness" },
     { name: "Services" },
+    { name: "Relaxation"}
   ];
 
   return (
     <>
       <div
-        className="bg-cover bg-center h-96 flex items-center justify-center"
+        className="flex flex-col  gap-24 bg-cover bg-center h-96  items-center  text-center justify-between py-3"
         style={{ backgroundImage: `url(${backgroundUrl})` }}
       >
-        <div className="w-full max-w-4xl">
-          <div className="flex flex-col md:flex-row items-center justify-center md:justify-between">
-            <h1 className="text-3xl font-bold text-skyblue text-center md:text-left mb-4 md:mb-0 cityhead">
-              Welcome To The Magic of {selectedCounty}
-            </h1>
-
-            <button
-              className="bg-blue-400 text-white px-4 py-2 rounded hover:bg-blue-700"
-              onClick={handleSearch}
-            >
-              Search
-            </button>
-          </div>
-
-          <div className="flex flex-wrap justify-center mt-4">
-            {categories.map((category, index) => (
-              <div key={index} className="flex mb-4 mr-4">
-                <Link
-                  to={`/listings/${county}/${category.name}`}
-                  className=" categoryname category-link flex items-center justify-center bg-blue-700 text-white px-4 py-2 rounded mr-2 mb-2 hover:bg-blue-400"
-                >
-                  <FontAwesomeIcon icon={faBed} className="mr-1" />
-                  {category.name}
-                </Link>
-              </div>
-            ))}
-          </div>
+        <h1 className="text-4xl font-bold cityhead">
+          Welcome To The Magic of {selectedCounty}
+        </h1>
+        <div className="flex ">
+          {categories.map((category, index) => (
+            <div key={index} className="flex mb-4 mr-4">
+              <Link
+                to={`/listings/${county}/${category.name}`}
+                className=" categoryname category-link bg-blue-700 text-white px-4 py-2 rounded mr-2 mb-2 hover:bg-blue-400"
+              >
+                {category.name}
+              </Link>
+            </div>
+          ))}
+          <button
+            className="bg-blue-400 text-white px-2 rounded hover:bg-blue-700"
+            onClick={handleSearch}
+          >
+            Search
+          </button>
         </div>
+
       </div>
 
-      <div className="container mx-auto px-4">
+      <div className="h-44 bg-black flex  items-center justify-center" >
+        <p className="text-white w-1/2 text-center justify-center items-center  ">
+          {cityInfo}
+        </p>
+      </div>
+      {/* <div className="container mx-auto px-4">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           <div>
             <h2 className="text-xl font-bold mb-4 cityhead">Let's dine....!</h2>
@@ -168,7 +155,7 @@ const Countylisting = ({ countyBackgrounds }) => {
               ))}
           </div>
         </div>
-      </div>
+      </div> */}
     </>
   );
 };

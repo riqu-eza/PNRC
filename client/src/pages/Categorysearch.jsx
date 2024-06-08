@@ -1,13 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import Itemlisting from "./Itemlisting";
 import ListingItem from "../components/ListingItem";
 
 const CategorySearch = () => {
   const { county, categoryname } = useParams();
   const [listings, setListings] = useState([]);
 
-  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     console.log("County:", county);
@@ -35,8 +33,8 @@ const CategorySearch = () => {
 
   return (
     <div >
-      <h2>Category Search Results</h2>
-      <div className="flex gap-5 left-10">
+      <h2 className="text-center text-2xl" >{categoryname } in {county}</h2>
+      <div className="flex gap-5 left-10 m-4">
         {listings.map((listing) => (
           <ListingItem key={listing._id} listing={listing} />
         ))}
