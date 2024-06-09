@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import  { useState } from "react";
 import { Link } from "react-router-dom";
 import { useUser } from "./Adminuser";
 const Admin = () => {
@@ -98,6 +98,12 @@ const Admin = () => {
           className="bg-purple-500 hover:bg-purple-600 text-white p-4 rounded-lg flex items-center justify-center"
         >
           Add Resort City
+        </Link>
+        <Link
+          to="/link1"
+          className="bg-blue-700 hover:bg-blue-600 text-white p-4 rounded-lg flex items-center justify-center"
+        >
+          Add Business
         </Link>
       </div>
     </div>

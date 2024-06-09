@@ -1,63 +1,62 @@
-import { FaSearch } from "react-icons/fa";
-import { Link, useNavigate, useLocation } from "react-router-dom";
+// import { FaSearch } from "react-icons/fa";
+import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import "../pages/page.css";
 
 export default function Header() {
-  const [searchTerm, setSearchTerm] = useState("");
+  // const [searchTerm, setSearchTerm] = useState("");
   const [showLinks, setShowLinks] = useState(false);
   const { currentUser } = useSelector((state) => state.user);
 
-  const navigate = useNavigate();
-  const location = useLocation();
+  // const navigate = useNavigate();
+  // const location = useLocation();
 
   const toggleLinks = () => {
     setShowLinks(!showLinks);
   };
 
   return (
-    <header  >
-    <div className="flex justify-between items-center max-w-6xl mx-auto p-3 bg-grey-300 rounded-xl">
-      <Link to="/" className="" >
-        <img src="" ></img>
+    <header className=" flex justify-between  mx-auto px-3 sm:6 md:px-8 lg:px-10 py-4 shadow bg-grey-300 ">
+      <Link to="/" className=" sm:text-2xl" >
+        <h1>Palmnazi Resortities</h1>
       </Link>
       <ul
-        className={`flex gap-4 sm:flex hidden ${showLinks ? "flex-col" : "hidden"}`}
+        className="hidden sm:flex justify-between items-center text-lg gap-6"
 
       >
         <Link to="/">
-          <li className="text-black no-underline px-2 text-xl transition duration-300 ease-in-out bg-transparent hover:underline ">
+          <li className="text-black no-underline  transition duration-300 ease-in-out bg-transparent hover:underline ">
             Home
           </li>
         </Link>
         <Link to="/About">
-          <li className="text-black no-underline px-2 text-xl transition duration-300 ease-in-out bg-transparent hover:underline">
+          <li className="text-black no-underline   transition duration-300 ease-in-out bg-transparent hover:underline">
             About
           </li>
         </Link>
         <Link to="/resortcities">
-          <li className="text-black no-underline px-2 text-xl transition duration-300 ease-in-out bg-transparent hover:underline ">
+          <li className="text-black no-underline   transition duration-300 ease-in-out bg-transparent hover:underline ">
             Resortcities
           </li>
         </Link>
         <Link to="/bussinesspage">
-          <li className="text-black no-underline px-2 text-xl transition duration-300 ease-in-out bg-transparent hover:underline ">
+          <li className="text-black no-underline   transition duration-300 ease-in-out bg-transparent hover:underline ">
             Bussiness
           </li>
         </Link>
         <Link to="/blogspage">
-          <li className="text-black no-underline px-2 text-xl transition duration-300 ease-in-out bg-transparent hover:underline ">
+          <li className="text-black no-underline  transition duration-300 ease-in-out bg-transparent hover:underline ">
             Blogs
           </li>
         </Link>
         <Link to="/getstarted">
-          <li className="text-black no-underline px-2 text-xl transition duration-300 ease-in-out bg-transparent hover:underline">
+          <li className="text-black no-underline   transition duration-300 ease-in-out bg-transparent hover:underline">
             Get Started
           </li>
         </Link>
         {/* <Link to="/admin">
-          <li className="text-white no-underline px-2 text-xl transition duration-300 ease-in-out bg-transparent hover:bg-blue-600 ">
+          <li className="text-white no-underline px-2  transition duration-300 ease-in-out bg-transparent hover:bg-blue-600 ">
             admin
           </li>
         </Link> */}
@@ -90,7 +89,6 @@ export default function Header() {
           </svg>
         </li>
       </ul>
-    </div>
-  </header>
+    </header>
   );
 }

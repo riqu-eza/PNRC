@@ -22,6 +22,7 @@ import Footer from "./components/Footer";
 import AppLayout from "./components/Applayout";
 import { UserProvider } from "./components/Adminuser";
 import CreateBusinessListing from "./components/businessadmin";
+import BusinesscityPage from "./pages/BusinesscityPage";
 // import Adminblog from "./components/bloglisting";
 
 export default function App() {
@@ -40,6 +41,8 @@ export default function App() {
             <Route path="/bussinesspage" element={<Bussinesspage />} />
             <Route path="/about" element={<About />} />
             <Route path="/resortcities" element={<ListingsByCounty />} />
+            <Route path="/business/:city" element={<BusinesscityPage/>} />
+
             <Route path="/listings/:county" element={< Countylisting />}></Route>
             <Route path="/blogspage" element={<Blogs />} ></Route>
             <Route path="/listing/:listingId" element={<Itemlisting />} />
@@ -50,7 +53,7 @@ export default function App() {
             <Route path="/admin" element={<Admin />} ></Route>
             <Route path="/addblog" element={<Bloglisting />} ></Route>
             <Route path="/createlisting" element={<CreateListing />} />
-            <Route path="/link1" element={<CreateBusinessListing/>} ></Route>
+            <Route path="/link1" element={<CreateBusinessListing />} ></Route>
           </Route>
           {/* <Route path="/listing/:listingId" element={<Listing />} /> */}
           <Route element={<PrivateRoute />}>
