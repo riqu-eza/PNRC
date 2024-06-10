@@ -5,7 +5,7 @@ export default function About() {
 
   return (
     <>
-      <div className="about  mt-4">
+      <div className="about  pt-6 pb-4">
         <h2 className="text-black text-bold text-center aboutheader   text-9xl"> Palmnazi -Rc</h2>
         <div class="justify-between aboutcon">
           <div className="m-8">

@@ -4,7 +4,6 @@ import react, { useEffect, useState } from "react";
 import { Link, useParams, useLocation } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 
-
 const Countylisting = ({ countyBackgrounds }) => {
   const { county, cityinfo } = useParams();
   const [listingsByCounty, setListingsByCounty] = useState([]);
@@ -23,7 +22,6 @@ const Countylisting = ({ countyBackgrounds }) => {
 
   console.log("Background URL from URL parameters:", backgroundUrl);
   console.log("Background URL from URL parameters:", cityInfo);
-
 
   const handleSearch = () => {
     navigate(`/search?searchTerm=${searchTerm}`);
@@ -63,8 +61,6 @@ const Countylisting = ({ countyBackgrounds }) => {
     fetchListingsByCounty(county);
   }, [county]);
 
-
-
   console.log("Selected county:", selectedCounty);
   const categories = [
     { name: "Accommodation" },
@@ -74,13 +70,14 @@ const Countylisting = ({ countyBackgrounds }) => {
     { name: "Education" },
     { name: "Fitness" },
     { name: "Services" },
-    { name: "Relaxation"}
+    { name: "Relaxation" },
   ];
 
   return (
-    <>
+    <div className="">
       <div
-        className="flex flex-col  gap-24 bg-cover bg-center h-96  items-center  text-center justify-between py-3"
+    
+        className="flex flex-col  gap-24 bg-cover bg-center h-96 items-center  text-center justify-between "
         style={{ backgroundImage: `url(${backgroundUrl})` }}
       >
         <h1 className="text-4xl font-bold cityhead">
@@ -88,75 +85,30 @@ const Countylisting = ({ countyBackgrounds }) => {
         </h1>
         <div className="flex ">
           {categories.map((category, index) => (
-            <div key={index} className="flex mb-4 mr-4">
+            <div key={index} className="flex mr-4">
               <Link
                 to={`/listings/${county}/${category.name}`}
-                className=" categoryname category-link bg-blue-700 text-white px-4 py-2 rounded mr-2 mb-2 hover:bg-blue-400"
+                className=" categoryname category-link bg-black text-white px-4 py-2 rounded mr-2 mb-2 hover:bg-gray-400"
               >
                 {category.name}
               </Link>
             </div>
           ))}
           <button
-            className="bg-blue-400 text-white px-2 rounded hover:bg-blue-700"
+            className="bg-black text-white px-2 text-bolder rounded  hover:bg-gray-400"
             onClick={handleSearch}
           >
             Search
           </button>
         </div>
-
       </div>
 
-      <div className="h-44 bg-black flex  items-center justify-center" >
-        <p className="text-white w-1/2 text-center justify-center items-center  ">
+      <div className=" p-6 bg-black flex  items-center justify-center">
+        <p className="text-white  text-center justify-center   items-center  ">
           {cityInfo}
         </p>
       </div>
-      {/* <div className="container mx-auto px-4">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-          <div>
-            <h2 className="text-xl font-bold mb-4 cityhead">Let's dine....!</h2>
-            {(listingsByCategory["Dining"] || [])
-              .concat(listingsByCategory["Accommodation"] || [])
-              .map((listing) => (
-                <ListingItem key={listing._id} listing={listing} />
-              ))}
-          </div>
-          <div>
-            <h2 className="text-xl font-bold mb-4 cityhead">
-              Find things you can do in {selectedCounty}
-            </h2>
-            {Object.entries(listingsByCategory).map(([category, listings]) => {
-              if (
-                category !== "Dining" &&
-                category !== "Accommodation" &&
-                category !== "Entertainment" &&
-                category !== "Relaxation"
-              ) {
-                return (
-                  <div key={category}>
-                    {listings.map((listing) => (
-                      <ListingItem key={listing._id} listing={listing} />
-                    ))}
-                  </div>
-                );
-              }
-              return null;
-            })}
-          </div>
-          <div>
-            <h2 className="text-xl font-bold mb-4 cityhead ">
-              Take Your Day Off
-            </h2>
-            {(listingsByCategory["Entertainment"] || [])
-              .concat(listingsByCategory["Relaxation"] || [])
-              .map((listing) => (
-                <ListingItem key={listing._id} listing={listing} />
-              ))}
-          </div>
-        </div>
-      </div> */}
-    </>
+    </div>
   );
 };
 

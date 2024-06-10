@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react"
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
 const Bussinesspage = () => {
@@ -6,7 +6,6 @@ const Bussinesspage = () => {
 
   useEffect(() => {
     const fethuniquecity = async () => {
-
       try {
         const res = await fetch("http://localhost:3000/api/business/cities");
         if (!res.ok) {
@@ -14,32 +13,33 @@ const Bussinesspage = () => {
         }
         const data = await res.json();
         setCities(data);
-        console.log("receiced data:", data)
-
-
       } catch (error) {
         console.error(error);
-
       }
     };
     fethuniquecity();
   }, []);
 
-  console.log(cities);
-
   return (
-    <div>
-      {cities.map((city, index) => (
-        <div key={index}>
-          <Link to={`/business/${city}`}>
-            {city}
-          </Link>
+    <>
+    <h3 className="text-3xl text-center p-2 bg-white text-black ">Local Business to supply your needs at :-</h3>
 
-        </div>
-
-      ))};
+    <div className=" flex justify-center bg-white p-12 ">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6   ">
+        {cities.map((city, index) => (
+          <div key={index} className="p-6 bg-gray-400 shadow-lg  rounded-lg">
+            <Link
+              to={`/business/${city}`}
+              className="text-center block text-2xl font-bold text-black"
+            >
+              {city}
+            </Link>
+          </div>
+        ))}
+      </div>
     </div>
-  )
+    </>
+  );
 };
 
-export default Bussinesspage
+export default Bussinesspage;

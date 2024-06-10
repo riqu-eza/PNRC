@@ -14,7 +14,10 @@
   font-weight:bolder;
   font-style: normal;
 }
-
+/* header */
+.headertop{
+  font-family: "Trajanpro";
+}
 /* listingbycounty */
 .countyinfo {
   font-family: "Kalam", cursive;
@@ -36,34 +39,14 @@
 
 }
 /* homepage */
-.logo {
-  display: block;
-  width: 200px;
-  height: 200px;
-  background-image: url(../imgaes/PNRCofficlalogo.png);
-  position: absolute;
-  background-size: cover;
-  background-position: center;
-  top: -180px;
-}
-.logo-small {
-  display: block;
-  width: 250px; /* Adjust size as needed */
-  height: 250px; /* Adjust size as needed */
-  background-size: cover;
-  background-position: center;
-  position: absolute;
-  left: 10px; /* Adjust position as needed */
-  top: 10%; /* Adjust position as needed */
-  transform: translateY(-50%);
-}
+
 .logomain{
   display: block;
   position: absolute;
   width: 400px;
   height: 400px;
   left: -70px;
-  top: -100%;
+  top: -70%;
 }
 
 .main-text {
@@ -135,12 +118,13 @@
   transition: all 0.02s;
   font-weight: bolder;
   color: rgb(28, 13, 155);
+  background-color: rgb(193, 228, 248);
   z-index: 0;
   box-shadow: 0 0px 7px -5px rgba(0, 0, 0, 0.5);
 }
 
 .button:hover {
-  background: rgb(193, 228, 248);
+  /* background: rgb(193, 228, 248); */
   color: rgb(33, 0, 85);
 }
 
@@ -161,11 +145,11 @@
 }
 
 .hoverEffect div {
-  background: rgb(248, 3, 85);
+  background: rgb(248, 243, 245);
   background: linear-gradient(90deg,
-      rgb(250, 2, 85) 0%,
-      rgb(113, 14, 167) 49%,
-      rgb(12, 125, 148) 100%);
+      rgb(182, 3, 63) 0%,
+      rgb(74, 3, 112) 49%,
+      rgb(9, 199, 236) 100%);
   border-radius: 40rem;
   width: 10rem;
   height: 10rem;

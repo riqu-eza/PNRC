@@ -54,8 +54,9 @@ const BusinessSchema = new mongoose.Schema(
         productprice: {
             type: String,
             required: true,
-        },
-        productdescription: {
+        },      
+          productdescription: {
+
             type: String,
             required: true,
         },
