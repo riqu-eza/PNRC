@@ -24,6 +24,7 @@ import { UserProvider } from "./components/Adminuser";
 import CreateBusinessListing from "./components/businessadmin";
 import BusinesscityPage from "./pages/BusinesscityPage";
 import Product from "./pages/Product";
+import BusinessDetailPage from "./pages/businesslisting";
 // import Adminblog from "./components/bloglisting";
 
 export default function App() {
@@ -43,6 +44,7 @@ export default function App() {
             <Route path="/about" element={<About />} />
             <Route path="/resortcities" element={<ListingsByCounty />} />
             <Route path="/business/:city" element={<BusinesscityPage/>} />
+            <Route path="/businesslisting/:id" element={<BusinessDetailPage/>} ></Route>
             <Route path="/business/detail/:id" element={<Product/>} />
             <Route path="/listings/:county" element={< Countylisting />}></Route>
             <Route path="/blogspage" element={<Blogs />} ></Route>

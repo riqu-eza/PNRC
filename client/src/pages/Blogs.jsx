@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import travel from "../imgaes/blogtravel.jpg";
 import culture from "../imgaes/blogculture.jpg";
-import business from "../imgaes/blogbusiness.jpg"
+import business from "../imgaes/blogbusiness.jpg";
 import("./page.css");
 
 const BlogPage = () => {

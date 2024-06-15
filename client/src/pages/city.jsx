@@ -1,5 +1,4 @@
-import React, { useEffect, useState } from "react";
-import { FaTimes } from "react-icons/fa"; // Import the delete icon
+import  { useEffect, useState } from "react";
 import { useUser } from "../components/Adminuser";
 
 const City = () => {

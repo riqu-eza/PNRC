@@ -162,8 +162,7 @@ export default function Itemlisting() {
     window.open(url, "_blank");
   };
 
-  const firstImageHeight = "60vh";
-  const remainingImagesHeight = `calc((75vh - ${firstImageHeight}) / 5)`;
+  
 
   const handleinquireClick = async (event) => {
     event.preventDefault();

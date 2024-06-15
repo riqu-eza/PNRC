@@ -13,6 +13,7 @@ const Bussinesspage = () => {
         }
         const data = await res.json();
         setCities(data);
+        
       } catch (error) {
         console.error(error);
       }
