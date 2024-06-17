@@ -42,7 +42,7 @@ export default function SignUp() {
   };
 
   return (
-    <div className="auth-container">
+    <div className="auth-container h-screen">
     <div className="p-3 max-w-lg mx-auto ">
       <h1 className="text-3xl text-center font-semibold my-7">Sign Up</h1>
 
@@ -71,11 +71,11 @@ export default function SignUp() {
         <div>
           <div>
             <input type="radio" id="Type1" name="option" value="Tourist" onChange={handleChange}/>
-            <label for="option1">Tourist</label>
+            <label >Tourist</label>
           </div>
           <div>
             <input type="radio" id="Type" name="option" value="Bussiness" onChange={handleChange} />
-            <label for="option2">Bussiness</label>
+            <label >Bussiness</label>
           </div>
         </div>
         <button

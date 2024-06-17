@@ -488,14 +488,11 @@ export default function CreateBusinessListing() {
 
   const handleProductImageSubmit = (index) => {
     const product = currentBusiness.products[index];
-    if (
-      product.productImage.length > 0 &&
-      product.productImage.length < 2
-    ) {
+    if (product.productImage.length > 0 && product.productImage.length < 9) {
       setUploading(true);
       setImageUploadError(false);
       const promises = product.productImage.map(storeImage);
-      
+
       Promise.all(promises)
         .then((urls) => {
           const updatedProducts = currentBusiness.products.map((p, i) =>
@@ -519,45 +516,8 @@ export default function CreateBusinessListing() {
       setImageUploadError("You can only upload up to 6 images per listing");
       setUploading(false);
     }
-  }
-  // const handleproductImageSubmit = (productIndex) => {
-  //   const product = currentBusiness.products[productIndex];
-  //   if (product.productImage.length > 0 && product.productImage.length < 2) {
-  //     setUploading(true);
-  //     setImageUploadError(false);
-  //     const promises = [];
-  
-  //     for (let i = 0; i < product.productImage.length; i++) {
-  //       promises.push(storeImage(product.productImage[i]));
-  //     }
-  
-  //     Promise.all(promises)
-  //       .then((urls) => {
-  //         const updatedProducts = currentBusiness.products.map((p, index) =>
-  //           index === productIndex
-  //             ? { ...p, productImage: p.productImage.concat(urls) }
-  //             : p
-  //         );
-  //         setCurrentBusiness({
-  //           ...currentBusiness,
-  //           products: updatedProducts,
-  //         });
-  //         setImageUploadError(false);
-  //         setUploading(false);
-  //       })
-  //       .catch((error) => {
-  //         setImageUploadError("Image upload failed (max 2 MB per image)");
-  //         setUploading(false);
-  //       });
-  //   } else if (product.productImage.length === 0) {
-  //     setImageUploadError("Select images to upload");
-  //     setUploading(false);
-  //   } else {
-  //     setImageUploadError("You can only upload up to 6 images per listing");
-  //     setUploading(false);
-  //   }
-  // };
-  
+  };
+ 
 
   const storeImage = async (file) => {
     return new Promise((resolve, reject) => {
@@ -665,15 +625,6 @@ export default function CreateBusinessListing() {
     }));
   };
 
-  // const handleProductChange = (e, index) => {
-  //   const { id, value } = e.target;
-  //   const updatedProducts = [...currentBusiness.products];
-  //  updatedProducts[index][id] = value;
-  //   setCurrentBusiness({
-  //     ...currentBusiness,
-  //     products: updatedProducts,
-  //   });
-  // };
   const handleProductChange = (e, index) => {
     const { id, value } = e.target;
     const updatedProducts = currentBusiness.products.map((product, i) =>
@@ -684,12 +635,13 @@ export default function CreateBusinessListing() {
       products: updatedProducts,
     });
   };
+  
 
   const handleAddProduct = () => {
-    setCurrentBusiness({
-      ...currentBusiness,
+    setCurrentBusiness((prevState) => ({
+      ...prevState,
       products: [
-        ...currentBusiness.products,
+        ...prevState.products,
         {
           productName: "",
           productPrice: "",
@@ -697,8 +649,9 @@ export default function CreateBusinessListing() {
           productImage: [],
         },
       ],
-    });
+    }));
   };
+  
 
   const handleRemoveProduct = (index) => {
     const updatedProducts = [...currentBusiness.products];
@@ -750,10 +703,12 @@ export default function CreateBusinessListing() {
           selectedCounty: "",
           address: "",
           products: [
-          {  productName: "",
-          productPrice: "",
-          productDescription: "",
-          productImage: [],}
+            {
+              productName: "",
+              productPrice: "",
+              productDescription: "",
+              productImage: [],
+            },
           ],
         });
       }
@@ -915,7 +870,7 @@ export default function CreateBusinessListing() {
               </div>
             ))}
         </div>
-
+{/*  products*/}
         <div className="flex flex-col gap-4">
           <h1>Add Products</h1>
           {currentBusiness.products.map((product, index) => (
@@ -935,65 +890,67 @@ export default function CreateBusinessListing() {
               </div>
             </div>
           ))}
-          
-          
+
           <div>
-      {currentBusiness.products.map((product, index) => (
-        <div key={index}>
-          <div>
-            <input
-              onChange={(e) => handleProductChange(e, index)}
-              value={product.productName}
-              className="p-2 border border-gray-300 rounded w-full"
-              placeholder="Product Name"
-              type="text"
-              id="productName"
-            />
-            <textarea
-              onChange={(e) => handleProductChange(e, index)}
-              value={product.productDescription}
-              className="p-3 border border-gray-300 rounded w-full"
-              placeholder="Product Description"
-              id="productDescription"
-            />
-            <input
-              onChange={(e) => handleProductChange(e, index)}
-              value={product.productPrice}
-              className="p-3 border border-gray-300 rounded w-full"
-              placeholder="Product Price"
-              type="number"
-              id="productPrice"
-            />
+            {currentBusiness.products.map((product, index) => (
+              <div key={index}>
+                <div>
+                  <input
+                    onChange={(e) => handleProductChange(e, index)}
+                    value={product.productName}
+                    className="p-2 border border-gray-300 rounded w-full"
+                    placeholder="Product Name"
+                    type="text"
+                    id="productName"
+                  />
+                  <textarea
+                    onChange={(e) => handleProductChange(e, index)}
+                    value={product.productDescription}
+                    className="p-3 border border-gray-300 rounded w-full"
+                    placeholder="Product Description"
+                    id="productDescription"
+                  />
+                  <input
+                    onChange={(e) => handleProductChange(e, index)}
+                    value={product.productPrice}
+                    className="p-3 border border-gray-300 rounded w-full"
+                    placeholder="Product Price"
+                    type="number"
+                    id="productPrice"
+                  />
+                </div>
+                <div className="flex gap-4">
+                  <input
+                    onChange={(e) => {
+                      const updatedProducts = currentBusiness.products.map(
+                        (p, i) =>
+                          i === index
+                            ? { ...p, productImage: Array.from(e.target.files) }
+                            : p
+                      );
+                      setCurrentBusiness({
+                        ...currentBusiness,
+                        products: updatedProducts,
+                      });
+                    }}
+                    className="p-3 border border-gray-300 rounded w-full"
+                    type="file"
+                    id={`productImages-${index}`}
+                    accept="image/*"
+                    multiple
+                  />
+                  <button
+                    disabled={uploading}
+                    type="button"
+                    onClick={() => handleProductImageSubmit(index)}
+                    className="p-3 text-green-700 border border-green-700 rounded uppercase hover:shadow-lg disabled:opacity-80"
+                  >
+                    {uploading ? "loading..." : "load"}
+                  </button>
+                </div>
+              </div>
+            ))}
           </div>
-          <div className="flex gap-4">
-            <input
-              onChange={(e) => {
-                const updatedProducts = currentBusiness.products.map((p, i) =>
-                  i === index ? { ...p, productImage: Array.from(e.target.files) } : p
-                );
-                setCurrentBusiness({
-                  ...currentBusiness,
-                  products: updatedProducts,
-                });
-              }}
-              className="p-3 border border-gray-300 rounded w-full"
-              type="file"
-              id={`productImages-${index}`}
-              accept="image/*"
-              multiple
-            />
-            <button
-              disabled={uploading}
-              type="button"
-              onClick={() => handleProductImageSubmit(index)}
-              className="p-3 text-green-700 border border-green-700 rounded uppercase hover:shadow-lg disabled:opacity-80"
-            >
-              {uploading ? "Uploading..." : "Upload"}
-            </button>
-          </div>
-        </div>
-      ))}
-    </div>
           <button
             type="button"
             onClick={handleAddProduct}
@@ -1005,7 +962,7 @@ export default function CreateBusinessListing() {
             disabled={loading || uploading}
             className="p-3 bg-slate-700 text-white rounded-lg uppercase hover:opacity-95 disabled:opacity-80"
           >
-            {loading ? "Creating..." : "Create Listing"}
+            {loading ? "Creating..." : "Create Business"}
           </button>
           {error && <p className="text-red-700 text-sm">{error}</p>}
         </div>

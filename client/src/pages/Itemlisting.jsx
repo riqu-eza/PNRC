@@ -11,24 +11,16 @@ import {
   FaBath,
   FaBed,
   FaBuilding,
-  FaCalendar,
-  FaCalendarAlt,
   FaCar,
-  FaChair,
   FaClipboard,
   FaDumbbell,
-  FaHome,
   FaLock,
-  FaMapMarkerAlt,
   FaParking,
   FaRegCalendarAlt,
-  FaShare,
-  FaShieldAlt,
   FaSwimmer,
   FaUserShield,
   FaVideo,
 } from "react-icons/fa";
-import Contact from "../components/Contact";
 import {
   faEnvelope,
   faMapMarkerAlt,
@@ -39,12 +31,10 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 export default function Itemlisting() {
   SwiperCore.use([Navigation]);
   const params = useParams();
-  const [BookingSent, setBookingSent] = useState(false);
+  const [BookingSent, ] = useState(false);
   const [listing, setListing] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
-  const [copied, setCopied] = useState(false);
-  const [contact, setContact] = useState(false);
   const { currentUser } = useSelector((state) => state.user);
   const [text, setText] = useState("");
   const [errorMessage, setErrorMessage] = useState("");

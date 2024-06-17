@@ -7,11 +7,14 @@ const BusinesscityPage = () => {
   const [selectedCategory, setSelectedCategory] = useState(null);
   const [selectedSubCategory, setSelectedSubCategory] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
+  const [businessCount, setBusinessCount] = useState(0);
+  const [productCount, setProductCount] = useState(0);
+  const [totalProductViews, setTotalProductViews] = useState(0);
 
   const stats = [
-    { id: 1, value: "200M+", description: "products" },
-    { id: 2, value: "200K+", description: "suppliers" },
-    { id: 3, value: "5,900", description: "product categories" },
+    { id: 1, value: `${businessCount}`, description: "Businesses" },
+    { id: 2, value: `${productCount}`, description: "Products" },
+    { id: 3, value: `${totalProductViews}`, description: "Total Product Views" },
   ];
 
   useEffect(() => {
@@ -24,7 +27,12 @@ const BusinesscityPage = () => {
           throw new Error(`Error: ${res.statusText}`);
         }
         const data = await res.json();
-        setGroupedData(data);
+        const { businessCount, productCount, totalProductViews, groupedData } = data;
+
+        setGroupedData(groupedData);
+        setBusinessCount(businessCount);
+        setProductCount(productCount);
+        setTotalProductViews(totalProductViews);
         setIsLoading(false);
       } catch (error) {
         console.error("Error fetching city data:", error);
@@ -44,14 +52,14 @@ const BusinesscityPage = () => {
 
   return (
     <>
-      <div className="bg-white">
+      <div className="bg-white h-screen overflow-y-auto m-14 mx-20 ">
         <div className=" justify-between px-10 max-w-screen my-2 mx-auto">
           <div className="flex-grow flex items-center justify-center  ">
             <h1
               className="text-bold font-semibold text-center"
               style={{ fontSize: "30px" }}
             >
-              Explore Millions of offerings tailored for your business needs in{" "}
+              Explore Millions of offerings tailored for your business needs in
               {city}
             </h1>
           </div>
@@ -111,7 +119,7 @@ const BusinesscityPage = () => {
             </div>
           )}
 
-          <div className="w-1/2 p-4">
+          <div className="w-1/2 p-4  ">
             <h2 className="text-xl font-semibold mb-4">Businesses</h2>
             {selectedCategory && selectedSubCategory && (
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
