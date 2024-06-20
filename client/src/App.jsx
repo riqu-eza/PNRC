@@ -15,7 +15,6 @@ import Itemlisting from "./pages/Itemlisting";
 import AdminImageUploadPage from "./components/AdminImagesCreate";
 import Categorysearch from "./pages/Categorysearch";
 import Search from "./pages/Search";
-import Blogs from "./pages/Blogs";
 import Admin from "./components/Admin";
 import City from "./pages/city";
 import Footer from "./components/Footer";
@@ -25,6 +24,9 @@ import CreateBusinessListing from "./components/businessadmin";
 import BusinesscityPage from "./pages/BusinesscityPage";
 import Product from "./pages/Product";
 import BusinessDetailPage from "./pages/businesslisting";
+// import BlogPage from "./pages/Blogpage";
+import { Blog } from "./pages/Blog";
+import BlogPage from "./pages/Blogpage";
 // import Adminblog from "./components/bloglisting";
 
 export default function App() {
@@ -47,7 +49,8 @@ export default function App() {
             <Route path="/businesslisting/:id" element={<BusinessDetailPage/>} ></Route>
             <Route path="/business/detail/:id" element={<Product/>} />
             <Route path="/listings/:county" element={< Countylisting />}></Route>
-            <Route path="/blogspage" element={<Blogs />} ></Route>
+            <Route path="/blogspage" element={<Blog/>} ></Route>
+            <Route path="/blog/:name" element={<BlogPage/>} ></Route>
             <Route path="/listing/:listingId" element={<Itemlisting />} />
             <Route path="/addimage" element={<AdminImageUploadPage />} ></Route>
             <Route path="/listings/:county/:categoryname" element={<Categorysearch />} />

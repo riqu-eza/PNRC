@@ -1,15 +1,15 @@
 // ListingsByCounty.js
 
-import react, { useEffect, useState } from "react";
+import  { useEffect, useState } from "react";
 import { Link, useParams, useLocation } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 
 const Countylisting = ({ countyBackgrounds }) => {
-  const { county, cityinfo } = useParams();
-  const [listingsByCounty, setListingsByCounty] = useState([]);
+  const { county } = useParams();
+  const [ setListingsByCounty] = useState([]);
   const [selectedCounty, setSelectedCounty] = useState([]);
-  const [listingsByCategory, setListingsByCategory] = useState({});
-  const [searchTerm, setSearchTerm] = useState("");
+  const [ setListingsByCategory] = useState({});
+  const [searchTerm, ] = useState("");
   // const countyInfo = queryParams.get("countyInfo");
 
   const navigate = useNavigate();

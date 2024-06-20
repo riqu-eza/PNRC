@@ -46,15 +46,30 @@ export const updateListing = async (req, res, next) => {
   }
 };
 
+// export const getUniqueSelectedCounties = async (req, res, next) => {
+//   try {
+//     const uniqueCounties = await Listing.distinct("selectedCounty");
+
+//     res.status(200).json(uniqueCounties);
+//   } catch (error) {
+//     next(error);
+//   }
+// };
 export const getUniqueSelectedCounties = async (req, res, next) => {
   try {
+    // Fetch all unique counties
     const uniqueCounties = await Listing.distinct("selectedCounty");
 
-    res.status(200).json(uniqueCounties);
+    // Filter out any null, undefined, or empty string values
+    const filteredCounties = uniqueCounties.filter(county => county);
+
+    // Respond with the filtered list of unique counties
+    res.status(200).json(filteredCounties);
   } catch (error) {
     next(error);
   }
 };
+
 
 export const getListingsByCounty = async (req, res, next) => {
   try {

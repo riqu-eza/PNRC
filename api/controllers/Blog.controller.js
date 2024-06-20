@@ -10,12 +10,17 @@ export const createBlog = async (req, res, next) => {
     }
 };
  
-export const getAllBlogs = async (req, res, next ) =>{
+ export const getAllBlogs = async (req, res, next) => {
   try {
-    const blogs = await Blog.find(); 
-    res.json(blogs); 
+    const { name } = req.query;
+
+    // Query blogs where the category field matches the name parameter
+    const blogs = await Blog.find({ category: name });
+
+    res.json(blogs);
   } catch (error) {
     console.error("Error fetching blog posts:", error);
     res.status(500).json({ message: "Internal server error" });
-  };
+  }
 };
+

@@ -22,11 +22,12 @@ const Bussinesspage = () => {
   }, []);
 
   return (
-    <>
+    <div className="h-screen">
     <h3 className="text-3xl text-center p-2 bg-white text-black ">Local Business to supply your needs at :-</h3>
 
-    <div className=" flex justify-center bg-white p-12 ">
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6   ">
+    <div className=" flex justify-center bg-white p-12  ">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 
+        ">
         {cities.map((city, index) => (
           <div key={index} className="p-6 bg-gray-400 shadow-lg  rounded-lg">
             <Link
@@ -39,7 +40,7 @@ const Bussinesspage = () => {
         ))}
       </div>
     </div>
-    </>
+    </div>
   );
 };
 

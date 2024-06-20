@@ -6,19 +6,13 @@ import {
 } from "firebase/storage";
 import { useEffect, useState } from "react";
 import { app } from "../firebase";
-import { useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
-import PhoneInput from "react-phone-number-input";
-import ReactPhoneInput from "react-phone-input-2";
 
-import { getCountryCallingCode } from "libphonenumber-js";
 import "react-phone-input-2/lib/style.css";
 import { useUser } from "../components/Adminuser";
 
 export default function CreateListing() {
   // const { currentUser } = useSelector((state) => state.user);
   const [files, setFiles] = useState([]);
-  const [hovered, setHovered] = useState(false);
 
   const [formData, setFormData] = useState({
     imageUrls: [],
@@ -221,6 +215,7 @@ export default function CreateListing() {
       "Fine Dining Restaurants",
       "Ethnic Cuisine Restaurants",
       "Fast Food Chains",
+      "Sea food",
     ],
     Entertainment: [
       "Movie Theaters",
@@ -261,15 +256,18 @@ export default function CreateListing() {
       "Cooking Schools",
       "Language Schools",
       "Workshops & Classes",
+      "Reserch Institution",
     ],
     Health_and_Fitness: [
       "Sport Clubs",
       "Swimming Pools",
       "Martial arts Studios",
+      "Gym",
       "Dance Studio",
       "Rock Climbing Gyms",
       "Cycling Tracks",
       "Running Tracks",
+      "Hospital",
     ],
     Services: [
       "Spar & massage centers",
@@ -281,6 +279,7 @@ export default function CreateListing() {
       "Post Offices",
       "Banks and ATMS",
       "Medical Centers",
+      "legal Services",
     ],
   };
 

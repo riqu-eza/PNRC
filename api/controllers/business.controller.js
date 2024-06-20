@@ -73,26 +73,21 @@ export const getBusinessesByCounty = async (req, res) => {
         const city = req.query.name;
         const selectedCounty = city;
 
-        // Query businesses by selectedCounty and populate the category fields
         const businesses = await Business.find({ selectedCounty })
             .populate('category.selectedCategory')
             .populate('category.selectedSubcategory');
 
-        // Initialize counts
         let businessCount = 0;
         let productCount = 0;
         let totalProductViews = 0;
 
-        // Group by categories and subcategories within the selected county
         const groupedData = {};
 
         businesses.forEach((business) => {
             const { selectedCategory, selectedSubcategory } = business.category;
 
-            // Increment business count
             businessCount++;
 
-            // Initialize subcategory if not exists
             if (!groupedData[selectedCategory]) {
                 groupedData[selectedCategory] = {};
             }
@@ -104,21 +99,22 @@ export const getBusinessesByCounty = async (req, res) => {
                 };
             }
 
-            // Push business into the subgroup
             groupedData[selectedCategory][selectedSubcategory].businesses.push(business);
 
             // Count products and aggregate product views
+            let businessProductViews = 0; // Reset for each business
             business.products.forEach((product) => {
                 productCount++;
-                totalProductViews += product.views;
+                businessProductViews += product.views;
             });
 
             // Update subgroup counts
             groupedData[selectedCategory][selectedSubcategory].productCount += business.products.length;
-            groupedData[selectedCategory][selectedSubcategory].totalProductViews += totalProductViews;
+            groupedData[selectedCategory][selectedSubcategory].totalProductViews += businessProductViews;
+
+            totalProductViews += businessProductViews;
         });
 
-        // Prepare response data with counts
         const responseData = {
             businessCount,
             productCount,
@@ -134,6 +130,7 @@ export const getBusinessesByCounty = async (req, res) => {
         res.status(500).json({ error: 'Failed to fetch businesses' });
     }
 };
+
 
 export const getBusinessById = async (req, res, next) => {
     try {

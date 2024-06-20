@@ -100,7 +100,7 @@ const ListingsByCounty = () => {
                   // }}
                   to={`/listings/${county}?backgroundUrl=${encodeURIComponent(countyBackgrounds[county])}&county=${encodeURIComponent(county)}&countyInfo=${encodeURIComponent(cityinfo[county])}`}
 
-                  className="block w-full h-full flex items-end justify-center"
+                  className="block w-full h-full  items-end justify-center"
                   onClick={() => {
                     console.log(
                       "Navigating to /listings/${county} with background URL:",

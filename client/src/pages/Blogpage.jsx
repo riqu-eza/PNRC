@@ -1,11 +1,10 @@
 import { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
-import travel from "../imgaes/blogtravel.jpg";
-import culture from "../imgaes/blogculture.jpg";
-import business from "../imgaes/blogbusiness.jpg";
+import { useParams } from "react-router-dom";
+
 import("./page.css");
 
 const BlogPage = () => {
+  const { name } = useParams();
   const [blogPosts, setBlogPosts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [showModal, setShowModal] = useState(false);
@@ -17,11 +16,7 @@ const BlogPage = () => {
     setSelectedPost(post);
     setShowModal(true);
   };
-  const blogs = [
-    { id: 1, name: "Travel", img: [travel] },
-    { id: 2, name: "Business", img: [business] },
-    { id: 3, name: "Culture", img: [culture] },
-  ];
+
   const closeModal = () => {
     setSelectedPost(null);
     setShowModal(false);
@@ -30,7 +25,7 @@ const BlogPage = () => {
   useEffect(() => {
     const fetchBlogPosts = async () => {
       try {
-        const response = await fetch("http://localhost:3000/api/blog/allblog");
+        const response = await fetch(`http://localhost:3000/api/blog/allblog?name=${encodeURIComponent(name)}`);
         if (!response.ok) {
           throw new Error("Failed to fetch blog posts");
         }
@@ -63,7 +58,7 @@ const BlogPage = () => {
 
   return (
     <div>
-      {/* <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3  gap-2 blog  ">
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3  gap-2 blog  ">
         {currentPosts.map((post) => (
           <div key={post.id} className="border p-4 bg-blue-100 m-6 rounded-lg ">
             <h2 className="text-lg font-semibold">{post.title}</h2>
@@ -93,29 +88,8 @@ const BlogPage = () => {
             </div>
           </div>
         )}
-      </div> */}
-      <h3 className="text-2xl text-center p-2 bg-white text-black ">
-        {" "}
-        This Blog is to share and interact in Travel, Business and Culture space
-        at our Resort Cities. Every Voice, advice and concern matters here.
-        Enjoy browsing our blog and please give a feedback or leave a comment{" "}
-      </h3>
-      <div className=" flex justify-center bg-white p-2 ">
-        <div className="flex-grow grid grid-cols-1 border md:grid-cols-3 gap-6 p-6 w-1/3">
-          {blogs.map((stat) => (
-            <div key={blogs.id} className="bg-white p-6 rounded-lg">
-              <Link>
-              <div>
-                <img src={stat.img} alt="" className="h-42" ></img>
-                <h2 className="text-3xl border bg-black text-white text-center p-4  font-bold text-black-800">
-                  {stat.name}
-                </h2>
-                </div>
-              </Link>
-            </div>
-          ))}
-        </div>
       </div>
+
       <div className="flex justify-center mt-4">
         {Array.from({ length: totalPages }, (_, index) => index + 1).map(
           (number) => (
