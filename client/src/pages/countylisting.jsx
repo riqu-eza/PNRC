@@ -6,9 +6,9 @@ import { useNavigate } from "react-router-dom";
 
 const Countylisting = ({ countyBackgrounds }) => {
   const { county } = useParams();
-  const [ setListingsByCounty] = useState([]);
+  const [ ListingsByCounty, setListingsByCounty] = useState([]);
   const [selectedCounty, setSelectedCounty] = useState([]);
-  const [ setListingsByCategory] = useState({});
+  const [ ListingsByCategory, setListingsByCategory] = useState({});
   const [searchTerm, ] = useState("");
   // const countyInfo = queryParams.get("countyInfo");
 
@@ -74,7 +74,7 @@ const Countylisting = ({ countyBackgrounds }) => {
   ];
 
   return (
-    <div className="">
+    <div className="h-screen ">
       <div
     
         className="flex flex-col  gap-24 bg-cover bg-center h-96 items-center  text-center justify-between "
@@ -103,8 +103,8 @@ const Countylisting = ({ countyBackgrounds }) => {
         </div>
       </div>
 
-      <div className=" p-6 bg-black flex  items-center justify-center">
-        <p className="text-white  text-center justify-center   items-center  ">
+      <div className=" p-6 px-12 h-80 bg-black   items-center justify-center">
+        <p className="text-white  text-center justify-center  mx-20 text-2xl items-center  ">
           {cityInfo}
         </p>
       </div>

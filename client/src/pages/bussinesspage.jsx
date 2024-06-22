@@ -25,7 +25,7 @@ const Bussinesspage = () => {
     <div className="h-screen">
     <h3 className="text-3xl text-center p-2 bg-white text-black ">Local Business to supply your needs at :-</h3>
 
-    <div className=" flex justify-center bg-white p-12  ">
+    <div className=" flex justify-center bg-white p-12  mx-6 max-h-screen overflow-auto ">
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6 
         ">
         {cities.map((city, index) => (

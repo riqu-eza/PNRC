@@ -14,6 +14,9 @@ import businessRouter from "./routes/business.route.js"
 import cookieParser from "cookie-parser";
 import path from "path";
 import cors from "cors";
+import cron from "node-cron";
+import { fetchPlaces } from "./utils/fetchexternaldata.js";
+
 
 dotenv.config(); 
 
@@ -52,6 +55,9 @@ app.get("*", (req, res, next) => {
   res.sendFile(path.join(__dirname, "client", "dist", "index.html"));
 });
 
+cron.schedule('0 0 * * *', () => {
+  fetchPlaces();
+});
 app.use((err, req, res, next) => {
   const statusCode = err.statusCode || 500;
   const message = err.message || "Internal Server Error";
