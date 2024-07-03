@@ -29,10 +29,10 @@ const Bussinesspage = () => {
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6 
         ">
         {cities.map((city, index) => (
-          <div key={index} className="p-6 bg-gray-400 shadow-lg  rounded-lg">
+          <div key={index} className="p-6 bg-gray-400 shadow-lg hover:bg-blue-400 rounded-lg">
             <Link
               to={`/business/${city}`}
-              className="text-center block text-2xl font-bold text-black"
+              className="text-center block text-2xl font-bold text-black "
             >
               {city}
             </Link>

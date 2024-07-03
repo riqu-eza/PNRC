@@ -16,14 +16,13 @@
   font-weight:bolder;
   font-style: normal;
 }
-.aboutheader{
-  font-family: "Trajanpro";
-  /* z-index: 1; */
+@font-face{
+  font-family: "Open Sans";
+  src:url(../Assets/fonts/AGaramondPro-Regular.otf);
+  font-weight:100;
+  font-style: italic;
 }
-.aboutcon{
-  font-family:"Lithosregular" ;
-  /* z-index: 1; */
-}
+
 
 .about::before {
   content: "";
@@ -32,55 +31,28 @@
   left: 0;
   width: 100%;
   height: 100%;
-  background-image: url(../imgaes/amboseli.jpg);
+  background-image: url(../imgaes/about1.jpg);
   background-size: cover;
   background-position: center;
-  filter :blur(1px) opacity(0.5) ;
+  filter :blur(0.2px) opacity(0.5) ;
   /* z-index: 0; */
 }
 .about {
   position: relative;
   overflow: hidden;
 }
-/* .about {
-  background-image: url("../imgaes/amboseli.jpg");
-  background-position: cover;
-  background-size:cover ;
-  width: auto;
-  margin: 2, 0px;
-} */
-
-/* .about-img {
-  background-image: url(../imgaes/aboutintro.png);
-  width: 200em;
-} */
 
 
-/*  */
+
+
+
 .whyus {
   background-color: black;
   padding-top: 3px;
 }
-.service,
-.team,
-.deal {
-  width: 400px;
-  height: 400px;
-  border: solid 2px grey;
-  border-radius: 10px;
-  z-index: 2;
-}
 
-.seviceimg,
-.teamimg,
-.dealimg {
-  height: 60%;
-  border-radius: 10px;
-  background-position: center;
-  background-size: cover;
-  background-repeat: no-repeat;
-  z-index: 2;
-}
+
+
 .seviceimg{
   background-image: url(../imgaes/img_1_1685012925610.webp);
 }

@@ -1,4 +1,4 @@
-import  { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 
 import "./page.css";
@@ -61,27 +61,29 @@ const ListingsByCounty = () => {
     }
   };
   const truncateText = (text, wordLimit) => {
-    const words = text.split(' ');
+    const words = text.split(" ");
     if (words.length <= wordLimit) {
       return text;
     }
-    return words.slice(0, wordLimit).join(' ') + ' ...';
+    return words.slice(0, wordLimit).join(" ") + " ...";
   };
-  console.log("Unique Counties:", uniqueCounties);
-  console.log("Listings By County:", listingsByCounty);
-  console.log("Selected County:", selectedCounty);
-  console.log("County Backgrounds:", countyBackgrounds);
+  // console.log("Unique Counties:", uniqueCounties);
+  // console.log("Listings By County:", listingsByCounty);
+  // console.log("Selected County:", selectedCounty);
+  // console.log("County Backgrounds:", countyBackgrounds);
 
   return (
     <>
-      <h1 className="text-center text-3xl m-4 text-bold" >Ooh!  behold our resort cities</h1>
+      <h1 className="text-center text-3xl m-4 text-bold">
+        Ooh! behold our resort cities
+      </h1>
       {isLoading ? (
         <div className="container mx-auto flex justify-center items-center h-screen">
           <div className="loader">Loading...</div>
         </div>
       ) : (
-        <div className="container ">
-          <div className="county-list grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10 ml-20 mt-10">
+        <div className=" ">
+          <div className=" max-h-[calc(100vh-4rem)] overflow-y-auto  scrollbar-hidden grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10 m-8  mt-10"  >
             {uniqueCounties.map((county) => (
               <div
                 key={county}
@@ -99,7 +101,6 @@ const ListingsByCounty = () => {
                   //   state: { backgroundUrl: countyBackgrounds[county] },
                   // }}
                   to={`/listings/${county}?backgroundUrl=${encodeURIComponent(countyBackgrounds[county])}&county=${encodeURIComponent(county)}&countyInfo=${encodeURIComponent(cityinfo[county])}`}
-
                   className="block w-full h-full  items-end justify-center"
                   onClick={() => {
                     console.log(
@@ -115,8 +116,7 @@ const ListingsByCounty = () => {
                       {county}
                     </span>
                     <h4 className="absolute bottom-0  bg-black bg-opacity-30 text-center text-white  countyinfo">
-                    {truncateText(cityinfo[county], 15)}
-
+                      {truncateText(cityinfo[county], 15)}
                     </h4>
                   </div>
                 </Link>

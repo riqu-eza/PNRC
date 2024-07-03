@@ -1,15 +1,15 @@
 // ListingsByCounty.js
 
-import  { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Link, useParams, useLocation } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 
 const Countylisting = ({ countyBackgrounds }) => {
   const { county } = useParams();
-  const [ ListingsByCounty, setListingsByCounty] = useState([]);
+  const [ListingsByCounty, setListingsByCounty] = useState([]);
   const [selectedCounty, setSelectedCounty] = useState([]);
-  const [ ListingsByCategory, setListingsByCategory] = useState({});
-  const [searchTerm, ] = useState("");
+  const [ListingsByCategory, setListingsByCategory] = useState({});
+  const [searchTerm] = useState("");
   // const countyInfo = queryParams.get("countyInfo");
 
   const navigate = useNavigate();
@@ -74,28 +74,27 @@ const Countylisting = ({ countyBackgrounds }) => {
   ];
 
   return (
-    <div className="h-screen ">
+    <div className="h-screen">
       <div
-    
-        className="flex flex-col  gap-24 bg-cover bg-center h-96 items-center  text-center justify-between "
+        className="flex flex-col gap-6 sm:gap-12 md:gap-24 bg-cover bg-center h-96 items-center text-center justify-between"
         style={{ backgroundImage: `url(${backgroundUrl})` }}
       >
-        <h1 className="text-4xl font-bold cityhead">
+        <h1 className="text-2xl sm:text-3xl md:text-4xl text-white font-bold px-4">
           Welcome To The Magic of {selectedCounty}
         </h1>
-        <div className="flex ">
+        <div className="flex flex-wrap justify-center gap-2 md:gap-4">
           {categories.map((category, index) => (
-            <div key={index} className="flex mr-4">
+            <div key={index} className="flex">
               <Link
                 to={`/listings/${county}/${category.name}`}
-                className=" categoryname category-link bg-black text-white px-4 py-2 rounded mr-2 mb-2 hover:bg-gray-400"
+                className="categoryname category-link bg-black text-white px-4 py-2 rounded hover:bg-gray-400 text-sm sm:text-base md:text-lg"
               >
                 {category.name}
               </Link>
             </div>
           ))}
           <button
-            className="bg-black text-white px-2 text-bolder rounded  hover:bg-gray-400"
+            className="bg-black text-white px-4 py-2 text-sm sm:text-base md:text-lg rounded hover:bg-gray-400"
             onClick={handleSearch}
           >
             Search
@@ -103,8 +102,8 @@ const Countylisting = ({ countyBackgrounds }) => {
         </div>
       </div>
 
-      <div className=" p-6 px-12 h-80 bg-black   items-center justify-center">
-        <p className="text-white  text-center justify-center  mx-20 text-2xl items-center  ">
+      <div className="p-4 md:p-6 lg:px-12 h-80 bg-black flex items-center justify-center">
+        <p className="text-white text-base md:text-lg lg:text-2xl text-center mx-4 md:mx-12 lg:mx-20">
           {cityInfo}
         </p>
       </div>

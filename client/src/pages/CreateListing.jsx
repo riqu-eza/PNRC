@@ -207,6 +207,7 @@ export default function CreateListing() {
       "Camping Sites",
     ],
     Dining: [
+      "Traditional foods",
       "Restaurants",
       "Cafes & Coffee Shops",
       "Bakeries",
