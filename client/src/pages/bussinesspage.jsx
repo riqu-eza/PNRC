@@ -22,7 +22,7 @@ const Bussinesspage = () => {
   }, []);
 
   return (
-    <div className="h-screen">
+    <div className="h-full">
     <h3 className="text-3xl text-center p-2 bg-white text-black ">Local Business to supply your needs at :-</h3>
 
     <div className=" flex justify-center bg-white p-12  mx-6 max-h-screen overflow-auto ">

@@ -47,7 +47,7 @@ export default function App() {
             <Route path="/resortcities" element={<ListingsByCounty />} />
             <Route path="/business/:city" element={<BusinesscityPage/>} />
             <Route path="/businesslisting/:id" element={<BusinessDetailPage/>} ></Route>
-            <Route path="/business/detail/:id" element={<Product/>} />
+            <Route path="/product/:productId" element={<Product/>} />
             <Route path="/listings/:county" element={< Countylisting />}></Route>
             <Route path="/blogspage" element={<Blog/>} ></Route>
             <Route path="/blog/:name" element={<BlogPage/>} ></Route>
