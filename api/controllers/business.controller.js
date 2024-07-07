@@ -196,3 +196,30 @@ export const getProductById = async (req, res) => {
     res.status(500).json({ message: "Server Error" });
   }
 };
+ 
+export const createReviews = async (req, res) =>{
+    try {
+        const { productId, rating, comment } = req.body;
+    
+        const newReview = new Review({
+          productId,
+          rating,
+          comment,
+        });
+    
+        const savedReview = await newReview.save();
+        res.status(201).json(savedReview);
+      } catch (error) {
+        res.status(500).json({ message: 'Error creating review', error });
+      }
+}
+
+export const getReviews = async (req, res) => {
+    try {
+        const { productId } = req.params;
+        const reviews = await Review.find({ productId }).sort({ createdAt: -1 });
+        res.status(200).json(reviews);
+      } catch (error) {
+        res.status(500).json({ message: 'Error fetching reviews', error });
+      }
+}
