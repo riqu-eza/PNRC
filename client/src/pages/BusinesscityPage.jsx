@@ -1,5 +1,6 @@
 import { useEffect, useState, useRef } from "react";
 import { useParams, Link } from "react-router-dom";
+import "ldrs/jellyTriangle";
 
 const BusinesscityPage = () => {
   const { city } = useParams();
@@ -96,7 +97,13 @@ const BusinesscityPage = () => {
 
       <div className="flex flex-col md:flex-row">
         {isLoading ? (
-          <p className="m-auto text-lg">Loading...</p>
+          <div className="flex items-center justify-center h-screen w-screen" >
+          <l-jelly-triangle
+            size="30"
+            speed="1.75"
+            color="black"
+          ></l-jelly-triangle>
+        </div>
         ) : (
           <>
             <div className="w-full md:w-1/4 p-4 border-r border-gray-200 h-auto md:h-80 overflow-auto flex-shrink-0">

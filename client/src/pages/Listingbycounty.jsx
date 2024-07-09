@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
+import "ldrs/jellyTriangle";
 
 import "./page.css";
 import "../components/loading.css";
@@ -78,8 +79,12 @@ const ListingsByCounty = () => {
         Ooh! behold our resort cities
       </h1>
       {isLoading ? (
-        <div className="container mx-auto flex justify-center items-center h-screen">
-          <div className="loader">Loading...</div>
+        <div className="flex items-center justify-center h-screen w-screen" >
+          <l-jelly-triangle
+            size="30"
+            speed="1.75"
+            color="black"
+          ></l-jelly-triangle>
         </div>
       ) : (
         <div className=" ">

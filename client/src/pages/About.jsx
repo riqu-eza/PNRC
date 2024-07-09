@@ -7,24 +7,16 @@ export default function About() {
           className="absolute inset-0 bg-cover bg-center blur-sm opacity-50 "
           style={{ backgroundImage: "url(../imgaes/about1.jpg)" }}
         ></div>
-        <h2 className="text-blue-500 text-center font-bold relative z-10 mb-6 sm:mb-8 md:mb-10 lg:mb-12 xl:mb-16 text-5xl sm:text-8xl md:text-7xl lg:text-9xl xl:text-9xl">
+        <h2 className="text-blue-500 text-center font-bold relative z-10 mb-2 sm:mb-8 md:mb-6 lg:mb-8 xl:mb-10 text-3xl sm:text-8xl md:text-6xl lg:text-8xl xl:text-7xl">
           Palmnazi - RC
         </h2>
 
         <div className="relative z-10  flex-col md:flex-row justify-between text-center items-center">
           <div className="m-8 text-center items-center  ">
-            <h1 className="text-3xl font-bold  text-black mb-2">
-              Africa Premier Tourism Marketing Company
-            </h1>
-            <h1 className="text-3xl font-bold text-black mb-2">
-              An Innovative, Dynamic Company.
-            </h1>
-            <h1 className="text-3xl font-bold text-black mb-2">
-              The Ultimate Leader in Promoting Tourism
-            </h1>
-            <h1 className="text-3xl font-bold text-black mb-4">
-              In Our Regions RESORT CITIES-RC
-            </h1>
+            <h4 className="text-4xl pb-2" >    About us;</h4>
+            <p className="text-xl" >
+         Welcome to PALMNAZI RC Integrated tourism Marketing Company, an innovative, dynamic and ultimate leader in tourism promotion, local area culture, local businesses and Natural Heritage  preservation and conservation of natural ecosystem in our regions across Africa. Our marketing strategy is a multifaceted, diversified and integrate resort city based  approach that cover a range of services and products. This cover three thematic areas; Tourism, Local areas Businesses and natural Heritage Conservation. In broad terms these cover such areas including; hotels and lodges, Conventions & Conferences, tour operators, local businesses to boost the needs of local communities,, and Cultures. The objective is to advancement of greater holistic impact of tourism to local communities and raising awareness of conservation of our unique biodiversity, within the resort cities and other holiday destinations as best offers in our regions.
+            </p>
           </div>
           <div
             className="about-img w-64 h-64 bg-cover bg-center"
