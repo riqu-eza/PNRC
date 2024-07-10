@@ -1,17 +1,17 @@
 import express from "express";
-import { createComment, getcomment } from "../controllers/comment.contoller.js";
+import { createComment, deleteComment, getcomment, getComments, updateComment } from "../controllers/comment.contoller.js";
 
 const router = express.Router();
 
 
 router.post("/create", createComment);
-router.get("/getcomment", getcomment);
+router.get("/getComments/:listingId", getComments);
 router.post("/:id/vote", )
-router.post("/:id/reply")
+router.post("/:id/reply", )
 router.delete("/:replyid")
 router.put("reply/:replyid")
-router.put("/:commentId/updatecomment")
-router.delete("/:commentId/deletecomment")
+router.put("/:commentId/updatecomment", updateComment)
+router.delete("/:.id/delete", deleteComment)
 
 
 

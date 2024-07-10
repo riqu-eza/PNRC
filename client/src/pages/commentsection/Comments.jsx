@@ -1,38 +1,48 @@
 /* eslint-disable react/prop-types */
 import Comment from "./Comment";
 import NewComment from "./NewComment";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
-// import data from "../data.json";
 
-function Comments({ currentUser }) {
-//   const allData = data;
+function Comments({ currentUser, listingId }, ) {
   const [backendComments, setBackendComments] = useState([]);
   const [activeComment, setActiveComment] = useState(null);
-  // console.log(backendComments);
 
-//   const createComment = async (text) => {
-//     return {
-//       content: text,
-//       createdAt: "Just now",
-//       id: nanoid(),
-//       replies: [],
-//       score: 1,
-//       user: currentUser,
-//     };
-//   };
+//  
+useEffect(() => {
+    // Fetch initial comments data from the API
+    const fetchComments = async () => {
+      try {
+        const res = await fetch(`http://localhost:3000/api/comment/getComments/${listingId}`);
+        const data = await res.json();
+        if (data.success) {
+          setBackendComments(data.comments || []);
+        } else {
+          console.error('Failed to fetch comments');
+        }
+      } catch (error) {
+        console.error('Error fetching comments:', error);
+      }
+    };
 
-const createComment = async (text) => {
-    const res = await fetch('http://localhost:3000/api/comment/create', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ content: text }),
-    });
-    const data = await res.json();
-    if (data.success) {
-      return data.comment;
+    fetchComments();
+  }, []);
+  const createComment = async (text) => {
+    try {
+      const res = await fetch('http://localhost:3000/api/comment/create', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ content: text, user: currentUser , listingId: listingId   }),
+      });
+      const data = await res.json();
+      if (data.success) {
+        return data.comment;
+      } else {
+        throw new Error('Failed to create comment');
+      }
+    } catch (error) {
+      console.error('Error creating comment:', error);
     }
-    throw new Error('Failed to create comment');
   };
 
 //   const addComment = (text) => {
@@ -101,7 +111,7 @@ const updateComment = async (text, commentId) => {
         <Comment
           key={comment.id}
           currentUser={currentUser}
-          replies={comment.replies}
+          replies={comment.replies || []}
           activeComment={activeComment}
           setActiveComment={setActiveComment}
           deleteComment={deleteComment}

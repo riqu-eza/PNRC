@@ -511,7 +511,7 @@ export default function Itemlisting() {
               </button>
             </form>
           </div> */}
-          <Comments currentUser={currentUser} />
+          <Comments currentUser={currentUser} listingId={listing._id} />
         </>
       )}
     </main>
