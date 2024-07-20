@@ -2,7 +2,7 @@
 import { useState } from "react";
 
 export default function NewComment({
-  currentUser,
+  // currentUser,
   handleSubmit,
   placeholder = "Add comment...",
   initialText = "",

@@ -1,14 +1,16 @@
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
-import { FaMapMarkerAlt, FaPhoneAlt, FaEnvelope, FaStar } from "react-icons/fa";
+import { FaMapMarkerAlt, FaPhoneAlt, FaEnvelope } from "react-icons/fa";
+// import Comment from "./commentsection/Comment";
+import Comments from "./commentsection/Comments";
+import { useSelector } from "react-redux";
 
 const Product = () => {
   const { productId } = useParams();
   const [productData, setProductData] = useState(null);
-  const [reviews, setReviews] = useState([]);
-  const [newReview, setNewReview] = useState({ rating: 0, comment: "" });
   const [message, setMessage] = useState("");
   const [isChatOpen, setIsChatOpen] = useState(false);
+  const { currentUser } = useSelector((state) => state.user);
 
   useEffect(() => {
     const fetchProduct = async () => {
@@ -29,50 +31,7 @@ const Product = () => {
     fetchProduct();
   }, [productId]);
 
-  useEffect(() => {
-    const fetchReviews = async () => {
-      try {
-        const response = await fetch(
-          `http://localhost:3000/api/business/reviews/${productId}`
-        );
-        if (!response.ok) {
-          throw new Error("Network response was not ok");
-        }
-        const data = await response.json();
-        setReviews(data);
-      } catch (error) {
-        console.error("Error fetching reviews:", error);
-      }
-    };
-
-    fetchReviews();
-  }, [productId]);
-
-  const handleReviewChange = (e) => {
-    setNewReview({ ...newReview, [e.target.name]: e.target.value });
-  };
-
-  const handleReviewSubmit = async (e) => {
-    e.preventDefault();
-    try {
-      const response = await fetch(`http://localhost:3000/api/business/reviews/create`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ ...newReview, productId }),
-      });
-      if (!response.ok) {
-        throw new Error("Network response was not ok");
-      }
-      const data = await response.json();
-      setReviews([...reviews, data]);
-      setNewReview({ rating: 0, comment: "" });
-    } catch (error) {
-      console.error("Error submitting review:", error);
-    }
-  };
-
+  
   const handleChatOpen = () => setIsChatOpen(!isChatOpen);
 
   const handleSendMessage = () => {
@@ -110,30 +69,6 @@ const Product = () => {
           {/* Ratings and Reviews */}
           <div className="mt-4 w-full">
             {/* Display Reviews */}
-            <div className="mt-4">
-              {reviews.map((review, index) => (
-                <div key={index} className="mb-4 p-2 border rounded-lg">
-                  <div className="flex items-center">
-                    <FaStar
-                      className={`text-${review.rating >= 1 ? "yellow" : "gray"}-500`}
-                    />
-                    <FaStar
-                      className={`text-${review.rating >= 2 ? "yellow" : "gray"}-500`}
-                    />
-                    <FaStar
-                      className={`text-${review.rating >= 3 ? "yellow" : "gray"}-500`}
-                    />
-                    <FaStar
-                      className={`text-${review.rating >= 4 ? "yellow" : "gray"}-500`}
-                    />
-                    <FaStar
-                      className={`text-${review.rating >= 5 ? "yellow" : "gray"}-500`}
-                    />
-                    <span className="ml-2 text-lg">{review.comment}</span>
-                  </div>
-                </div>
-              ))}
-            </div>
 
             {/*chat box*/}
           </div>
@@ -209,59 +144,11 @@ const Product = () => {
           </div>
 
           {/* product reviews */}
-          <div className="border rounded-lg text-center bg-gray-100 p-4">
-            <div className="flex items-center justify-center">
-              <FaStar className="text-yellow-500" />
-              <span className="ml-2 text-lg">4.5/5 (20 Reviews)</span>
-            </div>
-            <p className="text-sm mt-2 text-center">
-              Check out what others are saying about this product.
-            </p>
-          </div>
-          <div>
-            <form onSubmit={handleReviewSubmit} className="mt-4   ">
-              <h3 className="text-lg font-semibold mb-2 text-center ">
-                Write a Review
-              </h3>
-              <div className="flex gap-2">
-                <div className="flex items-center  mb-2">
-                  <label htmlFor="rating" className="mr-2">
-                    Rating:
-                  </label>
-                  <select
-                    id="rating"
-                    name="rating"
-                    value={newReview.rating}
-                    onChange={handleReviewChange}
-                    className="border p-1 rounded"
-                  >
-                    <option value="0">Select Rating</option>
-                    <option value="1">1 Star</option>
-                    <option value="2">2 Stars</option>
-                    <option value="3">3 Stars</option>
-                    <option value="4">4 Stars</option>
-                    <option value="5">5 Stars</option>
-                  </select>
-                </div>
-                <textarea
-                  name="comment"
-                  value={newReview.comment}
-                  onChange={handleReviewChange}
-                  rows="2"
-                  className="w-full p-2 border border-gray-300 rounded-lg mb-2"
-                  placeholder="Write your review here..."
-                ></textarea>
-              </div>
-              <button
-                type="submit"
-                className="bg-blue-500 hover:bg-blue-800 text-white py-2 px-4 rounded-lg"
-              >
-                Submit Review
-              </button>
-            </form>
-          </div>
+
+          <div></div>
         </div>
       </div>
+      <Comments currentUser={currentUser} listingId={productId} />
 
     </div>
   );

@@ -106,22 +106,22 @@ const updateComment = async (text, commentId) => {
   };
 
   return (
-    <main>
-      {backendComments.map((comment) => (
-        <Comment
-          key={comment.id}
-          currentUser={currentUser}
-          replies={comment.replies || []}
-          activeComment={activeComment}
-          setActiveComment={setActiveComment}
-          deleteComment={deleteComment}
-          addComment={addComment}
-          updateComment={updateComment}
-          {...comment}
-        />
-      ))}
-      <NewComment currentUser={currentUser} handleSubmit={addComment} initialText='' buttonText='send'/>
-    </main>
+    <main className="comment-section mx-auto max-w-3xl p-4 bg-gray-100 border border-gray-300 rounded-lg shadow-lg h-[40vh] overflow-y-auto  ">
+    {backendComments.map((comment) => (
+      <Comment
+        key={comment.id}
+        currentUser={currentUser}
+        replies={comment.replies || []}
+        activeComment={activeComment}
+        setActiveComment={setActiveComment}
+        deleteComment={deleteComment}
+        addComment={addComment}
+        updateComment={updateComment}
+        {...comment}
+      />
+    ))}
+    <NewComment currentUser={currentUser} handleSubmit={addComment} initialText="" buttonText="Send" />
+  </main>
   );
 }
 

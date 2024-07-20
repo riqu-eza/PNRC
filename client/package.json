@@ -15,6 +15,7 @@
     "@fortawesome/react-fontawesome": "^0.2.0",
     "@reduxjs/toolkit": "^2.1.0",
     "axios": "^1.6.8",
+    "date-fns": "^3.6.0",
     "firebase": "^10.7.2",
     "ldrs": "^1.0.2",
     "libphonenumber-js": "^1.11.1",
