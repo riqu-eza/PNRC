@@ -43,11 +43,7 @@ const listingSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-    type: {
-      type: String,
-      enum: ["rent", "sale"], // Type can only be 'rent' or 'sale'
-      default: "rent",
-    },
+   
     openinghour: {
       type: String,
       required: false,

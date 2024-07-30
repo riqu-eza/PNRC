@@ -1,17 +1,44 @@
-import  { useState } from "react";
+import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useUser } from "./Adminuser";
+
 const Admin = () => {
   const [password, setPassword] = useState("");
   const [authenticated, setAuthenticated] = useState(false);
   const [username, setUsername] = useState("");
   const [usernameEntered, setUsernameEntered] = useState(false);
-  const { setUsername: setGlobalUsername } = useUser(); 
+  useUser(); 
+
+  useEffect(() => {
+    const savedUsername = localStorage.getItem("username");
+    const savedAuthenticated = localStorage.getItem("authenticated");
+    const expirationTime = localStorage.getItem("expirationTime");
+    const currentTime = new Date().getTime();
+
+    if (expirationTime && currentTime < parseInt(expirationTime, 10)) {
+      if (savedAuthenticated === "true") {
+        setAuthenticated(true);
+      }
+
+      if (savedUsername) {
+        setUsernameEntered(true);
+        setUsername(savedUsername);
+      }
+    } else {
+      localStorage.removeItem("username");
+      localStorage.removeItem("authenticated");
+      localStorage.removeItem("expirationTime");
+    }
+  }, []);
 
   const handlePasswordSubmit = (e) => {
     e.preventDefault();
     if (password === "Palmnazi@2024") {
       setAuthenticated(true);
+      localStorage.setItem("authenticated", "true");
+
+      const expirationTime = new Date().getTime() + 3 * 60 * 60 * 1000; // 24 hours
+      localStorage.setItem("expirationTime", expirationTime.toString());
     } else {
       alert("Incorrect password");
     }
@@ -21,7 +48,10 @@ const Admin = () => {
     e.preventDefault();
     if (username) {
       setUsernameEntered(true);
-      localStorage.setItem('username', username )
+      localStorage.setItem("username", username);
+
+      const expirationTime = new Date().getTime() + 6 * 60 * 60 * 1000; // 24 hours
+      localStorage.setItem("expirationTime", expirationTime.toString());
     } else {
       alert("Please enter a username");
     }
@@ -104,6 +134,18 @@ const Admin = () => {
           className="bg-blue-700 hover:bg-blue-600 text-white p-4 rounded-lg flex items-center justify-center"
         >
           Add Business
+        </Link>
+        <Link 
+          to="/viewlisting" 
+          className="bg-violet-700 hover:bg-pink-600 text-white p-4 rounded-lg flex items-center justify-center"
+        >
+          View Listing
+        </Link>
+        <Link 
+          to="/viewBusiness"
+          className="bg-violet-700 hover:bg-indigo-600 text-white p-4 rounded-lg flex items-center justify-center"
+        >
+          View Business
         </Link>
       </div>
     </div>

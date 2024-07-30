@@ -27,8 +27,8 @@ import BusinessDetailPage from "./pages/businesslisting";
 // import BlogPage from "./pages/Blogpage";
 import { Blog } from "./pages/Blog";
 import BlogPage from "./pages/Blogpage";
-// import Adminblog from "./components/bloglisting";
-
+import ViewBusiness from "./components/viewBusiness";
+import ViewListing from "./components/viewlisting";
 export default function App() {
 
   return (
@@ -60,6 +60,8 @@ export default function App() {
             <Route path="/addblog" element={<Bloglisting />} ></Route>
             <Route path="/createlisting" element={<CreateListing />} />
             <Route path="/link1" element={<CreateBusinessListing />} ></Route>
+            <Route path="/viewBusiness" element={<ViewBusiness/>}  ></Route>
+            <Route path="/viewlisting" element={<ViewListing/>} ></Route>
           </Route>
           {/* <Route path="/listing/:listingId" element={<Listing />} /> */}
           <Route element={<PrivateRoute />}>

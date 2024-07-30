@@ -70,11 +70,11 @@ export default function SignUp() {
         />
         <div>
           <div>
-            <input type="radio" id="Type1" name="option" value="Tourist" onChange={handleChange}/>
+            <input type="radio" id="option" name="option" value="Tourist" onChange={handleChange}/>
             <label >Tourist</label>
           </div>
           <div>
-            <input type="radio" id="Type" name="option" value="Bussiness" onChange={handleChange} />
+            <input type="radio" id="option" name="option" value="Business" onChange={handleChange} />
             <label >Bussiness</label>
           </div>
         </div>

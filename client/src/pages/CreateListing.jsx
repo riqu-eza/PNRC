@@ -9,9 +9,10 @@ import { app } from "../firebase";
 
 import "react-phone-input-2/lib/style.css";
 import { useUser } from "../components/Adminuser";
+import { useSelector } from "react-redux";
 
 export default function CreateListing() {
-  // const { currentUser } = useSelector((state) => state.user);
+  const { currentUser } = useSelector((state) => state.user);
   const [files, setFiles] = useState([]);
 
   const [formData, setFormData] = useState({
@@ -40,6 +41,7 @@ export default function CreateListing() {
     security: false,
     transportation: false,
     rooms: 1,
+    username: currentUser.username,
   });
   //console.log(formData);
   const [imageUploadError, setImageUploadError] = useState(false);

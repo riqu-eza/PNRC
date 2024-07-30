@@ -7,9 +7,11 @@ import {
 import { useEffect, useState } from "react";
 import { app } from "../firebase";
 import { useUser } from "../components/Adminuser";
+import { useSelector } from "react-redux";
 
 export default function CreateBusinessListing() {
   const [businessListings, setBusinessListings] = useState([]);
+  const { currentUser } =useSelector((state) => state.user);
   const [currentBusiness, setCurrentBusiness] = useState({
     imageUrls: [],
     name: "",
@@ -31,6 +33,7 @@ export default function CreateBusinessListing() {
         productImage: [],
       },
     ],
+    username: currentUser.username,
   });
   const categoriesData = {
     Technology: [

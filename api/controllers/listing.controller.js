@@ -1,5 +1,6 @@
 import Listing from "../models/listing.model.js";
 import { errorHandler } from "../utils/error.js";
+import {prepareSearchTerm} from "../utils/Searchutil.js";
 
 export const createListing = async (req, res, next) => {
   try {
@@ -15,9 +16,9 @@ export const deleteListing = async (req, res, next) => {
   if (!listing) {
     return next(errorHandler(404, "Listing not found!"));
   }
-  if (req.user.id !== listing.userRef) {
-    return next(errorHandler(401, "You can only delete your own listing!"));
-  }
+  // if (req.user.id !== listing.userRef) {
+  //   return next(errorHandler(401, "You can only delete your own listing!"));
+  // }
   try {
     await Listing.findByIdAndDelete(req.params.id);
     res.status(200).json("Listing has been deleted!");
@@ -31,9 +32,9 @@ export const updateListing = async (req, res, next) => {
   if (!listing) {
     return next(errorHandler(404, "Listing not found"));
   }
-  if (req.user.id !== listing.userRef) {
-    return next(errorHandler(401, "You can only update your own listings!"));
-  }
+  // if (req.user.id !== listing.userRef) {
+  //   return next(errorHandler(401, "You can only update your own listings!"));
+  // }
   try {
     const updatedListing = await Listing.findByIdAndUpdate(
       req.params.id,
@@ -46,15 +47,7 @@ export const updateListing = async (req, res, next) => {
   }
 };
 
-// export const getUniqueSelectedCounties = async (req, res, next) => {
-//   try {
-//     const uniqueCounties = await Listing.distinct("selectedCounty");
 
-//     res.status(200).json(uniqueCounties);
-//   } catch (error) {
-//     next(error);
-//   }
-// };
 export const getUniqueSelectedCounties = async (req, res, next) => {
   try {
     // Fetch all unique counties
@@ -99,6 +92,15 @@ export const getListing = async (req, res, next) => {
     next(error);
   }
 };
+export const getAllListings = async (req, res) => {
+  try {
+    const listings = await Listing.find();
+    res.status(200).json(listings);
+  } catch (error) {
+    next(error);
+  }
+}
+// search algorithm specific
 
 export const getListings = async (req, res, next) => {
   try {
@@ -125,10 +127,10 @@ export const getListings = async (req, res, next) => {
       type = { $in: ["rent", "sale"] };
     }
 
-    const searchTerm = req.query.searchTerm || "";
+    let searchTerm = req.query.searchTerm || "";
+    searchTerm = prepareSearchTerm(searchTerm); // Clean and prepare the search term
 
     const sort = req.query.sort || "createdAt";
-
     const order = req.query.order || "desc";
 
     const listings = await Listing.find({
@@ -137,6 +139,8 @@ export const getListings = async (req, res, next) => {
         { description: { $regex: searchTerm, $options: "i" } },
         { selectedCounty: { $regex: searchTerm, $options: "i" } },
         { location: { $regex: searchTerm, $options: "i" } },
+        { selectedCategory: { $regex: searchTerm, $options: "i" } },
+        { selectedSubcategory:{ $regex: searchTerm, $options: "i" }},
       ],
       offer,
       furnished,

@@ -4,9 +4,10 @@ import { errorHandler } from "../utils/error.js";
 import jwt from "jsonwebtoken";
 
 export const signup = async (req, res, next) => {
-  const { username, email, password } = req.body;
+  console.log("details", req.body)
+  const { username, email, password, option } = req.body;
   const hashedPassword = bcryptjs.hashSync(password, 10);
-  const newUser = new User({ username, email, password: hashedPassword });
+  const newUser = new User({ username, email, option, password: hashedPassword });
   try {
     await newUser.save();
     res.status(201).json("User created successfully!");
@@ -27,7 +28,7 @@ export const signin = async (req, res, next) => {
     res
       .cookie("access_token", token, {
         httpOnly: true,
-        expires: new Date(Date.now() + 72 * 60 * 60 * 1000),
+        expires: new Date(Date.now() + 12 * 60 * 60 * 1000),
       })
       .status(200)
       .json(rest);
@@ -45,7 +46,7 @@ export const google = async (req, res, next) => {
       res
         .cookie("access_token", token, {
           httpOnly: true,
-          expires: new Date(Date.now() + 72 * 60 * 60 * 1000),
+          expires: new Date(Date.now() + 12 * 60 * 60 * 1000),
         })
         .status(200)
         .json(rest);

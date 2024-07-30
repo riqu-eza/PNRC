@@ -223,3 +223,49 @@ export const getReviews = async (req, res) => {
         res.status(500).json({ message: 'Error fetching reviews', error });
       }
 }
+
+
+export const deleteBusiness = async (req, res, next) => {
+  const listing = await Business.findById(req.params.id);
+  if (!listing) {
+    return next(errorHandler(404, "Business not found!"));
+  }
+  // if (req.user.id !== listing.userRef) {
+  //   return next(errorHandler(401, "You can only delete your own Business!"));
+  // }
+  try {
+    await Listing.findByIdAndDelete(req.params.id);
+    res.status(200).json("Business has been deleted!");
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const updateBusiness = async (req, res, next) => {
+  const listing = await Business.findById(req.params.id);
+  if (!listing) {
+    return next(errorHandler(404, "Busin not found"));
+  }
+  // if (req.user.id !== listing.userRef) {
+  //   return next(errorHandler(401, "You can only update your own Business!"));
+  // }
+  try {
+    const updatedListing = await Business.findByIdAndUpdate(
+      req.params.id,
+      req.body,
+      { new: true }
+    );
+    res.status(200).json(updatedListing);
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const getAllBusiness = async (req, res) => {
+  try {
+    const businesses = await Business.find();
+    res.json(businesses);
+  } catch (error) {
+    res.status(500).json({ message: 'Error fetching businesses', error });
+  }
+};

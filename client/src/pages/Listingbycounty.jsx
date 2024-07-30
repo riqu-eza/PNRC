@@ -21,7 +21,7 @@ const ListingsByCounty = () => {
         );
         const data = await res.json();
         setUniqueCounties(data);
-
+       console.log(data);
         const backgrounds = {};
         const cityInfo = {};
         for (const county of data) {
@@ -31,7 +31,6 @@ const ListingsByCounty = () => {
           const imageData = await imageRes.json();
           backgrounds[county] = imageData.imageUrls;
           cityInfo[county] = imageData.description;
-          console.log(imageData);
         }
 
         setCountyBackgrounds(backgrounds);
