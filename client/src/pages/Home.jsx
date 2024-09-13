@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import "../pages/page.css";
 import SwiperCore from "swiper";
 import { Navigation } from "swiper/modules";
 import "swiper/css/bundle";
@@ -16,129 +15,81 @@ export default function Home() {
 
   const [showLinks, setShowLinks] = useState(false);
 
-  // useEffect(() => {
-  //   const fetchOfferListings = async () => {
-  //     try {
-  //       const res = await fetch("/api/listing/get?offer=true&limit=4");
-  //       const data = await res.json();
-  //       setOfferListings(data);
-  //       fetchRentListings();
-  //     } catch (error) {
-  //       console.log(error);
-  //     }
-  //   };
-
-  //   const fetchRentListings = async () => {
-  //     try {
-  //       const res = await fetch("/api/listing/get?type=rent&limit=4");
-  //       const data = await res.json();
-  //       setRentListings(data);
-  //       fetchSaleListings();
-  //     } catch (error) {
-  //       console.log(error);
-  //     }
-  //   };
-  //   const toggleLinks = () => {
-  //     setShowLinks(!showLinks);
-  //   };
-  //   const fetchSaleListings = async () => {
-  //     try {
-  //       const res = await fetch("/api/listing/get?type=sale&limit=4");
-  //       const data = await res.json();
-  //       setSaleListings(data);
-  //     } catch (error) {
-  //       console.log(error);
-  //     }
-  //   };
-
-  //   fetchOfferListings();
-  // }, []);
   const toggleLinks = () => {
     setShowLinks(!showLinks);
   };
 
   return (
-    <div className="bgimage relative  ">
-      <div className="bg-black opacity-60 ">
-        <header>
-          <div className="flex justify-between items-center max-w-6xl mx-auto p-3">
-            <Link to="/" className="">
-              <img src=""></img>
+    <div className="bgimage relative  bg-cover bg-center min-h-screen ">
+      <header className="fixed top-0 left-0 w-full  m-4  z-50 bg-transparent">
+        <div className="flex justify-between items-center max-w-6xl mx-auto p-4">
+          <Link to="/" className="">
+            <img src={logo} alt="Official Logo" className="h-16 w-auto" />
+          </Link>
+          <ul
+            className={`flex items-center gap-6 ${showLinks ? "flex-col" : "hidden"} sm:flex`}
+          >
+            <Link to="/">
+              <li className="text-cyan-400 text-lg hover:text-white transition duration-300 ease-in-out">
+                Home
+              </li>
             </Link>
-            <ul
-              className={` gap-4 sm:flex hidden ${showLinks ? "flex-col" : "hidden"}`}
-            >
-              <Link to="/">
-                <li className="text-[rgb(41,214,236)]  no-underline px-2 text-xl transition duration-300 ease-in-out bg-transparent hover:underline ">
-                  Home
-                </li>
-              </Link>
-              <Link to="/About">
-                <li className="text-[rgb(41,214,236)]  no-underline px-2 text-xl transition duration-300 ease-in-out bg-transparent hover:underline ">
-                  About
-                </li>
-              </Link>
-              <Link to="/resortcities">
-                <li className="text-[rgb(41,214,236)]  no-underline px-2 text-xl transition duration-300 ease-in-out bg-transparent hover:underline">
-                  Resortcities
-                </li>
-              </Link>
-              <Link to="/bussinesspage">
-                <li className="text-[rgb(41,214,236)]  no-underline px-2 text-xl transition duration-300 ease-in-out bg-transparent hover:underline ">
-                  Bussiness
-                </li>
-              </Link>
-              <Link to="/blogspage">
-                <li className="text-[rgb(41,214,236)]   no-underline px-2 text-xl transition duration-300 ease-in-out bg-transparent hover:underline ">
-                  Blogs
-                </li>
-              </Link>
-              <Link to="/getstarted">
-                <li className="text-[rgb(41,214,236)]   no-underline px-2 text-xl transition duration-300 ease-in-out bg-transparent hover:underline">
-                  Get Started
-                </li>
-              </Link>
-              {/* <Link to="/admin">
-              <li className="text-white no-underline px-2 text-xl transition duration-300 ease-in-out bg-transparent hover:bg-blue-600 ">
-                admin
+            <Link to="/About">
+              <li className="text-cyan-400 text-lg hover:text-white transition duration-300 ease-in-out">
+                About
               </li>
-            </Link> */}
+            </Link>
+            <Link to="/resortcities">
+              <li className="text-cyan-400 text-lg hover:text-white transition duration-300 ease-in-out">
+                Resort Cities
+              </li>
+            </Link>
+            <Link to="/bussinesspage">
+              <li className="text-cyan-400 text-lg hover:text-white transition duration-300 ease-in-out">
+                Business
+              </li>
+            </Link>
+            <Link to="/blogspage">
+              <li className="text-cyan-400 text-lg hover:text-white transition duration-300 ease-in-out">
+                Blogs
+              </li>
+            </Link>
+            <Link to="/getstarted">
+              <li className="text-cyan-400 text-lg hover:text-white transition duration-300 ease-in-out">
+                Get Started
+              </li>
+            </Link>
+            {currentUser && (
               <Link to="/profile">
-                {currentUser ? (
-                  <img
-                    className="rounded-full h-7 w-7 object-cover hidden sm:block"
-                    src={currentUser.avatar}
-                    alt="profile"
-                  />
-                ) : (
-                  <></>
-                )}
+                <img
+                  className="rounded-full h-8 w-8 object-cover"
+                  src={currentUser.avatar}
+                  alt="Profile"
+                />
               </Link>
-              <li
-                className="text-white no-underline px-2 text-lg transition duration-300 ease-in-out bg-transparent hover:text-blue-400 hover:text-lg sm:hidden"
-                onClick={toggleLinks}
+            )}
+            <li className="text-white text-lg sm:hidden" onClick={toggleLinks}>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="h-6 w-6"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
               >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="h-6 w-6"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M4 6h16M4 12h16m-7 6h7"
-                  />
-                </svg>
-              </li>
-            </ul>
-          </div>
-        </header>
-
-        <div className="relative z-10 flex flex-col pt-6 justify-center gap-6 py-28 px-3 max-w-6xl mx-auto bg-cover bg-center min-h-screen  ">
-          <div className=" relative flex flex-col items-center">
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M4 6h16M4 12h16m-7 6h7"
+                />
+              </svg>
+            </li>
+          </ul>
+        </div>
+      </header>
+      <div className="bg-black opacity-70 ">
+        <div className="relative z-10 flex flex-col pt-6 justify-center align-middle gap-6  px-3 max-w-screen mx-auto bg-cover bg-center h-screen  ">
+          <div className=" relative flex flex-col items-center justify-center mt-36 ml-24 ">
             <div className="block absolute w-[400px] h-[400px] -left-[30px] -top-[250px] sm:w-[350px] sm:h-[350px] sm:-left-[50px] sm:-top-[60%] lg:w-[500px] lg:h-[500px] lg:-left-[140px] lg:-top-[180px]">
               <img src={logo} alt="Logo" />
             </div>
