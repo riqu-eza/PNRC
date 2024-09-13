@@ -1,203 +1,368 @@
-import  { useState } from 'react';
+/* eslint-disable no-unused-vars */
+import  { useEffect, useState } from 'react';
+import categories from "../utility/CategoryData"
+import { useSelector } from 'react-redux';
+import { useUser } from '../components/Adminuser';
+const CreateListing = async (req, res, next) => {
 
-// Configuration object for each category
-const categorySteps = {
-  Accommodation: [
-    { stepName: 'Room Type', fields: [{ id: 'roomName', label: 'Room Name', type: 'text', required: true }] },
-    { stepName: 'Bed Count', fields: [{ id: 'bedCount', label: 'Number of Beds', type: 'number', required: true }] },
-    { stepName: 'Room Capacity', fields: [{ id: 'capacity', label: 'Room Capacity', type: 'number', required: true }] },
-  ],
-  Dining: [
-    { stepName: 'Meal Type', fields: [{ id: 'mealType', label: 'Meal Type', type: 'text', required: true }] },
-    { stepName: 'Meal Price', fields: [{ id: 'price', label: 'Meal Price', type: 'number', required: true }] },
-    { stepName: 'Availability', fields: [{ id: 'availability', label: 'Availability (Time/Days)', type: 'text', required: true }] },
-  ],
-};
+  const [step, setStep] = useState(1);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(false);
+  const [uploading, setUploading] = useState(false);
 
-const DynamicForm = () => {
-  const [step, setStep] = useState(1); // Tracks the current step number
-  const [selectedCategory, setSelectedCategory] = useState(''); // Selected category
+  const { currentUser } = useSelector((state) => state.user);
+  const { username } = useUser("");
   const [formData, setFormData] = useState({
+    // id: '',
     name: '',
-    email: '',
-    items: [], // Array to hold multiple entries for any category
+    email:'',
+    description: '',
+    contact:'',
+    address: {
+      street: '',
+      city: '',
+      postal_code: '',
+      location: '',
+    },
+    category: '',
+    subcategory: '',
+    username: currentUser.username,
+    details: {
+      accommodation: {
+        type: '',
+        rooms: [{ room_id: '', type: '', size: '', amenities: [] }],
+        check_in_time: '',
+        check_out_time: ''
+      },
+      dining: {
+        meals: [{ meal_id: '', name: '', description: '', price: '' }],
+        operating_hours: { open: '', close: '' }
+      },
+      entertainment: {
+        activities: [{ activity_id: '', name: '', description: '', price: '' }]
+      },
+      education: {
+        classes: [{ class_id: '', name: '', subject: '', schedule: { day: '', time: '' } }]
+      },
+      health_and_fitness: {
+        services: [{ service_id: '', name: '', description: '', price: '' }]
+      }
+    }
   });
+  const [countiesInKenya, setCounties] = useState([]);
+  useEffect(() => {
+    fetchCounties();
+  }, []);
 
-  const handleChange = (e, index = null) => {
-    const { id, value } = e.target;
-    if (index !== null) {
-      // Update fields in the items array
-      const newItems = [...formData.items];
-      newItems[index][id] = value;
-      setFormData({ ...formData, items: newItems });
-    } else {
-      // Update other form fields
-      setFormData({ ...formData, [id]: value });
+  const fetchCounties = async () => {
+    try {
+      const response = await fetch("http://localhost:3000/api/admin/cities");
+      if (!response.ok) {
+        throw new Error("Failed to fetch cities");
+      }
+      const data = await response.json();
+      setCounties(data);
+    } catch (error) {
+      console.error("Error fetching cities:", error);
     }
   };
-
-  const handleAddItem = () => {
-    const newItem = categorySteps[selectedCategory][step - 7].fields.reduce((acc, field) => {
-      acc[field.id] = '';
-      return acc;
-    }, {});
-    setFormData({
-      ...formData,
-      items: [...formData.items, newItem],
-    });
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      if (formData.imageUrls.length < 1)
+        return setError("You must upload at least one image");
+      if (+formData.regularPrice < +formData.discountedPrice)
+        return setError("Discount price must be greater than regular price");
+      setLoading(true);
+      setError(false);
+      const res = await fetch("http://localhost:3000/api/listing/create", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          ...formData,
+          username: username,
+        }),
+      });
+      const data = await res.json();
+      setLoading(false);
+      if (data.success === false) {
+        setError(data.message);
+      }
+      setFormData({
+        imageUrls: [],
+        name: "",
+        description: "",
+        email: "",
+        contact: "",
+        selectedCategory: "",
+        selectedSubcategory: "",
+        location: "",
+        selectedCounty: "",
+        inputValue: "",
+        address: "",
+        type: "rent",
+        openinghour: "",
+        bedrooms: 1,
+        bathrooms: 1,
+        regularPrice: 50,
+        discountedPrice: 0,
+        offer: false,
+        parking: false,
+        furnished: false,
+        recreation: false,
+        eventfacilities: false,
+        security: false,
+        transportation: false,
+        rooms: 1,
+      });
+      // navigate(`/listing/${data._id}`);
+    } catch (error) {
+      setError(error.message);
+      setLoading(false);
+    }
+  };
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prevData) => ({
+      ...prevData,
+      [name]: value
+    }));
   };
 
-  const handleRemoveItem = (index) => {
-    const newItems = formData.items.filter((_, i) => i !== index);
-    setFormData({ ...formData, items: newItems });
+  const handleNestedChange = (section, field, e) => {
+    const { name, value } = e.target;
+    setFormData((prevData) => ({
+      ...prevData,
+      details: {
+        ...prevData.details,
+        [section]: {
+          ...prevData.details[section],
+          [field]: value
+        }
+      }
+    }));
   };
 
-  const handleNextStep = () => setStep(step + 1);
-  const handlePreviousStep = () => setStep(step - 1);
-
-  const renderDynamicFields = () => {
-    if (!selectedCategory || !categorySteps[selectedCategory]) return null;
-
-    const currentStepConfig = categorySteps[selectedCategory][step - 7];
-    if (!currentStepConfig) return null;
-
-    return formData.items.map((item, index) => (
-      <div key={index} className="mb-4">
-        <h4 className="text-xl mb-4">Item {index + 1}</h4>
-        {currentStepConfig.fields.map((field) => (
-          <div key={field.id} className="mb-4">
-            <label htmlFor={`${field.id}-${index}`} className="block mb-2">
-              {field.label}
-            </label>
-            <input
-              type={field.type}
-              id={`${field.id}-${index}`}
-              value={item[field.id]}
-              onChange={(e) => handleChange(e, index)}
-              required={field.required}
-              className="border p-2 rounded-lg w-full"
-            />
-          </div>
-        ))}
-        <button
-          className="p-2 bg-red-500 text-white rounded-lg mt-4"
-          onClick={() => handleRemoveItem(index)}
-        >
-          Remove Item
-        </button>
-      </div>
-    ));
+  const handleRoomsChange = (index, e) => {
+    const { name, value } = e.target;
+    const updatedRooms = formData.details.accommodation.rooms.map((room, i) =>
+      i === index ? { ...room, [name]: value } : room
+    );
+    setFormData((prevData) => ({
+      ...prevData,
+      details: {
+        ...prevData.details,
+        accommodation: {
+          ...prevData.details.accommodation,
+          rooms: updatedRooms
+        }
+      }
+    }));
   };
+ 
+  const handleCountyChange = (e) => {
+    const value = e.target.value;
+    setFormData((prevState) => ({
+      ...prevState,                    // Keep the entire formData object
+      address: {
+        ...prevState.address,          // Keep all the existing fields in the address object
+        city: value                    // Update only the 'city' field
+      }
+    }));
+  };
+  
+  const [selectedCategory, setSelectedCategory] = useState('');
+  const handleCategoryChange = (category) => {
+    setFormData((prevState) => ({
+      ...prevState,
+      category: category,  // Update the category in formData
+      subcategory: '',      // Reset the subcategory when category changes
+    }));
+    setSelectedCategory(category);    // Update the selectedCategory state
+  };
+
+  // Function to handle subcategory change
+  const handleSubcategoryChange = (subcategory) => {
+    setFormData((prevState) => ({
+      ...prevState,
+      subcategory: subcategory,  // Update the subcategory in formData
+    }));
+  };
+
+  const handleNextStep = () => {
+    setStep((prevStep) => prevStep + 1);
+  };
+
+  const handlePreviousStep = () => {
+    setStep((prevStep) => prevStep - 1);
+  };
+  // Similar handlers for other nested sections like meals, activities, classes, and services...
 
   return (
-    <div className="flex flex-col gap-4 flex-1">
-      {step === 1 && (
-        <div className="text-center m-12">
-          <h3 className="text-3xl m-8">Step 1: Property Name</h3>
-          <input
-            type="text"
-            id="name"
-            placeholder="Name"
-            className="border p-3 rounded-lg"
-            value={formData.name}
-            onChange={handleChange}
-            required
-          />
-          <button
-            className="p-3 bg-blue-500 text-white rounded-lg"
-            onClick={handleNextStep}
-            disabled={!formData.name}
-          >
-            Continue
-          </button>
-        </div>
-      )}
+    <form>
+      <h2>Property Details</h2>
+      {/* common details */}
+      <div>
+        <label>ID:</label>
+        <input type="text" name="id" value={formData.id} onChange={handleChange} />
+      </div>
+      <div>
+        <label>Name:</label>
+        <input type="text" name="name" value={formData.name} onChange={handleChange} />
+      </div>
+      <div>
+        <label>Email:</label>
+        <input type="email" name="email" value={formData.email} onChange={handleChange} />
+      </div>
+      <div>
+        <label>Contact:</label>
+        <input type="number" name="Contact" value={formData.contact} onChange={handleChange} />
+      </div>
+      <div>
+        <label>Description:</label>
+        <input type="text" name="description" value={formData.description} onChange={handleChange} />
+      </div>
+      {/* address */}
+      <div>
+        <h3>Address</h3>
+        <label>Street:</label>
+        <input type="text" name="address.street" value={formData.address.street} onChange={handleChange} />
+        
+        <div className="county-selector ">
+        <label>City:</label>
+                <select
+                  value={formData.address.city}
+                  onChange={handleCountyChange}
+                >
+                  <option value="">Select resort-city</option>
+                  {countiesInKenya.map((county, index) => (
+                    <option key={index} value={county.newcity}>
+                      {county.newcity}
+                    </option>
+                  ))}
+                </select>
+                {/* <p>Selected County: {selectedCounty}</p> */}
+              </div>
+        
+        
+        <label>Postal Code:</label>
+        <input type="text" name="address.postal_code" value={formData.address.postal_code} onChange={handleChange} />
+        <label>Location:</label>
+        <input type="text" name="address.location" value={formData.address.location} onChange={handleChange} />
+      </div>
+      <div>
+      <div>
+        <label>Category:</label>
+        <select
+          value={formData.category}
+          onChange={(e) => handleCategoryChange(e.target.value)}
+        >
+          <option value="">Select Category</option>
+          {Object.keys(categories).map((category) => (
+            <option key={category} value={category}>
+              {category.charAt(0).toUpperCase() + category.slice(1)}
+            </option>
+          ))}
+        </select>
+      </div>
 
-      {step === 2 && (
-        <div className="text-center">
-          <h3 className="text-2xl m-6">Step 2: Email</h3>
-          <input
-            type="email"
-            id="email"
-            placeholder="Email"
-            className="border p-3 rounded-lg"
-            value={formData.email}
-            onChange={handleChange}
-            required
-          />
-          <div className="flex gap-4 justify-evenly mt-8">
-            <button className="p-3 bg-gray-500 text-white rounded-lg" onClick={handlePreviousStep}>
-              Back
-            </button>
-            <button
-              className="p-3 bg-blue-500 text-white rounded-lg"
-              onClick={handleNextStep}
-              disabled={!formData.email}
-            >
-              Continue
-            </button>
-          </div>
-        </div>
-      )}
-
-      {step === 3 && (
-        <div className="m-8 p-4 text-center">
-          <h3 className="p-4 text-2xl">Step 6: Choose Category</h3>
+      {/* Subcategory Selector (only visible if a category is selected) */}
+      {formData.category && (
+        <div>
+          <label>Subcategory:</label>
           <select
-            id="selectedCategory"
-            value={selectedCategory}
-            onChange={(e) => {
-              setSelectedCategory(e.target.value);
-              setFormData({ ...formData, items: [] }); // Reset items when changing category
-              setStep(7); // Move to step 7 when category is selected
-            }}
-            className="border p-3 rounded-lg"
+            value={formData.subcategory}
+            onChange={(e) => handleSubcategoryChange(e.target.value)}
           >
-            <option value="">Select Category</option>
-            {Object.keys(categorySteps).map((category) => (
-              <option key={category} value={category}>
-                {category}
+            <option value="">Select Subcategory</option>
+            {categories[formData.category].map((subcategory) => (
+              <option key={subcategory} value={subcategory}>
+                {subcategory}
               </option>
             ))}
           </select>
         </div>
       )}
+      </div>
+      {/* Accommodation Section */}
 
-      {/* Step 7 and beyond: Render category-specific dynamic fields */}
-      {step >= 4 && selectedCategory && (
-        <div className="m-8 p-4 text-center">
-          <h3 className="text-3xl m-8">Step {step}: {categorySteps[selectedCategory][step - 7]?.stepName}</h3>
-          {renderDynamicFields()}
-
-          {step === 7 && (
-            <button
-              className="p-3 bg-green-500 text-white rounded-lg mt-6"
-              onClick={handleAddItem}
-            >
-              Add Another {selectedCategory.slice(0, -1)}
-            </button>
-          )}
-
-          <div className="flex gap-4 justify-evenly mt-6">
-            <button className="p-3 bg-gray-500 text-white rounded-lg" onClick={handlePreviousStep}>
-              Back
-            </button>
-            <button className="p-3 bg-blue-500 text-white rounded-lg" onClick={handleNextStep}>
-              Continue
-            </button>
+      {formData.category === 'Accommodation' &&(
+      <div>
+        <h3>Accommodation Details</h3>
+        <label>Type:</label>
+        <input type="text" name="accommodation.type" value={formData.details.accommodation.type} onChange={(e) => handleNestedChange('accommodation', 'type', e)} />
+        {/* Render rooms */}
+        {formData.details.accommodation.rooms.map((room, index) => (
+          <div key={index}>
+            <h4>Room {index + 1}</h4>
+            <label>Room ID:</label>
+            <input type="text" name="room_id" value={room.room_id} onChange={(e) => handleRoomsChange(index, e)} />
+            <label>Type:</label>
+            <input type="text" name="type" value={room.type} onChange={(e) => handleRoomsChange(index, e)} />
+            <label>Size:</label>
+            <input type="number" name="size" value={room.size} onChange={(e) => handleRoomsChange(index, e)} />
+            <label>Amenities (comma-separated):</label>
+            <input type="text" name="amenities" value={room.amenities.join(', ')} onChange={(e) => handleRoomsChange(index, e)} />
           </div>
-        </div>
+        ))}
+        <label>Check-in Time:</label>
+        <input type="text" name="accommodation.check_in_time" value={formData.details.accommodation.check_in_time} onChange={(e) => handleNestedChange('accommodation', 'check_in_time', e)} />
+        <label>Check-out Time:</label>
+        <input type="text" name="accommodation.check_out_time" value={formData.details.accommodation.check_out_time} onChange={(e) => handleNestedChange('accommodation', 'check_out_time', e)} />
+      </div>)}
+      {/* Dining Section */}
+      {formData.category === 'accomodation' &&(
+      <div>
+        <h3>Dining Details</h3>
+        {/* Similar structure as Accommodation */}
+      </div>
       )}
+      {/* Entertainment Section */}
+      {formData.category === 'accomodation' &&(
 
-      {step === categorySteps[selectedCategory]?.length + 7 && (
-        <div className="text-center m-12">
-          <h3 className="text-3xl m-8">Review & Submit</h3>
-          <pre>{JSON.stringify(formData, null, 2)}</pre>
-          <button className="p-3 bg-blue-500 text-white rounded-lg">Submit</button>
-        </div>
+      <div>
+        <h3>Entertainment Details</h3>
+       
+      </div>
       )}
-    </div>
+      {/* Education Section */}
+      {formData.category === 'accomodation' &&(
+
+      <div>
+        <h3>Education Details</h3>
+        {/* Similar structure as Accommodation */}
+      </div>
+      )}
+      {/* Health and Fitness Section */}
+      {formData.category === 'accomodation' &&(
+
+      <div>
+        <h3>Health and Fitness Details</h3>
+        {/* Similar structure as Accommodation */}
+      </div>
+      )}
+      <div className="text-center m-12">
+              <h3 className="text-3xl m-8">Review & Submit</h3>
+              <pre>{JSON.stringify(formData, null, 2)}</pre>
+              <div>
+                <button
+                  className="p-3 bg-gray-500 text-white rounded-lg"
+                  onClick={handlePreviousStep}
+                >
+                  Back
+                </button>
+                <button
+                  disabled={loading || uploading}
+                  className="p-3 bg-slate-700 text-white rounded-lg uppercase hover:opacity-95 disabled:opacity-80"
+                >
+                  {loading ? "Creating..." : "Create listing"}
+                </button>
+              </div>
+            </div>
+    </form>
   );
 };
 
-export default DynamicForm;
+export default CreateListing;

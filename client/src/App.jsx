@@ -5,7 +5,6 @@ import SignIn from "./pages/SignIn";
 import Profile from "./pages/Profile";
 import About from "./pages/About";
 import PrivateRoute from "./components/PrivateRoute";
-import CreateListing from "./pages/CreateListing";
 import UpdateListing from "./pages/UpdateListing";
 import Bussinesspage from "./pages/bussinesspage";
 import ListingsByCounty from "./pages/Listingbycounty";
@@ -29,6 +28,7 @@ import { Blog } from "./pages/Blog";
 import BlogPage from "./pages/Blogpage";
 import ViewBusiness from "./components/viewBusiness";
 import ViewListing from "./components/viewlisting";
+import CreateListing from "./pages/CreateListing";
 export default function App() {
 
   return (
