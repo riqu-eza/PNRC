@@ -1,5 +1,7 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
+import { FaEye } from "react-icons/fa";
 import { useParams } from "react-router-dom";
+import Comments from "./commentsection/Comments";
 
 import("./page.css");
 
@@ -11,10 +13,19 @@ const BlogPage = () => {
   const [selectedPost, setSelectedPost] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
   const postsPerPage = 11;
+  const commentSectionRef = useRef(null);
 
-  const openModal = (post) => {
+  const openModal = async (post) => {
     setSelectedPost(post);
     setShowModal(true);
+    try {
+      // Increment the view count
+      await fetch(`http://localhost:3000/api/blog/view/${post._id}`, {
+        method: "POST",
+      });
+    } catch (error) {
+      console.error("Error incrementing view count:", error);
+    }
   };
 
   const closeModal = () => {
@@ -25,11 +36,14 @@ const BlogPage = () => {
   useEffect(() => {
     const fetchBlogPosts = async () => {
       try {
-        const response = await fetch(`http://localhost:3000/api/blog/allblog?name=${encodeURIComponent(name)}`);
+        const response = await fetch(
+          `http://localhost:3000/api/blog/allblog?name=${encodeURIComponent(name)}`
+        );
         if (!response.ok) {
           throw new Error("Failed to fetch blog posts");
         }
         const data = await response.json();
+        console.log(data);
         setBlogPosts(data);
         setLoading(false);
       } catch (error) {
@@ -39,7 +53,13 @@ const BlogPage = () => {
     };
 
     fetchBlogPosts();
-  }, []);
+  }, [name]);
+
+  const scrollToComments = () => {
+    if (commentSectionRef.current) {
+      commentSectionRef.current.scrollIntoView({ behavior: "smooth" });
+    }
+  };
 
   // Calculate the posts for the current page
   const indexOfLastPost = currentPage * postsPerPage;
@@ -58,10 +78,25 @@ const BlogPage = () => {
 
   return (
     <div>
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3  gap-2 blog  ">
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-2 blog">
         {currentPosts.map((post) => (
-          <div key={post.id} className="border p-4 bg-blue-100 m-6 rounded-lg ">
-            <h2 className="text-lg font-semibold">{post.title}</h2>
+          <div key={post._id} className="border p-4 bg-blue-100 m-6 rounded-lg">
+            <div className="flex items-center justify-between gap-4">
+              <p className="text-gray-600">
+                {new Date(post.createdAt).toLocaleDateString()}
+              </p>
+              <p className="font-semibold">{post.title}</p>
+              <p className="flex items-center gap-1 text-gray-500">
+                <FaEye /> {post.views}
+              </p>
+              <button
+                className="text-blue-500 hover:underline"
+                onClick={scrollToComments}
+              >
+                Comments
+              </button>
+            </div>
+
             <p className="mt-2">
               {post.text.split(" ").slice(0, 10).join(" ")}
               {post.text.split(" ").length > 10 ? "..." : ""}
@@ -79,6 +114,9 @@ const BlogPage = () => {
             <div className="bg-white p-4 rounded-lg max-w-lg overflow-y-auto border border-gray-300 m-4 mt-10 max-h-screen">
               <h2 className="text-lg font-semibold">{selectedPost.title}</h2>
               <p className="mt-2">{selectedPost.text}</p>
+              <div ref={commentSectionRef} className="mt-10">
+                <Comments />
+              </div>
               <button
                 className="mt-4 bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600"
                 onClick={closeModal}
