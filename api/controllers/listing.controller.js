@@ -51,7 +51,7 @@ export const updateListing = async (req, res, next) => {
 export const getUniqueSelectedCounties = async (req, res, next) => {
   try {
     // Fetch all unique counties
-    const uniqueCounties = await Listing.distinct("selectedCounty");
+    const uniqueCounties = await Listing.distinct("address.city");
 
     // Filter out any null, undefined, or empty string values
     const filteredCounties = uniqueCounties.filter(county => county);
@@ -70,7 +70,7 @@ export const getListingsByCounty = async (req, res, next) => {
 
     console.log("Selected County:", selectedCounty);
 
-    const listings = await Listing.find({ selectedCounty });
+    const listings = await Listing.find({ 'address.selectedCounty': selectedCounty });
 
     console.log("Listings sent in response:", listings);
 
@@ -137,10 +137,10 @@ export const getListings = async (req, res, next) => {
       $or: [
         { name: { $regex: searchTerm, $options: "i" } },
         { description: { $regex: searchTerm, $options: "i" } },
-        { selectedCounty: { $regex: searchTerm, $options: "i" } },
-        { location: { $regex: searchTerm, $options: "i" } },
-        { selectedCategory: { $regex: searchTerm, $options: "i" } },
-        { selectedSubcategory:{ $regex: searchTerm, $options: "i" }},
+        { 'address.selectedCounty': { $regex: searchTerm, $options: "i" } },  // Updated
+        { 'address.location': { $regex: searchTerm, $options: "i" } },
+        { category: { $regex: searchTerm, $options: "i" } },
+        { subcategory:{ $regex: searchTerm, $options: "i" }},
       ],
       offer,
       furnished,
@@ -157,13 +157,16 @@ export const getListings = async (req, res, next) => {
   }
 };
 
+
+
 export const getcategories = async (req, res) => {
   try {
     const { county, categoryname } = req.params;
     console.log("County:", county);
     console.log("Category:", categoryname);
 
-    let query = { selectedCounty: county };
+    let query = { 'address.city': county };
+
 
     // Define custom search criteria based on the category
     if (categoryname) {
@@ -171,8 +174,8 @@ export const getcategories = async (req, res) => {
       query = {
         ...query,
         $or: [
-          { selectedCategory: { $regex: categoryname, $options: "i" } },
-          { selectedSubcategory: { $regex: categoryname, $options: "i" } },
+          { category: { $regex: categoryname, $options: "i" } },
+          { subcategory: { $regex: categoryname, $options: "i" } },
         ],
       };
       console.log(query)

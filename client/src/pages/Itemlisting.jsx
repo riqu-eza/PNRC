@@ -1,21 +1,11 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
-import { useNavigate } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import "./itemlisting.css";
 import { Swiper, SwiperSlide } from "swiper/react";
 import SwiperCore from "swiper";
 import { useSelector } from "react-redux";
 import { Navigation } from "swiper/modules";
 import "swiper/css/bundle";
-import {
-  FaBath,
-  FaBed,
-  FaCar,
-  FaLock,
-  FaParking,
-  FaRegCalendarAlt,
-  FaSwimmer,
-} from "react-icons/fa";
 import {
   faEnvelope,
   faMapMarkerAlt,
@@ -34,12 +24,6 @@ export default function Itemlisting() {
   const { currentUser } = useSelector((state) => state.user);
   const [text, setText] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
-  // const [comments, setComments] = useState([]);
-  // const [newComment, setNewComment] = useState({
-  //   author: "",
-  //   content: "",
-  //   listingid: "",
-  // });
 
   const [formData, setFormData] = useState({
     arrivalDate: "",
@@ -79,6 +63,7 @@ export default function Itemlisting() {
           setLoading(false);
           return;
         }
+        console.log(data);
         setError(false);
         setListing(data);
         setLoading(false);
@@ -133,12 +118,9 @@ export default function Itemlisting() {
         numberOfPeople: "",
         comment: "",
       });
-      window.alert("check your email for booking confimation ");
+      window.alert("Check your email for booking confirmation!");
 
       console.log("Form data sent successfully!");
-      // setTimeout(() => {
-      //   setBookingSent(true);
-      // }, 1000 );
     } catch (error) {
       console.error("There was a problem with the fetch operation:", error);
     }
@@ -148,11 +130,10 @@ export default function Itemlisting() {
     const [latitude, longitude] = location.split(",");
 
     const url = `https://www.google.com/maps?q=${latitude},${longitude}`;
-
     window.open(url, "_blank");
   };
 
-  const handleinquireClick = async (event) => {
+  const handleInquireClick = async (event) => {
     event.preventDefault();
     try {
       const response = await fetch(
@@ -165,7 +146,6 @@ export default function Itemlisting() {
           body: JSON.stringify({ text }),
         }
       );
-      console.log(text);
 
       if (response.ok) {
         console.log("Inquiry sent successfully!");
@@ -175,57 +155,10 @@ export default function Itemlisting() {
       }
 
       setText("");
-      const data = await response.json();
-      console.log(data); // Handle success or error response from the API
     } catch (error) {
       console.error("Error:", error);
     }
   };
-  useEffect(() => {
-    // fetchComments();
-  }, []);
-  // comment functions
-  // const fetchComments = async () => {
-  //   try {
-  //     const response = await fetch(
-  //       "http://localhost:3000/api/comment/getcomment?listingId=${listingId}"
-  //     );
-  //     if (response.ok) {
-  //       const data = await response.json();
-  //       setComments(data);
-  //     }
-  //     setComments(response.data);
-  //   } catch (error) {
-  //     console.error("Error fetching comments:", error);
-  //   }
-  // };
-
-  // const handleInputChange = (e) => {
-  //   const { name, value } = e.target;
-  //   setNewComment({ ...newComment, [name]: value });
-  // };
-
-  // const handlecommentSubmit = async (e) => {
-  //   e.preventDefault();
-  //   try {
-  //     const listingid = listing._id;
-  //     const response = await fetch("http://localhost:3000/api/comment/create", {
-  //       method: "POST",
-  //       headers: {
-  //         "Content-Type": "application/json",
-  //       },
-
-  //       body: JSON.stringify({ ...newComment, listingid }),
-  //     });
-  //     const data = await response.json();
-  //     // console.log("Comment succesefull", data);
-  //     setComments(comments ? [...comments, data] : [data]);
-
-  //     setNewComment({ author: "", content: "" });
-  //   } catch (error) {
-  //     console.error("Error adding comment:", error);
-  //   }
-  // };
 
   return (
     <main className="p-4 md:p-8">
@@ -240,149 +173,143 @@ export default function Itemlisting() {
       {listing && !error && !loading && (
         <>
           <div>
-            <p className=" text-center  text-3xl md:text-4xl text-sky-500 font-extrabold listingname">
+            <p className=" text-center text-3xl md:text-4xl text-sky-400 font-extrabold listingname">
               {listing.name}
             </p>
+            <div className="flex items-center mt-2">
+              <span className="text-blue-500 mr-2">
+                {listing.address?.city}, {listing.address?.street}
+              </span>
+              <FontAwesomeIcon
+                icon={faMapMarkerAlt}
+                className="text-blue-500 cursor-pointer"
+                onClick={() => handleMapClick(listing.address.location.address)}
+              />
+            </div>
 
+            {/* Swiper for Images */}
             <div className="w-full md:w-3/4 mx-auto my-auto mt-4 mb-8">
               <Swiper navigation>
-                {listing.imageUrls.map((url) => (
-                  <SwiperSlide key={url}>
-                    <div
-                      className="h-[200px] md:h-[300px] lg:h-[350px]"
-                      style={{
-                        background: `url(${url}) center no-repeat`,
-                        backgroundSize: "cover",
-                      }}
-                    ></div>
-                  </SwiperSlide>
-                ))}
+                {listing.imageUrls?.length > 0 ? (
+                  listing.imageUrls.map((url) => (
+                    <SwiperSlide key={url}>
+                      <div
+                        className="h-[200px] md:h-[300px] lg:h-[350px]"
+                        style={{
+                          background: `url(${url}) center no-repeat`,
+                          backgroundSize: "cover",
+                        }}
+                      ></div>
+                    </SwiperSlide>
+                  ))
+                ) : (
+                  <p>No images available</p>
+                )}
               </Swiper>
             </div>
           </div>
+
+          {/* Listing Details */}
           <div className="flex flex-col max-w-full md:max-w-4xl mx-auto p-3 my-7 gap-4 itemcontent">
+            <div>
+
+            </div>
             <div className="flex flex-col gap-2">
-              <p className="mt-1 text-sm sm:text-base md:text-lg font-bold text-black-600 text-center ">
+              <p className="mt-1 text-sm sm:text-base md:text-lg font-bold text-black-600 text-center">
                 {listing.description}
               </p>
 
-              <div className="flex items-center mt-2">
-                <span className="text-blue-500 mr-2">{listing.address}</span>
-                <FontAwesomeIcon
-                  icon={faMapMarkerAlt}
-                  className="text-blue-500 cursor-pointer"
-                  onClick={() => handleMapClick(listing.location)}
-                />
-              </div>
+              {/* Contact Info */}
+             
 
-              {/* <p>
-              <span className="font-semibold text-black">
-                What are you likely to find:{" "}
-              </span>
-              {listing.selectedSubcategory}
-            </p> */}
-              {listing.regularPrice && (
-                <p className="bg-green-600 w-full max-w-[100px] text-white text-center p-1 rounded-md">
-                  ${+listing.regularPrice} REG!!
-                </p>
-              )}
-
-              {listing.offer && (
-                <p className="bg-blue-500 w-full max-w-[200px] text-white text-center p-1 rounded-md">
-                  ${+listing.regularPrice - +listing.discountedPrice} OFF!!
-                </p>
-              )}
-
-              <div className="flex flex-col gap-4">
-                <div className="cursor-pointer text-blue-500 flex gap-2 hover:text-blue-700">
-                  <div className=" items-center justify-center h-full" >
-                    <p className="justify-center pt-2" > Reach us @</p>
-                  </div>
-                  <div>
-                    <p className="mt-2 text-sm text-blue-500 font-bold hover:text-blue-700">
-                      <FontAwesomeIcon icon={faPhone} /> - {listing.contact}
-                    </p>
-                    <p className="mt-2 text-sm text-blue-500 font-bold hover:text-blue-700">
-                      <FontAwesomeIcon icon={faEnvelope} /> - {listing.email}
-                    </p>
-                  </div>
-                </div>
-
-                <div className="flex flex-col gap-4">
-                  <textarea
-                    value={text}
-                    onChange={(event) => setText(event.target.value)}
-                    placeholder="Inquire about us..."
-                    rows={3}
-                    cols={20}
-                    className="border border-gray-300 p-2 mb-2"
-                  />
-                  <button
-                    onClick={handleinquireClick}
-                    className="bg-blue-500 text-white px-2 py-2 w-50px rounded hover:bg-blue-600"
-                  >
-                    Inquire
-                  </button>
-                </div>
-
-                <ul className="text-blue-400 font-semibold text-xs sm:text-sm flex flex-wrap items-center gap-4 sm:gap-6">
-                  {listing.furnished && (
-                    <>
-                      <li className="flex items-center gap-1 whitespace-nowrap">
-                        <FaBed className="text-lg" />
-                        {listing.rooms > 1
-                          ? `${listing.rooms} rooms`
-                          : `${listing.rooms} room`}
-                      </li>
-                      <li className="flex items-center gap-1 whitespace-nowrap">
-                        <FaBed className="text-lg" />
-                        {listing.bedrooms > 1
-                          ? `${listing.bedrooms} Beds`
-                          : `${listing.bedrooms} Bed`}
-                      </li>
-                      <li className="flex items-center gap-1 whitespace-nowrap">
-                        <FaBath className="text-lg" />
-                        {listing.bathrooms > 1
-                          ? `${listing.bathrooms} baths`
-                          : `${listing.bathrooms} bath`}
-                      </li>
-                    </>
-                  )}
-                  {listing.parking && (
-                    <li className="flex items-center gap-1 whitespace-nowrap">
-                      <FaParking className="text-lg" />
-                      Parking Spot available
-                    </li>
-                  )}
-                  {listing.recreation && (
-                    <li className="flex items-center gap-1 whitespace-nowrap">
-                      <FaSwimmer className="text-lg" />
-                      Recreation Facilities available
-                    </li>
-                  )}
-                  {listing.eventfacilities && (
-                    <li className="flex items-center gap-1 whitespace-nowrap">
-                      <FaRegCalendarAlt className="text-lg" />
-                      Have your events here
-                    </li>
-                  )}
-                  {listing.security && (
-                    <li className="flex items-center gap-1 whitespace-nowrap">
-                      <FaLock className="text-lg" />
-                      You are safe here
-                    </li>
-                  )}
-                  {listing.transportation && (
-                    <li className="flex items-center gap-1 whitespace-nowrap">
-                      <FaCar className="text-lg" />
-                      We got you
-                    </li>
-                  )}
-                </ul>
-              </div>
+              {/* Display Listing Details if Available */}
+              <ul className="text-blue-400 font-semibold text-xs sm:text-sm flex flex-wrap items-center gap-4 sm:gap-6">
+                  <li className="flex items-center gap-1 whitespace-nowrap">
+                   <p>{listing.amenities}</p>
+                  </li>
+               
+              </ul>
             </div>
+            <div className="flex gap-8 p-8 w-auto" >
+              <div className="cursor-pointer text-blue-500 flex gap-2 hover:text-blue-700">
+                <div className="items-center justify-center h-full">
+                  <p className="justify-center pt-2">Reach us @</p>
+                </div>
+                <div>
+                  <p className="mt-2 text-sm text-blue-500 font-bold hover:text-blue-700">
+                    <FontAwesomeIcon icon={faPhone} /> - {listing.contact}
+                  </p>
+                  <p className="mt-2 text-sm text-blue-500 font-bold hover:text-blue-700">
+                    <FontAwesomeIcon icon={faEnvelope} /> - {listing.email}
+                  </p>
+                </div>
+              </div>
 
-            {listing.furnished && (
+              {/* Inquiry Section */}
+              <div className="flex flex-col gap-4">
+                <textarea
+                  value={text}
+                  onChange={(event) => setText(event.target.value)}
+                  placeholder="Inquire about us..."
+                  rows={3}
+                  cols={20}
+                  className="border border-gray-300 p-2 mb-2"
+                />
+                <button
+                  onClick={handleInquireClick}
+                  className="bg-blue-500 text-white px-2 py-2 w-50px rounded hover:bg-blue-600"
+                >
+                  Inquire
+                </button>
+              </div>
+              </div>
+
+            {/* Booking Form */}
+            {/* Render Room Details */}
+{listing.details?.accommodation?.rooms?.length > 0 && (
+  <div className="my-8 p-4 bg-white shadow-md rounded-md">
+    <h2 className="text-lg font-semibold mb-4">Room Details</h2>
+    {listing.details.accommodation.rooms.map((room, index) => (
+      <div key={index} className="border-b border-gray-300 pb-4 mb-4">
+        <h3 className="text-md font-semibold mb-2">Room {index + 1}</h3>
+        <p><strong>Type:</strong> {room.type}</p>
+        <p><strong>Beds:</strong> {room.beds}</p>
+        <p><strong>Price:</strong> ${room.price}</p>
+        {room.discount && <p><strong>Discount:</strong> {room.discount}</p>}
+        <p><strong>Description:</strong> {room.description}</p>
+        {room.amenities.length > 0 && (
+          <div>
+            <strong>Amenities:</strong>
+            <ul className="list-disc pl-5">
+              {room.amenities.map((amenity, idx) => (
+                <li key={idx}>{amenity}</li>
+              ))}
+            </ul>
+          </div>
+        )}
+        {/* {room.imagesurl.length > 0 && (
+          <div className="mt-4">
+            <Swiper navigation>
+              {room.imagesurl.map((url, imgIdx) => (
+                <SwiperSlide key={imgIdx}>
+                  <div
+                    className="h-[200px] md:h-[300px] lg:h-[350px]"
+                    style={{
+                      background: `url(${url}) center no-repeat`,
+                      backgroundSize: "cover",
+                    }}
+                  ></div>
+                </SwiperSlide>
+              ))}
+            </Swiper>
+          </div>
+        )} */}
+      </div>
+    ))}
+  </div>
+)}
+
+            {listing.details.accommodation && (
               <div className="my-8 p-4 bg-white shadow-md rounded-md">
                 <h2 className="text-lg font-semibold mb-4">Booking</h2>
                 <form onSubmit={handleSubmit}>
@@ -471,46 +398,6 @@ export default function Itemlisting() {
               </div>
             )}
           </div>
-
-          {/* <div className="max-w-full md:max-w-md mx-auto bg-gray-100 p-4 rounded-md">
-            <h2 className="text-xl font-bold mb-4">
-              Friends, this was my experience
-            </h2>
-            <div className="max-h-60 overflow-y-auto">
-              <ul>
-                {comments && comments.length > 0 ? (
-                  comments.map((comment) => (
-                    <li key={comment._id} className="mb-2">
-                      <strong className="text-blue-500">
-                        {comment.author}
-                      </strong>{" "}
-                      <span className="text-gray-700">{comment.content}</span>
-                    </li>
-                  ))
-                ) : (
-                  <p className="text-gray-700">No comments available</p>
-                )}
-              </ul>
-            </div>
-
-            <form onSubmit={handlecommentSubmit} className="mt-4">
-              <div className="mb-4">
-                <textarea
-                  placeholder="Add your comment here"
-                  id="content"
-                  name="content"
-                  value={newComment.content}
-                  onChange={handleInputChange}
-                  className="w-full border border-gray-300 rounded-md py-2 px-3 focus:outline-none focus:border-blue-500"
-                />
-              </div>
-              <button
-                type="submit"
-                className="bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600 focus:outline-none focus:bg-blue-600"
-                Add Comment
-              </button>
-            </form>
-          </div> */}
           <Comments currentUser={currentUser} listingId={listing._id} />
         </>
       )}

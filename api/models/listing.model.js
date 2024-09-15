@@ -5,35 +5,46 @@ const listingSchema = new mongoose.Schema(
     name: { type: String, required: true },
     email: { type: String, required: true },
     description: { type: String, required: true },
-    contact: { type: String, required: true },
+    contact: { type: Number, required: true },
+    amenities: { type: String  },
     address: {
       street: { type: String, required: true },
       city: { type: String, required: true },
-      state: { type: String, required: true },
-      postal_code: { type: String, required: true },
-      country: { type: String, required: true }
+      location:{
+        address: { type: String, required: true },
+        lat: { type: Number, required: true },
+        lng: { type: Number, required: true }
+      }
     },
     category: { type: String, required: true },
     subcategory: { type: String, required: true },
     username: { type: String, required: true},
     details: {
       accommodation: {
-        type: { type: String },
         rooms: [{
-          room_id: { type: String, required: true },
-          type: { type: String, required: true },
-          size: { type: Number, required: true },
-          amenities: [{ type: String }]
+          beds: { type: String },
+          type: { type: String,  },
+          price: { type: String,  },
+          dicount: { type: String,  },
+          description:{ type: String,  },
+          amenities: [{ type: String,  }],
+          imageUrls: [{ type: String,  }],
+          
+          size: { type: Number, },
         }],
         check_in_time: { type: String },
-        check_out_time: { type: String }
+        check_out_time: { type: String },
+        amenities: [{ type: String }],
+        imagesurl: [{ type: String }],
+
+
       },
       dining: {
         meals: [{
-          meal_id: { type: String, required: true },
-          name: { type: String, required: true },
+          meal_id: { type: String,  },
+          name: { type: String,  },
           description: { type: String },
-          price: { type: Number, required: true }
+          price: { type: Number, }
         }],
         operating_hours: {
           open: { type: String },
@@ -42,16 +53,16 @@ const listingSchema = new mongoose.Schema(
       },
       entertainment: {
         activities: [{
-          activity_id: { type: String, required: true },
-          name: { type: String, required: true },
+          activity_id: { type: String,  },
+          name: { type: String, },
           description: { type: String },
-          price: { type: Number, required: true }
+          price: { type: Number,  }
         }]
       },
       education: {
         classes: [{
-          class_id: { type: String, required: true },
-          name: { type: String, required: true },
+          class_id: { type: String,},
+          name: { type: String, },
           subject: { type: String },
           schedule: {
             day: { type: String },
@@ -61,10 +72,10 @@ const listingSchema = new mongoose.Schema(
       },
       health_and_fitness: {
         services: [{
-          service_id: { type: String, required: true },
-          name: { type: String, required: true },
+          service_id: { type: String, },
+          name: { type: String,  },
           description: { type: String },
-          price: { type: Number, required: true }
+          price: { type: Number, }
         }]
       }
     }
