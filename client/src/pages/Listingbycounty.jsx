@@ -76,12 +76,22 @@ const ListingsByCounty = () => {
   return (
     <>
       {introVisible && (
-        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-70 z-50">
-          <div className="bg-white p-8 rounded-md text-center max-w-md">
+        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-80 z-50">
+          <div className="bg-black  bg-opacity-40 opacity-80 text-white p-8 rounded-md text-center max-w-lg">
             <h2 className="text-2xl font-bold">
               Welcome to Our Resort Cities!
             </h2>
-            <p className="mt-4">Discover the most beautiful destinations...</p>
+            <p className="mt-4 text-2xl">
+              We invite you as you plan to embark on a journey with us through
+              Africa’s most breathtaking Resort Cities(RC) to join our Eco-lens
+              blog and we share our experiences . At Palmnazi RC, we offer more
+              than just a glimpse of stunning destinations but also a kingly
+              treatment since we are dedicated to provide a majestic experience
+              as gateway to the heart and soul of Africa. Join us and discover
+              how your journey with Palmnazi RC can be both enriching,
+              enthralling and meaningful, as you experience the true Spirits of
+              Africa like never before.
+            </p>
             <button
               className="mt-6 px-4 py-2 bg-blue-500 text-white rounded-md"
               onClick={() => setIntroVisible(false)}
@@ -91,7 +101,6 @@ const ListingsByCounty = () => {
           </div>
         </div>
       )}
-
       {!introVisible && (
         <div>
           <h1 className="text-center text-3xl m-2 text-bold text-blue-400 ">

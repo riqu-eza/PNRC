@@ -17,7 +17,7 @@ export default  {
   ],
   theme: {
     extend: {
-      // You can extend the theme here
+     
     },
   },
   plugins: [

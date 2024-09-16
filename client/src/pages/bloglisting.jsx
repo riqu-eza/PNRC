@@ -43,7 +43,7 @@ const Bloglisting = () => {
   };
 
   return (
-    <div className="container mx-auto p-6">
+    <div className="container mx-auto p-6   relative bg-customimage bg-cover bg-center" >
       <h1 className="text-3xl font-semibold mb-6">Add Blog</h1>
       <form onSubmit={handleSubmit} className="max-w-lg mx-auto">
         <div className="mb-4">

@@ -77,8 +77,8 @@ const BlogPage = () => {
   }
 
   return (
-    <div>
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-2 blog">
+    <div >
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3  gap-2 blog">
         {currentPosts.map((post) => (
           <div key={post._id} className="border p-4 bg-blue-100 m-6 rounded-lg">
             <div className="flex items-center justify-between gap-4">

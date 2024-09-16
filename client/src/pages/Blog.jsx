@@ -2,6 +2,7 @@ import travel from "../imgaes/blogtravel.jpg";
 import culture from "../imgaes/blogculture.jpg";
 import business from "../imgaes/blogbusiness.jpg";
 import { Link } from "react-router-dom";
+import palmnazilogkg from "../imgaes/palmnazilogkg.png"
 
 export const Blog = () => {
   const blogs = [
@@ -10,8 +11,12 @@ export const Blog = () => {
     { id: 3, name: "Culture", img: [culture] },
   ];
 
+
   return (
-    <div className="h-screen flex flex-col">
+    <div
+      className="h-screen flex flex-col text-pink-500 "
+      style={{ backgroundImage: `url(${palmnazilogkg})` }}
+    >
       <h3 className="text-2xl text-center p-2 bg-white text-black">
         This Blog is to share and interact in Travel, Business and Culture space
         at our Resort Cities. Every Voice, advice, and concern matters here.
