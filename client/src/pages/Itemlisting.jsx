@@ -1,8 +1,11 @@
 import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import "./itemlisting.css";
-import { Swiper, SwiperSlide } from "swiper/react";
-import SwiperCore from "swiper";
+// import { Swiper, SwiperSlide } from "swiper/react";
+import { Swiper, SwiperSlide } from 'swiper/react';
+import SwiperCore from 'swiper'
+// import 'swiper/swiper-bundle.min.css'; // Import Swiper styles
+
 import { useSelector } from "react-redux";
 import { Navigation } from "swiper/modules";
 import "swiper/css/bundle";
@@ -13,6 +16,8 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Comments from "./commentsection/Comments";
+import ImageGallery from "../utility/ImageGallery";
+import { FaParking, FaShower, FaSwimmingPool, FaWifi } from "react-icons/fa";
 
 export default function Itemlisting() {
   SwiperCore.use([Navigation]);
@@ -31,6 +36,13 @@ export default function Itemlisting() {
     numberOfPeople: "",
     comment: "",
   });
+  const amenitiesIcons = {
+    wifi: <FaWifi />,
+    pool: <FaSwimmingPool />,
+    parking: <FaParking />,
+    shower: <FaShower />,
+    // Add more icons as needed
+  };
 
   useEffect(() => {
     const arrivalDateTime = new Date(formData.arrivalDate);
@@ -61,9 +73,9 @@ export default function Itemlisting() {
         if (data.success === false) {
           setError(true);
           setLoading(false);
+          console.log();
           return;
         }
-        console.log(data);
         setError(false);
         setListing(data);
         setLoading(false);
@@ -74,6 +86,9 @@ export default function Itemlisting() {
     };
     fetchListing();
   }, [params.listingId]);
+
+  const amenitiesList =
+    listing && listing.amenities ? listing.amenities.split(",") : [];
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -176,7 +191,7 @@ export default function Itemlisting() {
             <p className=" text-center text-3xl md:text-4xl text-sky-400 font-extrabold listingname">
               {listing.name}
             </p>
-            <div className="flex items-center mt-2">
+            <div className=" text-center mt-2">
               <span className="text-blue-500 mr-2">
                 {listing.address?.city}, {listing.address?.street}
               </span>
@@ -188,126 +203,99 @@ export default function Itemlisting() {
             </div>
 
             {/* Swiper for Images */}
-            <div className="w-full md:w-3/4 mx-auto my-auto mt-4 mb-8">
-              <Swiper navigation>
-                {listing.imageUrls?.length > 0 ? (
-                  listing.imageUrls.map((url) => (
-                    <SwiperSlide key={url}>
-                      <div
-                        className="h-[200px] md:h-[300px] lg:h-[350px]"
-                        style={{
-                          background: `url(${url}) center no-repeat`,
-                          backgroundSize: "cover",
-                        }}
-                      ></div>
-                    </SwiperSlide>
-                  ))
-                ) : (
-                  <p>No images available</p>
-                )}
-              </Swiper>
-            </div>
+            <ImageGallery listing={listing} />
           </div>
 
           {/* Listing Details */}
-          <div className="flex flex-col max-w-full md:max-w-4xl mx-auto p-3 my-7 gap-4 itemcontent">
-            <div>
-
-            </div>
-            <div className="flex flex-col gap-2">
-              <p className="mt-1 text-sm sm:text-base md:text-lg font-bold text-black-600 text-center">
+          <div className="flex flex-col max-w-full md:max-w-4xl mx-auto p-3 my-2 gap-4 itemcontent">
+            <div className="flex  justif gap-4">
+              <p className="mt-1 text-sm sm:text-base md:text-lg from-neutral-400 text-black-600 text-center">
                 {listing.description}
               </p>
 
-              {/* Contact Info */}
-             
+              <ul className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4 ">
+                {amenitiesList.map((amenity, index) => {
+                  // Remove extra spaces and convert to lowercase for better matching
+                  const formattedAmenity = amenity.trim().toLowerCase();
 
-              {/* Display Listing Details if Available */}
-              <ul className="text-blue-400 font-semibold text-xs sm:text-sm flex flex-wrap items-center gap-4 sm:gap-6">
-                  <li className="flex items-center gap-1 whitespace-nowrap">
-                   <p>{listing.amenities}</p>
-                  </li>
-               
+                  return (
+                    <li
+                      key={index}
+                      className="flex items-center  whitespace-nowrap"
+                    >
+                      {/* Show the corresponding icon for each amenity if it exists */}
+                      <span>{amenitiesIcons[formattedAmenity]}</span>
+                      {/* Display the amenity name */}
+                      <p>{amenity}</p>
+                    </li>
+                  );
+                })}
               </ul>
             </div>
-            <div className="flex gap-8 p-8 w-auto" >
-              <div className="cursor-pointer text-blue-500 flex gap-2 hover:text-blue-700">
-                <div className="items-center justify-center h-full">
-                  <p className="justify-center pt-2">Reach us @</p>
-                </div>
-                <div>
-                  <p className="mt-2 text-sm text-blue-500 font-bold hover:text-blue-700">
-                    <FontAwesomeIcon icon={faPhone} /> - {listing.contact}
-                  </p>
-                  <p className="mt-2 text-sm text-blue-500 font-bold hover:text-blue-700">
-                    <FontAwesomeIcon icon={faEnvelope} /> - {listing.email}
-                  </p>
-                </div>
-              </div>
-
-              {/* Inquiry Section */}
-              <div className="flex flex-col gap-4">
-                <textarea
-                  value={text}
-                  onChange={(event) => setText(event.target.value)}
-                  placeholder="Inquire about us..."
-                  rows={3}
-                  cols={20}
-                  className="border border-gray-300 p-2 mb-2"
-                />
-                <button
-                  onClick={handleInquireClick}
-                  className="bg-blue-500 text-white px-2 py-2 w-50px rounded hover:bg-blue-600"
-                >
-                  Inquire
-                </button>
-              </div>
-              </div>
 
             {/* Booking Form */}
             {/* Render Room Details */}
-{listing.details?.accommodation?.rooms?.length > 0 && (
-  <div className="my-8 p-4 bg-white shadow-md rounded-md">
-    <h2 className="text-lg font-semibold mb-4">Room Details</h2>
-    {listing.details.accommodation.rooms.map((room, index) => (
-      <div key={index} className="border-b border-gray-300 pb-4 mb-4">
-        <h3 className="text-md font-semibold mb-2">Room {index + 1}</h3>
-        <p><strong>Type:</strong> {room.type}</p>
-        <p><strong>Beds:</strong> {room.beds}</p>
-        <p><strong>Price:</strong> ${room.price}</p>
-        {room.discount && <p><strong>Discount:</strong> {room.discount}</p>}
-        <p><strong>Description:</strong> {room.description}</p>
-        {room.amenities.length > 0 && (
-          <div>
-            <strong>Amenities:</strong>
-            <ul className="list-disc pl-5">
-              {room.amenities.map((amenity, idx) => (
-                <li key={idx}>{amenity}</li>
-              ))}
-            </ul>
-          </div>
-        )}
-        {/* {room.imagesurl.length > 0 && (
-          <div className="mt-4">
-            <Swiper navigation>
-              {room.imagesurl.map((url, imgIdx) => (
-                <SwiperSlide key={imgIdx}>
+            {Array.isArray(listing.details?.accommodation?.rooms) && listing.details.accommodation.rooms.length > 0 ? (              <div className="my-8 p-4 bg-white shadow-md rounded-md">
+                <h2 className="text-lg font-semibold mb-4">The Rooms We Have..</h2>
+                {listing.details.accommodation.rooms.map((room, index) => (
                   <div
-                    className="h-[200px] md:h-[300px] lg:h-[350px]"
-                    style={{
-                      background: `url(${url}) center no-repeat`,
-                      backgroundSize: "cover",
-                    }}
-                  ></div>
-                </SwiperSlide>
-              ))}
-            </Swiper>
-          </div>
-        )} */}
-      </div>
-    ))}
-  </div>
-)}
+                    key={index}
+                    className="flex flex-col  border-2 border-gray-300 pb-4 mb-4"
+                  >
+                    {/* Upper section for images */}
+                    <div className="flex-1  ">
+                      {room.imagesurl?.length > 0 && (
+                        <Swiper navigation>
+                          {room.imagesurl.map((url, imgIdx) => (
+                            <SwiperSlide key={imgIdx}>
+                              <div
+                                className="h-[200px] md:h-[300px] lg:h-[350px]"
+                                style={{
+                                  background: `url(${url}) center no-repeat`,
+                                  backgroundSize: "cover",
+                                }}
+                              ></div>
+                            </SwiperSlide>
+                          ))}
+                        </Swiper>
+                      )}
+                    </div>
+
+                    {/* Lower section for room details */}
+                    <div className="flex-1 p-4">
+                      <h3 className="text-md font-semibold mb-2">
+                        Room {index + 1}
+                      </h3>
+                      <p>
+                        <strong>Type:</strong> {room.type}
+                      </p>
+                      <p>
+                        <strong>Beds:</strong> {room.beds}
+                      </p>
+                      <p>
+                        <strong>Price:</strong> ${room.price}
+                      </p>
+                      {room.discount && (
+                        <p>
+                          <strong>Discount:</strong> {room.discount}
+                        </p>
+                      )}
+                      <p>
+                        <strong>Description:</strong> {room.description}
+                      </p>
+                      {room.amenities.length > 0 && (
+                        <div>
+                          <strong>Amenities:</strong>{" "}
+                          {room.amenities.join(", ")}
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            ): (
+              <p>No room details available.</p>
+            )}
 
             {listing.details.accommodation && (
               <div className="my-8 p-4 bg-white shadow-md rounded-md">
@@ -397,6 +385,35 @@ export default function Itemlisting() {
                 </form>
               </div>
             )}
+            <div>
+              <div className="items-center justify-center h-full">
+                <p className="justify-center pt-2">Reach us @</p>
+              </div>
+              <div>
+                <p className="mt-2 text-sm text-blue-500 font-bold hover:text-blue-700">
+                  <FontAwesomeIcon icon={faPhone} /> - {listing.contact}
+                </p>
+                <p className="mt-2 text-sm text-blue-500 font-bold hover:text-blue-700">
+                  <FontAwesomeIcon icon={faEnvelope} /> - {listing.email}
+                </p>
+              </div>
+              <div className="flex flex-col gap-4">
+                <textarea
+                  value={text}
+                  onChange={(event) => setText(event.target.value)}
+                  placeholder="Inquire about us..."
+                  rows={3}
+                  cols={20}
+                  className="border border-gray-300 p-2 mb-2"
+                />
+                <button
+                  onClick={handleInquireClick}
+                  className="bg-blue-500 text-white px-2 py-2 w-50px rounded hover:bg-blue-600"
+                >
+                  Inquire
+                </button>
+              </div>
+            </div>
           </div>
           <Comments currentUser={currentUser} listingId={listing._id} />
         </>

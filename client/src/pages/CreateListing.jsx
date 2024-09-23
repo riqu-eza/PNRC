@@ -351,43 +351,51 @@ const CreateListing = () => {
       alert("Geolocation is not supported by this browser.");
     }
   };
+  const [propertyFiles, setPropertyFiles] = useState([]);
+  const [roomFiles, setRoomFiles] = useState([]);
+
   // image handling
   const [imageUploadError, setImageUploadError] = useState(false);
   const [files, setFiles] = useState([]);
- 
+
   const handleImageSubmit = async (type, roomIndex = null) => {
     const maxImages = 6; // Assuming max 6 images per type
     const maxTotalImages = 100; // Assuming total limit
-  
+    const filesToUpload = type === "listing" ? propertyFiles : roomFiles;
     // Ensure imageUrlsKey and currentImageUrls are properly set
     let imageUrlsKey;
     let currentImageUrls;
-    
-    if (type === 'listing') {
-      imageUrlsKey = 'imageUrls';
+
+    if (type === "listing") {
+      imageUrlsKey = "imageUrls";
       currentImageUrls = formData.imageUrls || [];
     } else {
       imageUrlsKey = `details.accommodation.rooms[${roomIndex}].imageUrls`;
-      currentImageUrls = formData.details.accommodation.rooms[roomIndex]?.imageUrls || [];
+      currentImageUrls =
+        formData.details.accommodation.rooms[roomIndex]?.imageUrls || [];
     }
-  
+
     // Validation
-    if (files.length > 0 && files.length + currentImageUrls.length <= maxTotalImages) {
-      if (currentImageUrls.length + files.length <= maxImages) {
+    if (
+      filesToUpload.length > 0 &&
+      filesToUpload.length + currentImageUrls.length <= maxTotalImages
+    ) {
+      if (currentImageUrls.length + filesToUpload.length <= maxImages) {
         setUploading(true);
         setImageUploadError(false);
-  
+
         const promises = files.map((file) => storeImage(file));
         try {
           const urls = await Promise.all(promises);
           const updatedFormData = { ...formData };
-  
-          if (type === 'listing') {
+
+          if (type === "listing") {
             updatedFormData.imageUrls = currentImageUrls.concat(urls);
           } else {
-            updatedFormData.details.accommodation.rooms[roomIndex].imageUrls = currentImageUrls.concat(urls);
+            updatedFormData.details.accommodation.rooms[roomIndex].imageUrls =
+              currentImageUrls.concat(urls);
           }
-  
+
           setFormData(updatedFormData);
           setImageUploadError(false);
         } catch (err) {
@@ -396,18 +404,22 @@ const CreateListing = () => {
           setUploading(false);
         }
       } else {
-        setImageUploadError(`You can only upload ${maxImages} images per ${type}`);
+        setImageUploadError(
+          `You can only upload ${maxImages} images per ${type}`
+        );
         setUploading(false);
       }
     } else if (files.length === 0) {
       setImageUploadError("Select images to upload");
       setUploading(false);
     } else {
-      setImageUploadError(`You can only upload ${maxTotalImages} images in total`);
+      setImageUploadError(
+        `You can only upload ${maxTotalImages} images in total`
+      );
       setUploading(false);
     }
   };
-  
+
   const storeImage = async (file) => {
     return new Promise((resolve, reject) => {
       const storage = getStorage(app);
@@ -484,12 +496,12 @@ const CreateListing = () => {
               <p className="font-semibold">
                 add the Property Image:
                 <span className="font-normal text-gray-600 ml-2">
-              The first image will be the cover 
-            </span>
+                  The first image will be the cover
+                </span>
               </p>
               <div className="flex gap-4">
                 <input
-                  onChange={(e) => setFiles(e.target.files)}
+                  onChange={(e) => setPropertyFiles(Array.from(e.target.files))}
                   className="p-3 border border-gray-300 rounded w-full"
                   type="file"
                   id="images"
@@ -499,7 +511,7 @@ const CreateListing = () => {
                 <button
                   disabled={uploading}
                   type="button"
-                  onClick={handleImageSubmit}
+                  onClick={() => handleImageSubmit("listing")}
                   className="p-3 text-green-700 border border-green-700 rounded uppercase hover:shadow-lg disabled:opacity-80"
                 >
                   {uploading ? "uploading" : "upload"}
@@ -661,10 +673,10 @@ const CreateListing = () => {
                 <h3>Rooms</h3>
 
                 {/* Display Added Room Names with Remove Option */}
-                {formData.details.accommodation.rooms.length > 1 &&
+                {formData.details.accommodation.rooms.length > 0 &&
                   formData.details.accommodation.rooms.map((room, index) => (
                     <div
-                      key={index}
+                      key={`room-${index}`}
                       className="flex justify-between items-center mb-2"
                     >
                       <p>
@@ -743,15 +755,12 @@ const CreateListing = () => {
                   />
 
                   <div>
-                    <p className="font-semibold">
-                      Image:
-                      {/* <span className="font-normal text-gray-600 ml-2">
-              The first image will be the cover (max 6)
-            </span> */}
-                    </p>
+                    <p className="font-semibold">Image:</p>
                     <div className="flex gap-4">
                       <input
-                        onChange={(e) => setFiles(e.target.files)}
+                        onChange={(e) =>
+                          setRoomFiles(Array.from(e.target.files))
+                        }
                         className="p-3 border border-gray-300 rounded w-full"
                         type="file"
                         id="images"
@@ -761,13 +770,13 @@ const CreateListing = () => {
                       <button
                         disabled={uploading}
                         type="button"
-                        // eslint-disable-next-line no-undef
-                        onClick={handleImageSubmit}
+                        onClick={() => handleImageSubmit("room")}
                         className="p-3 text-green-700 border border-green-700 rounded uppercase hover:shadow-lg disabled:opacity-80"
                       >
                         {uploading ? "uploading" : "upload"}
                       </button>
                     </div>
+
                     <p className="text-red-700 text-sm">
                       {imageUploadError && imageUploadError}
                     </p>
@@ -801,11 +810,12 @@ const CreateListing = () => {
                   onClick={addRoom}
                   disabled={
                     !currentRoom.type || !currentRoom.beds || !currentRoom.price
-                  } // Basic validation
+                  }
                 >
                   Add Another Room
                 </button>
               </div>
+
               <InputField
                 label="Check-in Time"
                 type="text"

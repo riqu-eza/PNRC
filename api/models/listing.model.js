@@ -5,7 +5,7 @@ const listingSchema = new mongoose.Schema(
     name: { type: String, required: true },
     email: { type: String, required: true },
     description: { type: String, required: true },
-    contact: { type: Number, required: true },
+    contact: { type: String, required: true },
     amenities: { type: String  },
     address: {
       street: { type: String, required: true },

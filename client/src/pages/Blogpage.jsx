@@ -1,9 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 import { FaEye } from "react-icons/fa";
-import { useParams } from "react-router-dom";
+import { useLocation, useParams } from "react-router-dom";
 import Comments from "./commentsection/Comments";
-
-import("./page.css");
 
 const BlogPage = () => {
   const { name } = useParams();
@@ -14,7 +12,9 @@ const BlogPage = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const postsPerPage = 11;
   const commentSectionRef = useRef(null);
+  const location = useLocation();
 
+  const { img } = location.state || {};
   const openModal = async (post) => {
     setSelectedPost(post);
     setShowModal(true);
@@ -43,7 +43,6 @@ const BlogPage = () => {
           throw new Error("Failed to fetch blog posts");
         }
         const data = await response.json();
-        console.log(data);
         setBlogPosts(data);
         setLoading(false);
       } catch (error) {
@@ -77,8 +76,15 @@ const BlogPage = () => {
   }
 
   return (
-    <div >
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3  gap-2 blog">
+    <div
+      className="w-full h-auto"
+      style={{
+        backgroundImage: `url(${img})`,
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+      }}
+    >
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2  gap-6 p-8 ">
         {currentPosts.map((post) => (
           <div key={post._id} className="border p-4 bg-blue-100 m-6 rounded-lg">
             <div className="flex items-center justify-between gap-4">
@@ -98,8 +104,8 @@ const BlogPage = () => {
             </div>
 
             <p className="mt-2">
-              {post.text.split(" ").slice(0, 10).join(" ")}
-              {post.text.split(" ").length > 10 ? "..." : ""}
+              {post.text.split(" ").slice(0, 20).join(" ")}
+              {post.text.split(" ").length > 20 ? "..." : ""}
               <button
                 className="text-blue-500 hover:underline ml-2"
                 onClick={() => openModal(post)}

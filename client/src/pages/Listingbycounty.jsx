@@ -17,34 +17,44 @@ const ListingsByCounty = () => {
   useEffect(() => {
     const fetchUniqueCounties = async () => {
       try {
-        const res = await fetch(
-          "http://localhost:3000/api/listing/unique-counties"
-        );
+        const res = await fetch("http://localhost:3000/api/listing/unique-counties");
         const data = await res.json();
         setUniqueCounties(data);
-        //  console.log(data);
+  
         const backgrounds = {};
         const cityInfo = {};
+  
         for (const county of data) {
-          const imageRes = await fetch(
-            `http://localhost:3000/api/admin/bckimg?county=${encodeURIComponent(county)}`
-          );
-          const imageData = await imageRes.json();
-          backgrounds[county] = imageData.imageUrls;
-          cityInfo[county] = imageData.description;
+          try {
+            // Fetch background image and city info for each county
+            const imageRes = await fetch(
+              `http://localhost:3000/api/admin/bckimg?county=${encodeURIComponent(county)}`
+            );
+            const imageData = await imageRes.json();
+            
+            // Set the background and city info for this county
+            backgrounds[county] = imageData.imageUrls || []; // Set to empty array if no imageUrls are found
+            cityInfo[county] = imageData.description || '';  // Set to empty string if no description is found
+          } catch (err) {
+            // If fetching a specific county's data fails, just log and continue with others
+            console.warn(`Failed to fetch data for county: ${county}`, err);
+            // Continue the loop without setting any background or city info for this county
+          }
         }
-
+  
+        // Once all counties have been processed, update the state
         setCountyBackgrounds(backgrounds);
         setcityinfo(cityInfo);
         setIsLoading(false);
       } catch (error) {
-        console.error(error);
+        console.error("Failed to fetch unique counties", error);
         setIsLoading(false);
       }
     };
-
+  
     fetchUniqueCounties();
   }, []);
+  
 
   const fetchListingsByCounty = async (county) => {
     const backgroundUrl = countyBackgrounds[county];
@@ -77,7 +87,7 @@ const ListingsByCounty = () => {
     <>
       {introVisible && (
         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-80 z-50">
-          <div className="bg-black  bg-opacity-40 opacity-80 text-white p-8 rounded-md text-center max-w-lg">
+          <div className="bg-black  bg-opacity-40 opacity-80 text-white p-8 rounded-md text-center max-w-">
             <h2 className="text-2xl font-bold">
               Welcome to Our Resort Cities!
             </h2>
