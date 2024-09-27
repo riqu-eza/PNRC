@@ -6,7 +6,7 @@ import {
 } from "firebase/storage";
 import { useEffect, useState } from "react";
 import { app } from "../firebase";
-import { useSelector } from "react-redux";
+
 import { useNavigate } from "react-router-dom";
 import { useUser } from "./Adminuser";
 
@@ -164,9 +164,7 @@ export default function CreateListing() {
         <div className="flex flex-col gap-4 flex-1">
           <p className="font-semibold">
             Image:
-            {/* <span className="font-normal text-gray-600 ml-2">
-              The first image will be the cover (max 6)
-            </span> */}
+            
           </p>
           <div className="flex gap-4">
             <input
