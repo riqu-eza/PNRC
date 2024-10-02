@@ -14,6 +14,14 @@
   font-weight:bolder;
   font-style: normal;
 }
+@font-face {
+  font-family: "NotoSans ";
+  src: url(../Assets/fonts/NotoSansCJK-VF.ttc) format("opentype");
+  
+}
+.explaintext{
+  font-family: "NotoSans";
+}
 /* header */
 .headertop{
   font-family: "Trajanpro";

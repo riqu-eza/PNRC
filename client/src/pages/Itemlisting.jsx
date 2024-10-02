@@ -176,7 +176,7 @@ export default function Itemlisting() {
   };
 
   return (
-    <main className="p-4 md:p-8">
+    <main className=" md:p-8 border-black bg-slate-200 border-2 m-1 p-1 ">
       {errorMessage && (
         <p className="text-red-500 text-center">{errorMessage}</p>
       )}
@@ -187,13 +187,13 @@ export default function Itemlisting() {
       )}
       {listing && !error && !loading && (
         <>
-          <div>
-            <p className=" text-center text-3xl md:text-4xl text-sky-400 font-extrabold listingname">
+          <div className="border-black border-2" >
+            <p className=" text-center text-3xl border-black border-2 md:text-4xl text-sky-400 font-extrabold listingname">
               {listing.name}
             </p>
-            <div className=" text-center mt-2">
+            <div className=" border-black border-2 text-center mt-2">
               <span className="text-blue-500 mr-2">
-                {listing.address?.city}, {listing.address?.street}
+                 {listing.address?.street}
               </span>
               <FontAwesomeIcon
                 icon={faMapMarkerAlt}
@@ -207,13 +207,13 @@ export default function Itemlisting() {
           </div>
 
           {/* Listing Details */}
-          <div className="flex flex-col max-w-full md:max-w-4xl mx-auto p-3 my-2 gap-4 itemcontent">
-            <div className="flex  justif gap-4">
+          <div className="flex flex-col border-black border-2 max-w-full md:max-w-4xl mx-auto p-3 my-2 gap-4 itemcontent">
+            <div className="flex  border-black border-2 gap-4">
               <p className="mt-1 text-sm sm:text-base md:text-lg from-neutral-400 text-black-600 text-center">
                 {listing.description}
               </p>
 
-              <ul className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4 ">
+              <ul className="grid grid-cols-2 border-black border-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4 ">
                 {amenitiesList.map((amenity, index) => {
                   // Remove extra spaces and convert to lowercase for better matching
                   const formattedAmenity = amenity.trim().toLowerCase();
@@ -221,7 +221,7 @@ export default function Itemlisting() {
                   return (
                     <li
                       key={index}
-                      className="flex items-center  whitespace-nowrap"
+                      className="flex items-center border-black border-2  whitespace-nowrap"
                     >
                       {/* Show the corresponding icon for each amenity if it exists */}
                       <span>{amenitiesIcons[formattedAmenity]}</span>
@@ -235,65 +235,65 @@ export default function Itemlisting() {
 
             {/* Booking Form */}
             {/* Render Room Details */}
-            {Array.isArray(listing.details?.accommodation?.rooms) && listing.details.accommodation.rooms.length > 0 ? (              <div className="my-8 p-4 bg-white shadow-md rounded-md">
-                <h2 className="text-lg font-semibold mb-4">The Rooms We Have..</h2>
-                {listing.details.accommodation.rooms.map((room, index) => (
-                  <div
-                    key={index}
-                    className="flex flex-col  border-2 border-gray-300 pb-4 mb-4"
-                  >
-                    {/* Upper section for images */}
-                    <div className="flex-1  ">
-                      {room.imagesurl?.length > 0 && (
-                        <Swiper navigation>
-                          {room.imagesurl.map((url, imgIdx) => (
-                            <SwiperSlide key={imgIdx}>
-                              <div
-                                className="h-[200px] md:h-[300px] lg:h-[350px]"
-                                style={{
-                                  background: `url(${url}) center no-repeat`,
-                                  backgroundSize: "cover",
-                                }}
-                              ></div>
-                            </SwiperSlide>
-                          ))}
-                        </Swiper>
-                      )}
-                    </div>
-
-                    {/* Lower section for room details */}
-                    <div className="flex-1 p-4">
-                      <h3 className="text-md font-semibold mb-2">
-                        Room {index + 1}
-                      </h3>
-                      <p>
-                        <strong>Type:</strong> {room.type}
-                      </p>
-                      <p>
-                        <strong>Beds:</strong> {room.beds}
-                      </p>
-                      <p>
-                        <strong>Price:</strong> ${room.price}
-                      </p>
-                      {room.discount && (
-                        <p>
-                          <strong>Discount:</strong> {room.discount}
-                        </p>
-                      )}
-                      <p>
-                        <strong>Description:</strong> {room.description}
-                      </p>
-                      {room.amenities.length > 0 && (
-                        <div>
-                          <strong>Amenities:</strong>{" "}
-                          {room.amenities.join(", ")}
-                        </div>
-                      )}
-                    </div>
+            {Array.isArray(listing.details?.accommodation?.rooms) && listing.details.accommodation.rooms.length > 0 ? (<div className="my-8 p-4 bg-white shadow-md rounded-md">
+              <h2 className="text-lg font-semibold border-black border-2 mb-4">The Rooms We Have..</h2>
+              {listing.details.accommodation.rooms.map((room, index) => (
+                <div
+                  key={index}
+                  className="flex flex-col  border-2 border-gray-300 pb-4 mb-4"
+                >
+                  {/* Upper section for images */}
+                  <div className="flex-1  ">
+                    {room.imagesurl?.length > 0 && (
+                      <Swiper navigation>
+                        {room.imagesurl.map((url, imgIdx) => (
+                          <SwiperSlide key={imgIdx}>
+                            <div
+                              className="h-[200px] md:h-[300px] lg:h-[350px]"
+                              style={{
+                                background: `url(${url}) center no-repeat`,
+                                backgroundSize: "cover",
+                              }}
+                            ></div>
+                          </SwiperSlide>
+                        ))}
+                      </Swiper>
+                    )}
                   </div>
-                ))}
-              </div>
-            ): (
+
+                  {/* Lower section for room details */}
+                  <div className="flex-1 p-4">
+                    <h3 className="text-md font-semibold mb-2">
+                      Room {index + 1}
+                    </h3>
+                    <p>
+                      <strong>Type:</strong> {room.type}
+                    </p>
+                    <p>
+                      <strong>Beds:</strong> {room.beds}
+                    </p>
+                    <p>
+                      <strong>Price:</strong> ${room.price}
+                    </p>
+                    {room.discount && (
+                      <p>
+                        <strong>Discount:</strong> {room.discount}
+                      </p>
+                    )}
+                    <p>
+                      <strong>Description:</strong> {room.description}
+                    </p>
+                    {room.amenities.length > 0 && (
+                      <div>
+                        <strong>Amenities:</strong>{" "}
+                        {room.amenities.join(", ")}
+                      </div>
+                    )}
+                  </div>
+                </div>
+              ))}
+            </div>
+            ) : (
               <p>No room details available.</p>
             )}
 
@@ -415,7 +415,10 @@ export default function Itemlisting() {
               </div>
             </div>
           </div>
-          <Comments currentUser={currentUser} listingId={listing._id} />
+          <div className="border-black border-2" >
+            <Comments currentUser={currentUser} listingId={listing._id} />
+
+          </div>
         </>
       )}
     </main>

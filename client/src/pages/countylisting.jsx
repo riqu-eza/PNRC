@@ -103,7 +103,7 @@ const Countylisting = ({ countyBackgrounds }) => {
       </div>
 
       <div className="p-4 md:p-6 lg:px-12  bg-black flex items-center justify-center">
-        <p className="text-white text-base md:text-lg lg:text-2xl text-center mx-4 md:mx-12 lg:mx-20">
+        <p className="text-white explaintext text-base md:text-lg lg:text-2xl text-center mx-4 md:mx-12 lg:mx-20">
           {cityInfo}
         </p>
       </div>

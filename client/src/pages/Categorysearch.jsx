@@ -38,7 +38,12 @@ const CategorySearch = () => {
     const max = Math.max(...prices);
 
     // Return unique room types and the room details for further processing
-    return { roomTypes: uniqueRoomTypes, roomDetails, minPrice: min, maxPrice: max };
+    return {
+      roomTypes: uniqueRoomTypes,
+      roomDetails,
+      minPrice: min,
+      maxPrice: max,
+    };
   };
 
   useEffect(() => {
@@ -69,7 +74,8 @@ const CategorySearch = () => {
           );
 
           // Extract room types and price range
-          const { roomTypes, minPrice, maxPrice } = extractRoomTypesAndPrices(data);
+          const { roomTypes, minPrice, maxPrice } =
+            extractRoomTypesAndPrices(data);
           setMinPrice(minPrice);
           setMaxPrice(maxPrice);
           setSelectedPrice(maxPrice); // Set the initial selected price to max price
@@ -132,14 +138,14 @@ const CategorySearch = () => {
 
   return (
     <>
-      <MapComponent  />
-      <div className="flex">
+      <MapComponent />
+      <div className="flex border-gray-300 bg-gray-300 shadow-lg border-2 gap-2 p-2 m-2">
         {/* Left Section: Subcategories and Sort Options */}
-        <div className="w-1/4 p-4 bg-gray-100 overflow-y-auto">
-          <h3 className="text-lg font-semibold mb-2 text-center">
-            Most Popular
+        <div className="w-1/4 p-4 border-gray-200 h-screen border-2 bg-gray-200 shadow-2xl scrollable">
+          <h3 className="text-xl font-semibold rounded-sm border-gray-400 border-2  bg-gray-400 shadow-lg  p-1 text-center">
+            MOST POPULAR
           </h3>
-          <ul>
+          <ul className=" mt-1">
             <li
               className={`flex items-center justify-between p-2 cursor-pointer hover:bg-gray-200 ${
                 !selectedSubcategory ? "bg-gray-200" : ""
@@ -151,7 +157,7 @@ const CategorySearch = () => {
             {subcategories.map(({ subcategory, count }) => (
               <li
                 key={subcategory}
-                className={`flex items-center justify-between p-2 cursor-pointer hover:bg-gray-200 ${
+                className={`flex items-center justify-between p-2 cursor-pointer bg-gray-300 border-2 rounded-lg hover:bg-gray-200 ${
                   selectedSubcategory === subcategory ? "bg-gray-200" : ""
                 }`}
                 onClick={() => handleSubcategoryClick(subcategory)}
@@ -163,22 +169,35 @@ const CategorySearch = () => {
           </ul>
 
           {/* Room Types Dropdown */}
-          <h3 className="text-lg font-semibold mt-4">Room Types</h3>
-          <select
-            className="p-2 mt-2 bg-white border rounded"
-            value={selectedRoomType || ""}
-            onChange={handleRoomTypeChange}
-          >
-            <option value="">All Room Types</option>
+          <h3 className="text-lg rounded-sm border-gray-400 border-2 bg-gray-400 shadow-lg text-center font-semibold mt-4">
+            Room Types
+          </h3> 
+          <ul>
+            <li
+              className={`p-2 hover:bg-gray-200  text-center cursor-pointer ${
+                !selectedRoomType ? "bg-gray-200" : ""
+              }`}
+              onClick={() => setSelectedRoomType(null)} // Reset the selected room type
+            >
+              All
+            </li>
             {roomTypes.map((roomType) => (
-              <option key={roomType} value={roomType}>
+              <li
+                key={roomType}
+                className={`p-2 bg-gray-300 border-2 rounded-lg hover:bg-gray-200 cursor-pointer ${
+                  selectedRoomType === roomType ? "bg-gray-200" : ""
+                }`}
+                onClick={() => setSelectedRoomType(roomType)} // Update the state here
+              >
                 {roomType}
-              </option>
+              </li>
             ))}
-          </select>
-
+          </ul>
           {/* Price Range Slider */}
-          <h3 className="text-lg font-semibold mt-4">Price Range(from)</h3>
+          <h3 className="text-lg rounded-sm border-gray-400 border-2 bg-gray-400 shadow-lg text-center font-semibold mt-4">
+            {" "}
+            Price Range(from)
+          </h3>
           <input
             type="range"
             min={minPrice}
@@ -195,8 +214,8 @@ const CategorySearch = () => {
         </div>
 
         {/* Right Section: Listings */}
-        <div className="w-3/4 p-4">
-          <h2 className="text-xl font-semibold mb-4 text-center">
+        <div className="w-3/4 p-4 border-gray-200 border-2 bg-gray-200 shadow-2xl ">
+          <h2 className="text-xl  font-semibold mb-4 text-center">
             {selectedSubcategory || "All "}
           </h2>
 
@@ -209,10 +228,12 @@ const CategorySearch = () => {
               ></l-jelly-triangle>
             </div>
           ) : (
-            <div className="grid grid-cols-1 md:grid-cols-2  justify-evenly ">
-              {filteredListings.map((listing) => (
-                <ListingItem key={listing._id} listing={listing} />
-              ))}
+            <div className="flex-grow h-screen  scrollable">
+              <div className="grid grid-cols-1 border-gray-100 gap-2 border-2 md:grid-cols-3 p-3">
+                {filteredListings.map((listing) => (
+                  <ListingItem key={listing._id} listing={listing} />
+                ))}
+              </div>
             </div>
           )}
         </div>

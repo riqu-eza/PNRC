@@ -20,10 +20,10 @@ const ListingsByCounty = () => {
         const res = await fetch("http://localhost:3000/api/listing/unique-counties");
         const data = await res.json();
         setUniqueCounties(data);
-  
+
         const backgrounds = {};
         const cityInfo = {};
-  
+
         for (const county of data) {
           try {
             // Fetch background image and city info for each county
@@ -31,7 +31,7 @@ const ListingsByCounty = () => {
               `http://localhost:3000/api/admin/bckimg?county=${encodeURIComponent(county)}`
             );
             const imageData = await imageRes.json();
-            
+
             // Set the background and city info for this county
             backgrounds[county] = imageData.imageUrls || []; // Set to empty array if no imageUrls are found
             cityInfo[county] = imageData.description || '';  // Set to empty string if no description is found
@@ -41,7 +41,7 @@ const ListingsByCounty = () => {
             // Continue the loop without setting any background or city info for this county
           }
         }
-  
+
         // Once all counties have been processed, update the state
         setCountyBackgrounds(backgrounds);
         setcityinfo(cityInfo);
@@ -51,10 +51,10 @@ const ListingsByCounty = () => {
         setIsLoading(false);
       }
     };
-  
+
     fetchUniqueCounties();
   }, []);
-  
+
 
   const fetchListingsByCounty = async (county) => {
     const backgroundUrl = countyBackgrounds[county];
@@ -86,22 +86,23 @@ const ListingsByCounty = () => {
   return (
     <>
       {introVisible && (
-        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-80 z-50">
-          <div className="bg-black  bg-opacity-40 opacity-80 text-white p-8 rounded-md text-center max-w-">
+        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-100 z-50">
+          <div className="text-gray-400 p-8 rounded-md text-center max-w-">
             <h2 className="text-2xl font-bold">
               Welcome to Our Resort Cities!
             </h2>
-            <p className="mt-4 text-2xl">
+            <p className="mt-4 text-2xl explaintext leading-18">
               We invite you as you plan to embark on a journey with us through
-              Africa’s most breathtaking Resort Cities(RC) to join our Eco-lens
-              blog and we share our experiences . At Palmnazi RC, we offer more
+              Africa’s most breathtaking Resort Cities (RC) to join our Eco-lens
+              blog and we share our experiences. At Palmnazi RC, we offer more
               than just a glimpse of stunning destinations but also a kingly
-              treatment since we are dedicated to provide a majestic experience
-              as gateway to the heart and soul of Africa. Join us and discover
+              treatment since we are dedicated to providing a majestic experience
+              as a gateway to the heart and soul of Africa. Join us and discover
               how your journey with Palmnazi RC can be both enriching,
-              enthralling and meaningful, as you experience the true Spirits of
+              enthralling, and meaningful, as you experience the true Spirits of
               Africa like never before.
             </p>
+
             <button
               className="mt-6 px-4 py-2 bg-blue-500 text-white rounded-md"
               onClick={() => setIntroVisible(false)}

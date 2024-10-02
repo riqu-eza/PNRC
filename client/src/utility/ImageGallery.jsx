@@ -15,9 +15,9 @@ const ImageGallery = ({ listing }) => {
   }, [listing.imageUrls]);
 
   return (
-    <div className="w-full md:w-3/4 mx-auto my-auto mt-4 mb-8">
+    <div className="w-full md:w-3/4 mx-auto  my-auto mt-4 mb-8">
       {/* Upper Section - Display the selected image */}
-      <div className="grid grid-cols-2 md:grid-cols-3 gap-2 mb-4 h-[300px]">
+      <div className="grid grid-cols-2 md:grid-cols-3   m-1 gap-2 mb-4 h-[300px]">
         {selectedImage ? (
           <div
             className="col-span-3 bg-cover bg-center"
@@ -44,12 +44,12 @@ const ImageGallery = ({ listing }) => {
       </div>
 
       {/* Lower Section - Scrollable Thumbnail Gallery */}
-      <div className="flex overflow-x-scroll space-x-2 py-2">
+      <div className="flex  m-1 overflow-x-scroll space-x-2 py-2">
         {listing.imageUrls?.length > 0 ? (
           listing.imageUrls.map((url, index) => (
             <div
               key={index}
-              className="flex-shrink-0 cursor-pointer bg-cover bg-center"
+              className="flex-shrink-0 cursor-pointer  bg-cover bg-center"
               style={{
                 backgroundImage: `url(${url})`,
                 width: "80px", // Thumbnail size

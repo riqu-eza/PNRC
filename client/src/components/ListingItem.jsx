@@ -11,7 +11,7 @@ export default function ListingItem({ listing }) {
   };
 
   return (
-    <div className="bg-white shadow-md hover:shadow-lg transition-shadow overflow-hidden rounded-lg w-[200px] sm:w-[230px] md:w-[260px] lg:w-[300px]">
+    <div className="bg-white shadow-md hover:shadow-lg  transition-shadow overflow-hidden rounded-lg w-[200px] sm:w-[230px] md:w-[260px] lg:w-[300px]">
       <Link to={`/listing/${listing._id}`} className="">
         <div className="">
           {/* Updated to check for imageUrls array */}
