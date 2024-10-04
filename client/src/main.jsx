@@ -4,6 +4,10 @@ import "./index.css";
 import { persistor, store } from "./redux/store.js";
 import { Provider } from "react-redux";
 import { PersistGate } from "redux-persist/integration/react";
+import Modal from 'react-modal';
+
+
+Modal.setAppElement('#root')
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <Provider store={store}>

@@ -132,16 +132,18 @@ const CreateListing = () => {
   // Handle image uploads for the current room
   const handleroomImageSubmit = () => {
     const currentRoomImages = formData.details.accommodation.rooms[currentRoomIndex]?.imageUrls || [];
-
-    if (
-      roomFiles.length > 0 &&
-      currentRoomImages.length + roomFiles.length < 7
-    ) {
+    
+    if (roomFiles.length > 0 && currentRoomImages.length + roomFiles.length < 7) {
       setUploading(true);
       setImageUploadError('');
-
-      const promises = roomFiles.map((file) => storeImage(file)); // Assuming storeImage returns a promise
-
+  
+      const promises = []; // Initialize an empty array to hold promises
+  
+      for (let i = 0; i < roomFiles.length; i++) {
+        console.log(`File ${i} size:`, roomFiles[i].size); // Log file size
+        promises.push(storeImage(roomFiles[i])); // Store image
+      }
+  
       Promise.all(promises)
         .then((urls) => {
           const updatedRooms = [...formData.details.accommodation.rooms];
@@ -149,7 +151,7 @@ const CreateListing = () => {
             ...currentRoomImages,
             ...urls,
           ];
-
+  
           setFormData({
             ...formData,
             details: {
@@ -160,12 +162,13 @@ const CreateListing = () => {
               },
             },
           });
-
+  
           // Reset after successful upload
           setRoomFiles([]);
           setUploading(false);
         })
-        .catch(() => {
+        .catch((error) => {
+          console.error('Upload Error:', error.message); // Log the specific error message
           setImageUploadError('Image upload failed (2 MB max per image)');
           setUploading(false);
         });
@@ -175,6 +178,8 @@ const CreateListing = () => {
       setImageUploadError('You can only upload 6 images per room');
     }
   };
+  
+  
 
   // Remove a room from the list
   const removeRoom = (index) => {

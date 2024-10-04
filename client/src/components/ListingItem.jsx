@@ -4,6 +4,7 @@ import { faMapMarkerAlt } from "@fortawesome/free-solid-svg-icons";
 
 /* eslint-disable react/prop-types */
 export default function ListingItem({ listing }) {
+  console.log("listi", listing)
   const handleMapClick = (location) => {
     const [latitude, longitude] = location.split(",");
     const url = `https://www.google.com/maps?q=${latitude},${longitude}`;
@@ -23,7 +24,7 @@ export default function ListingItem({ listing }) {
             />
           ) : (
             <div className="h-[220px] sm:h-[250px] md:h-[280px] lg:h-[200px] w-full bg-gray-300 flex items-center justify-center">
-              <p className="text-gray-500">No Image Available</p>
+              <p className="text-gray-500">No Image Aailable</p>
             </div>
           )}
 
