@@ -4,6 +4,7 @@ import {prepareSearchTerm} from "../utils/Searchutil.js";
 
 export const createListing = async (req, res, next) => {
   try {
+    console.log("data", req.body)
     const listing = await Listing.create(req.body);
     return res.status(201).json(listing);
   } catch (error) {

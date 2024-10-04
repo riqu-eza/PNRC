@@ -18,6 +18,7 @@ const CreateListing = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
   const [uploading, setUploading] = useState(false);
+  const [currentRoomIndex, setCurrentRoomIndex] = useState(0); 
 
   const { currentUser } = useSelector((state) => state.user);
   const { username } = useUser("");
@@ -79,47 +80,144 @@ const CreateListing = () => {
       },
     },
   });
-  const [rooms, setRooms] = useState(
-    formData.details.accommodation.rooms || []
-  );
+ 
   const [countiesInKenya, setCounties] = useState([]);
   const [currentRoom, setCurrentRoom] = useState({
-    type: "",
-    beds: "",
-    price: "",
-    discount: "",
-    description: "",
-    amenities: "",
-    imagesurl: [],
+    type: '',
+    beds: '',
+    price: '',
+    discount: '',
+    description: '',
+    amenities: [],
+    imageUrls: [],
   });
+  const [roomFiles, setRoomFiles] = useState([]);
+  const [imageUploadError, setImageUploadError] = useState('');
+
+  // Handle input changes for the current room
   const handleRoomChange = (field, value) => {
+    // Update the current room
     setCurrentRoom((prevRoom) => ({
       ...prevRoom,
       [field]: value,
     }));
   };
+  
+
+  // Add the current room to the list of rooms
   const addRoom = () => {
-    // Add the current room to the list of rooms and reset the form for the next room
-    setFormData((prevData) => ({
-      ...prevData,
+    setFormData((prevFormData) => ({
+      ...prevFormData,
       details: {
-        ...prevData.details,
+        ...prevFormData.details,
         accommodation: {
-          ...prevData.details.accommodation,
-          rooms: [...prevData.details.accommodation.rooms, currentRoom],
+          ...prevFormData.details.accommodation,
+          rooms: [...prevFormData.details.accommodation.rooms, currentRoom],
         },
       },
     }));
-
-    // Clear the form fields for the next room input
+  
+    // Reset currentRoom after adding it
     setCurrentRoom({
       type: "",
       beds: "",
       price: "",
       discount: "",
       description: "",
-      amenities: "",
-      imagesurl: [],
+      amenities: [],
+      imageUrls: [],
+    });
+  };
+  
+  // Handle image uploads for the current room
+  const handleroomImageSubmit = () => {
+    const currentRoomImages = formData.details.accommodation.rooms[currentRoomIndex]?.imageUrls || [];
+
+    if (
+      roomFiles.length > 0 &&
+      currentRoomImages.length + roomFiles.length < 7
+    ) {
+      setUploading(true);
+      setImageUploadError('');
+
+      const promises = roomFiles.map((file) => storeImage(file)); // Assuming storeImage returns a promise
+
+      Promise.all(promises)
+        .then((urls) => {
+          const updatedRooms = [...formData.details.accommodation.rooms];
+          updatedRooms[currentRoomIndex].imageUrls = [
+            ...currentRoomImages,
+            ...urls,
+          ];
+
+          setFormData({
+            ...formData,
+            details: {
+              ...formData.details,
+              accommodation: {
+                ...formData.details.accommodation,
+                rooms: updatedRooms,
+              },
+            },
+          });
+
+          // Reset after successful upload
+          setRoomFiles([]);
+          setUploading(false);
+        })
+        .catch(() => {
+          setImageUploadError('Image upload failed (2 MB max per image)');
+          setUploading(false);
+        });
+    } else if (roomFiles.length === 0) {
+      setImageUploadError('Select images to upload');
+    } else {
+      setImageUploadError('You can only upload 6 images per room');
+    }
+  };
+
+  // Remove a room from the list
+  const removeRoom = (index) => {
+    setFormData((prevData) => ({
+      ...prevData,
+      details: {
+        ...prevData.details,
+        accommodation: {
+          ...prevData.details.accommodation,
+          rooms: prevData.details.accommodation.rooms.filter((_, i) => i !== index),
+        },
+      },
+    }));
+
+    // Clear current room selection if the removed room was the current one
+    if (index === currentRoomIndex) {
+      setCurrentRoomIndex(0);
+      setCurrentRoom({
+        type: '',
+        beds: '',
+        price: '',
+        discount: '',
+        description: '',
+        amenities: [],
+        imageUrls: [],
+      });
+    }
+  };
+
+  // Remove an image from a specific room
+  const handleRemoveImage = (roomIndex, imageIndex) => {
+    const updatedRooms = [...formData.details.accommodation.rooms];
+    updatedRooms[roomIndex].imageUrls = updatedRooms[roomIndex].imageUrls.filter((_, i) => i !== imageIndex);
+
+    setFormData({
+      ...formData,
+      details: {
+        ...formData.details,
+        accommodation: {
+          ...formData.details.accommodation,
+          rooms: updatedRooms,
+        },
+      },
     });
   };
   useEffect(() => {
@@ -143,21 +241,11 @@ const CreateListing = () => {
     console.log("Submit button clicked"); // Log when the submit button is clicked
 
     try {
-      // Validation checks
-      // if (formData.imageUrls.length < 1) {
-      //     console.log("Validation failed: No images uploaded");
-      //     return setError("You must upload at least one image");
-      // }
-      // if (+formData.regularPrice < +formData.discountedPrice) {
-      //     console.log("Validation failed: Discount price is greater than regular price");
-      //     return setError("Discount price must be greater than regular price");
-      // }
-
       console.log("Validation passed. Sending request...");
 
       setLoading(true);
       setError(false);
-
+      console.log("form data", formData);
       const res = await fetch("http://localhost:3000/api/listing/create", {
         method: "POST",
         headers: {
@@ -274,21 +362,7 @@ const CreateListing = () => {
     }));
   };
 
-  const removeRoom = (index) => {
-    setFormData((prevData) => ({
-      ...prevData,
-      details: {
-        ...prevData.details,
-        accommodation: {
-          ...prevData.details.accommodation,
-          rooms: prevData.details.accommodation.rooms.filter(
-            (room, i) => i !== index
-          ),
-        },
-      },
-    }));
-  };
-
+ 
   const handleCountyChange = (e) => {
     const value = e.target.value;
     setFormData((prevState) => ({
@@ -351,71 +425,35 @@ const CreateListing = () => {
       alert("Geolocation is not supported by this browser.");
     }
   };
-  const [propertyFiles, setPropertyFiles] = useState([]);
-  const [roomFiles, setRoomFiles] = useState([]);
-
-  // image handling
-  const [imageUploadError, setImageUploadError] = useState(false);
   const [files, setFiles] = useState([]);
+  const handleImageSubmit = () => {
+    if (files.length > 0 && files.length + formData.imageUrls.length < 7) {
+      setUploading(true);
+      setImageUploadError(false);
+      const promises = [];
 
-  const handleImageSubmit = async (type, roomIndex = null) => {
-    const maxImages = 6; // Assuming max 6 images per type
-    const maxTotalImages = 100; // Assuming total limit
-    const filesToUpload = type === "listing" ? propertyFiles : roomFiles;
-    // Ensure imageUrlsKey and currentImageUrls are properly set
-    let imageUrlsKey;
-    let currentImageUrls;
-
-    if (type === "listing") {
-      imageUrlsKey = "imageUrls";
-      currentImageUrls = formData.imageUrls || [];
-    } else {
-      imageUrlsKey = `details.accommodation.rooms[${roomIndex}].imageUrls`;
-      currentImageUrls =
-        formData.details.accommodation.rooms[roomIndex]?.imageUrls || [];
-    }
-
-    // Validation
-    if (
-      filesToUpload.length > 0 &&
-      filesToUpload.length + currentImageUrls.length <= maxTotalImages
-    ) {
-      if (currentImageUrls.length + filesToUpload.length <= maxImages) {
-        setUploading(true);
-        setImageUploadError(false);
-
-        const promises = files.map((file) => storeImage(file));
-        try {
-          const urls = await Promise.all(promises);
-          const updatedFormData = { ...formData };
-
-          if (type === "listing") {
-            updatedFormData.imageUrls = currentImageUrls.concat(urls);
-          } else {
-            updatedFormData.details.accommodation.rooms[roomIndex].imageUrls =
-              currentImageUrls.concat(urls);
-          }
-
-          setFormData(updatedFormData);
-          setImageUploadError(false);
-        } catch (err) {
-          setImageUploadError("Image upload failed (2 MB max per image)");
-        } finally {
-          setUploading(false);
-        }
-      } else {
-        setImageUploadError(
-          `You can only upload ${maxImages} images per ${type}`
-        );
-        setUploading(false);
+      for (let i = 0; i < files.length; i++) {
+        promises.push(storeImage(files[i]));
       }
+      Promise.all(promises)
+        .then((urls) => {
+          setFormData({
+            ...formData,
+            imageUrls: formData.imageUrls.concat(urls),
+          });
+          setImageUploadError(false);
+          setUploading(false);
+        })
+        // eslint-disable-next-line no-unused-vars
+        .catch((err) => {
+          setImageUploadError("Image upload fail (2 mb max per image)");
+          setUploading(false);
+        });
     } else if (files.length === 0) {
       setImageUploadError("Select images to upload");
       setUploading(false);
     } else {
-      setImageUploadError(
-        `You can only upload ${maxTotalImages} images in total`
-      );
+      setImageUploadError("You can only upload 6 images per listing");
       setUploading(false);
     }
   };
@@ -444,12 +482,7 @@ const CreateListing = () => {
       );
     });
   };
-  const handleRemoveImage = (index) => {
-    setFormData({
-      ...formData,
-      imageUrls: formData.imageUrls.filter((_, i) => i !== index),
-    });
-  };
+ 
 
   return (
     <form>
@@ -501,7 +534,7 @@ const CreateListing = () => {
               </p>
               <div className="flex gap-4">
                 <input
-                  onChange={(e) => setPropertyFiles(Array.from(e.target.files))}
+                  onChange={(e) => setFiles(e.target.files)}
                   className="p-3 border border-gray-300 rounded w-full"
                   type="file"
                   id="images"
@@ -770,7 +803,7 @@ const CreateListing = () => {
                       <button
                         disabled={uploading}
                         type="button"
-                        onClick={() => handleImageSubmit("room")}
+                        onClick={handleroomImageSubmit}
                         className="p-3 text-green-700 border border-green-700 rounded uppercase hover:shadow-lg disabled:opacity-80"
                       >
                         {uploading ? "uploading" : "upload"}
@@ -780,26 +813,35 @@ const CreateListing = () => {
                     <p className="text-red-700 text-sm">
                       {imageUploadError && imageUploadError}
                     </p>
-                    {formData.imageUrls.length > 0 &&
-                      formData.imageUrls.map((url, index) => (
-                        <div
-                          key={url}
-                          className="flex justify-between p-3 border items-center"
-                        >
-                          <img
-                            src={url}
-                            alt="listing image"
-                            className="w-20 h-20 object-contain rounded-lg"
-                          />
-                          <button
-                            type="button"
-                            onClick={() => handleRemoveImage(index)}
-                            className="p-3 text-red-700 rounded-lg uppercase hover:opacity-75"
-                          >
-                            Delete
-                          </button>
+                    {formData.details.accommodation.rooms.map(
+                      (room, roomIndex) => (
+                        <div key={roomIndex} className="mb-4">
+                          {room.imageUrls &&
+                            room.imageUrls.length > 0 &&
+                            room.imageUrls.map((url, index) => (
+                              <div
+                                key={url}
+                                className="flex justify-between p-3 border items-center"
+                              >
+                                <img
+                                  src={url}
+                                  alt={`Room image ${index + 1}`}
+                                  className="w-20 h-20 object-contain rounded-lg"
+                                />
+                                <button
+                                  type="button"
+                                  onClick={() =>
+                                    handleRemoveImage(roomIndex, index)
+                                  } // Use roomIndex and image index
+                                  className="p-3 text-red-700 rounded-lg uppercase hover:opacity-75"
+                                >
+                                  Delete
+                                </button>
+                              </div>
+                            ))}
                         </div>
-                      ))}
+                      )
+                    )}
                   </div>
                 </div>
 

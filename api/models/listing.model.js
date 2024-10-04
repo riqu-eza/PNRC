@@ -6,6 +6,7 @@ const listingSchema = new mongoose.Schema(
     email: { type: String, required: true },
     description: { type: String, required: true },
     contact: { type: String, required: true },
+    imageUrls: [],
     address: {
       street: { type: String, required: true },
       city: { type: String, required: true },
@@ -34,7 +35,7 @@ const listingSchema = new mongoose.Schema(
         check_in_time: { type: String },
         check_out_time: { type: String },
         amenities: { type: [String],  },
-        imagesurl: [{ type: String }],
+        
 
 
       },

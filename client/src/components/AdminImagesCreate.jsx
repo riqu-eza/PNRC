@@ -23,6 +23,7 @@ export default function CreateListing() {
   const [uploading, setUploading] = useState(false);
   const [error, setError] = useState(false);
   const [loading, setLoading] = useState(false);
+  // eslint-disable-next-line no-unused-vars
   const navigate = useNavigate();
   const {username} = useUser();
 
