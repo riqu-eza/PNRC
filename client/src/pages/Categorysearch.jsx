@@ -139,6 +139,9 @@ const CategorySearch = () => {
   return (
     <>
       <MapComponent />
+      <div className="" >
+        <h1 className="border-2 border-slate-300 m-1 p-1 text-center text-2xl bg-slate-400 shadow-lg " >{categoryname}</h1>
+      </div>
       <div className="flex border-gray-300 bg-gray-300 shadow-lg border-2 gap-2 p-2 m-2">
         {/* Left Section: Subcategories and Sort Options */}
         <div className="w-1/4 p-4 border-gray-200 h-screen border-2 bg-gray-200 shadow-2xl scrollable">
