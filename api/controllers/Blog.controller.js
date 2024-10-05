@@ -2,12 +2,23 @@ import Blog from "../models/blog.model.js";
 
 
 export const createBlog = async (req, res, next) => {
-    try {
-      const newBlog = await Blog.create(req.body);
-      return res.status(201).json(newBlog); 
-    } catch (error) {
-      next(error);
-    }
+  console.log("log",req.body )
+  const { title, text, fileUrls, category, username } = req.body;
+
+  // Ensure only one of text or fileUrls is provided
+  if ((!text && !fileUrls) || (text && fileUrls)) {
+    return res.status(400).json({
+      error: 'You must provide either text or file URL, but not both or neither.'
+    });
+  }
+
+  try {
+    const blog = new Blog({ title, text, fileUrls, category, username });
+    await blog.save();
+    res.status(201).json(blog);
+  } catch (error) {
+    res.status(500).json({ error: 'Error creating blog' });
+  };
 };
  
  export const getAllBlogs = async (req, res, next) => {

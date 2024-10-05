@@ -9,17 +9,21 @@ const BlogSchema = new mongoose.Schema(
     },
     text: {
       type: String,
-      required: true,
+      required: false,
     },
     category:{
      type:String,
      required:true,
     },
+    fileUrls:{
+      type: [],
+      required:false,
+    },
     views: { type: Number, default: 0 },
     username: {
       type: String,
       required:true
-    }
+    },
   },
   { timestamps: true }
 );
