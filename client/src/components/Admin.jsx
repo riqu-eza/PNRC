@@ -111,6 +111,12 @@ const Admin = () => {
         >
           Create Listing
         </Link>
+        <Link 
+          to="/property" 
+          className="bg-violet-700 hover:bg-pink-600 text-white p-4 rounded-lg flex items-center justify-center"
+        >
+          Property
+        </Link>
         <Link
           to="/addimage"
           className="bg-green-500 hover:bg-green-600 text-white p-4 rounded-lg flex items-center justify-center"

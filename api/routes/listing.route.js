@@ -7,8 +7,8 @@ import {
   getListings,
   getUniqueSelectedCounties,
   getListingsByCounty,
-  getcategories,
-  getAllListings
+  getAllListings,
+  getCategories
 } from "../controllers/listing.controller.js";
 import { verifyToken } from "../utils/verifyUser.js";
 
@@ -22,7 +22,7 @@ router.get("/get", getListings);
 router.get("/getall", getAllListings );
 router.get("/unique-counties", getUniqueSelectedCounties);
 router.get("/get-by-county", getListingsByCounty)
-router.get('/:county/:categoryname', getcategories);
+router.get('/:county/:categoryname', getCategories);
 
 
 export default router;

@@ -27,6 +27,18 @@ mongoose.connect(process.env.MONGO)
   })
   .catch((err) => console.error("Error connecting to MongoDB:", err));
 
+  // mongoose.connect(process.env.MONGO, {
+  //   useNewUrlParser: true,
+  //   useUnifiedTopology: true,
+  //   readPreference: 'primary', // Force reads to go to the primary node
+  //   serverSelectionTimeoutMS: 5000 // Timeout after 5 seconds instead of default
+  // }).then(() => {
+  //   console.log("Successfully connected to MongoDB");
+  // }).catch((err) => {
+  //   console.error("Error connecting to MongoDB:", err);
+  // });
+  
+
 const __dirname = path.resolve();
 
 const app = express();

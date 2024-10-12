@@ -1,3 +1,5 @@
+/* eslint-disable no-unused-vars */
+/* eslint-disable react/prop-types */
 // ListingsByCounty.js
 
 import { useEffect, useState } from "react";
@@ -61,7 +63,6 @@ const Countylisting = ({ countyBackgrounds }) => {
     fetchListingsByCounty(county);
   }, [county]);
 
-  console.log("Selected county:", selectedCounty);
   const categories = [
     { name: "Accommodation" },
     { name: "Dining" },

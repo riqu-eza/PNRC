@@ -12,7 +12,7 @@ export default function ListingItem({ listing }) {
   };
 
   return (
-    <div className="bg-white shadow-md hover:shadow-lg  transition-shadow overflow-hidden rounded-lg w-[200px] sm:w-[230px] md:w-[260px] lg:w-[300px]">
+    <div className="bg-white shadow-md hover:shadow-lg border-2 border-blue-400 p-2  transition-shadow overflow-hidden  w-[200px] sm:w-[200px] md:w-[260px] lg:w-[250px]">
       <Link to={`/listing/${listing._id}`} className="">
         <div className="">
           {/* Updated to check for imageUrls array */}
@@ -20,7 +20,7 @@ export default function ListingItem({ listing }) {
             <img
               src={listing.imageUrls[0]} // Show first image in the array
               alt="listing cover"
-              className="h-[220px] sm:h-[250px] md:h-[280px] lg:h-[200px] w-full object-cover hover:scale-105 transition-scale duration-300"
+              className="h-[220px] sm:h-[250px] md:h-[280px] lg:h-[230px] w-full object-cover hover:scale-105 transition-scale duration-300"
             />
           ) : (
             <div className="h-[220px] sm:h-[250px] md:h-[280px] lg:h-[200px] w-full bg-gray-300 flex items-center justify-center">

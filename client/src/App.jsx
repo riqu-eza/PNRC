@@ -12,7 +12,6 @@ import Countylisting from "./pages/countylisting";
 import Bloglisting from "./pages/bloglisting";
 import Itemlisting from "./pages/Itemlisting";
 import AdminImageUploadPage from "./components/AdminImagesCreate";
-import Categorysearch from "./pages/Categorysearch";
 import Search from "./pages/Search";
 import Admin from "./components/Admin";
 import City from "./pages/city";
@@ -29,6 +28,8 @@ import BlogPage from "./pages/Blogpage";
 import ViewBusiness from "./components/viewBusiness";
 import ViewListing from "./components/viewlisting";
 import CreateListing from "./pages/CreateListing";
+import PropertyForm from "./admin/PropertyForm";
+import CategorySearch from "./pages/Categorysearch/Categorysearch";
 export default function App() {
 
   return (
@@ -53,7 +54,7 @@ export default function App() {
             <Route path="/blog/:name" element={<BlogPage/>} ></Route>
             <Route path="/listing/:listingId" element={<Itemlisting />} />
             <Route path="/addimage" element={<AdminImageUploadPage />} ></Route>
-            <Route path="/listings/:county/:categoryname" element={<Categorysearch />} />
+            <Route path="/listings/:county/:categoryname" element={<CategorySearch/>} />
             <Route path="/search" element={<Search />} ></Route>
             <Route path="/addcity" element={<City />}></Route>
             <Route path="/admin" element={<Admin />} ></Route>
@@ -62,6 +63,7 @@ export default function App() {
             <Route path="/link1" element={<CreateBusinessListing />} ></Route>
             <Route path="/viewBusiness" element={<ViewBusiness/>}  ></Route>
             <Route path="/viewlisting" element={<ViewListing/>} ></Route>
+            <Route path="/property" element={<PropertyForm/>} ></Route>
           </Route>
           {/* <Route path="/listing/:listingId" element={<Listing />} /> */}
           <Route element={<PrivateRoute />}>
