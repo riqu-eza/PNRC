@@ -21,6 +21,7 @@ const PropertyForm = () => {
     email: "",
     description: "",
     contact: "",
+    amenities: "",
     imageUrls: [],
     category: [],
     hours: [],
@@ -109,6 +110,14 @@ const PropertyForm = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     console.log(propertyData);
+    const amenitiesArray = propertyData.amenities
+      .split(",")
+      .map((amenity) => amenity.trim());
+
+    const finalData = {
+      ...propertyData,
+      amenities: amenitiesArray, // Now store as an array
+    };
     try {
       setUploading(true);
       const res = await fetch("http://localhost:3000/api/listing/create", {
@@ -117,7 +126,7 @@ const PropertyForm = () => {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          ...propertyData,
+          ...finalData,
         }),
       });
 
@@ -199,6 +208,14 @@ const PropertyForm = () => {
         type="text"
         name="contact"
         placeholder="Contact Number"
+        onChange={handleChange}
+        required
+        className="w-full p-2 mb-4 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+      />
+      <input
+        type="text"
+        name="amenities"
+        placeholder="amenities(separeted with `,`)"
         onChange={handleChange}
         required
         className="w-full p-2 mb-4 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"

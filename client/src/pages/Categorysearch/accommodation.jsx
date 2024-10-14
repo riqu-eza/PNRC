@@ -3,7 +3,7 @@
 import React, { useState } from "react";
 import GoogleMapReact from "google-map-react";
 import ListingItem from "../../components/ListingItem";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 
 const AccommodationSearch = ({ listings }) => {
   const { county, categoryname } = useParams();
@@ -11,7 +11,7 @@ const AccommodationSearch = ({ listings }) => {
   const [selectedSubcategory, setSelectedSubcategory] = useState(null);
   const [priceRange, setPriceRange] = useState([0, 1000]);
   const [selectedRoomType, setSelectedRoomType] = useState(null);
-
+  console.log("The accomodationlisting", listings);
   const getUniqueSubcategoryCount = (subcategory) => {
     const uniqueListings = listings.filter((listing) =>
       listing.category.some((cat) =>
@@ -87,9 +87,7 @@ const AccommodationSearch = ({ listings }) => {
 
         {/* Subcategory Filter */}
         <div className=" p-1 ">
-          <h4 className="font-bold  p-1 text-center text-2xl m-2">
-            Popular{" "}
-          </h4>
+          <h4 className="font-bold  p-1 text-center text-2xl m-2">Popular </h4>
           <button
             className={`block w-[300px] text-xl  m-1  p-2 rounded-md cursor-pointer 
           ${!selectedSubcategory ? "bg-blue-500 text-white" : "bg-gray-100 hover:bg-gray-200"}
@@ -130,9 +128,7 @@ const AccommodationSearch = ({ listings }) => {
 
         {/* Price Range Filter */}
         <div className=" p-1 ">
-          <h4 className="font-bold  text-center text-lg mb-2">
-            Price Range
-          </h4>
+          <h4 className="font-bold  text-center text-lg mb-2">Price Range</h4>
           <button
             className="block w-full  px-4 py-2 rounded-md  cursor-pointer bg-gray-100 hover:bg-gray-200"
             onClick={() => {
@@ -153,16 +149,12 @@ const AccommodationSearch = ({ listings }) => {
               applyFilters();
             }}
           />
-          <span className="block mt-2">
-            Up to ${priceRange[1]}
-          </span>
+          <span className="block mt-2">Up to ${priceRange[1]}</span>
         </div>
 
         {/* Room Type Filter */}
         <div className=" p-1 ">
-          <h4 className="font-boldtext-center  text-lg mb-2">
-            Room Type
-          </h4>
+          <h4 className="font-boldtext-center  text-lg mb-2">Room Type</h4>
           <button
             className={`block w-full text-left px-4  py-2 rounded-md  cursor-pointer 
           ${!selectedRoomType ? "bg-blue-500 text-white" : "bg-gray-100 hover:bg-gray-200"}
@@ -210,9 +202,18 @@ const AccommodationSearch = ({ listings }) => {
         </div>
         <div className="">
           <div className="grid grid-cols-3 gap-2">
-            {filteredListings.map((listing) => (
-              <ListingItem key={listing._id} listing={listing} />
-            ))}
+            {filteredListings.map((listing) => {
+              console.log("Sending listing:", listing); // Log the listing data
+              return (
+                <Link
+                  to={`/${county}/${categoryname}/${listing._id}`} // Dynamic path based on category
+                  state={{ listing }} // Pass listing data via state
+                  key={listing._id}
+                >
+                  <ListingItem listing={listing} />
+                </Link>
+              );
+            })}
           </div>
         </div>
       </div>

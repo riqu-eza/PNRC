@@ -8,15 +8,15 @@ export const createBooking = async (req, res, next) => {
 
     const newBooking = await Booking.create(req.body);
 
-    const { userEmail, listingEmail, arrivalDate, departureDate, numberOfPeople } = req.body;
+    const { email, listingEmail,contactNumber, startDate,  endDate, numberOfPeople } = req.body;
 
 
     const emailBody = `
     Dear friend, <br><br><br>
 
     Your booking details:<br>
-    Arrival Date: ${arrivalDate} <br>
-    Departure Date: ${departureDate} <br>
+    Arrival Date: ${startDate} <br>
+    Departure Date: ${endDate} <br>
     Number of People: ${numberOfPeople}<br>
     Thank you for your booking. <br><br><br>
 
@@ -27,7 +27,7 @@ export const createBooking = async (req, res, next) => {
   await sendEmail(listingEmail, "New Booking", emailBody);
 
   
-  await sendEmail(userEmail, "Booking Confirmation", emailBody);
+  await sendEmail(email, "Booking Confirmation", emailBody);
 
     return res.status(201).json(newBooking);
   } catch (error) {

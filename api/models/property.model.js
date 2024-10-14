@@ -64,6 +64,7 @@ const PropertyInfoSchema = new mongoose.Schema({
     email: { type: String, required: true },
     description: { type: String, required: true },
     contact: { type: String, required: true },
+    amenities: [{ type: String,}], 
     imageUrls: [{ type: String }], // Change to array of Strings
     category: [CategorySchema],
     hours: [HoursSchema],
