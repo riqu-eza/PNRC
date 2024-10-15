@@ -1,13 +1,16 @@
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import AccommodationSearch from "./accommodation";
-import DiningSearch from "./Diningsearch";
+import DiningSearch from "./Diningsearch"
+
+
 
 const CategorySearch = () => {
   const { county, categoryname } = useParams();
   const [listings, setListings] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   console.log("categorylist", listings);
+  console.log( categoryname )
   useEffect(() => {
     const fetchData = async () => {
       setIsLoading(true);

@@ -3,7 +3,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faMapMarkerAlt } from "@fortawesome/free-solid-svg-icons";
 
 export default function ListingItem({ listing }) {  // Destructure listing from props
-
+console.log("ITemlistingdin", listing)
   const handleMapClick = (location) => {
     const [latitude, longitude] = location.split(",");
     const url = `https://www.google.com/maps?q=${latitude},${longitude}`;

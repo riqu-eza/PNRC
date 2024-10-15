@@ -142,6 +142,7 @@ const MenuItemForm = ({ setMenuItems, meals }) => {
         Price: "",
         dishType: "",
         orderable: false,
+        imageUrls:[],
       });
     } else {
       alert("Please fill in all fields.");
