@@ -33,13 +33,18 @@ const Diningsearch = ({ listings }) => {
   const handleSubcategoryClick = (subcategory) => {
     setSelectedSubcategory(subcategory);
 
-    const filtered = listings.filter((listing) =>
-      listing.category.some((cat) =>
-        cat.subcategories.some((subcat) => subcat.subcategory === subcategory)
-      )
-    );
+    if (subcategory === "All") {
+      // Reset to show all listings when "All" is clicked
+      setFilteredListings(listings);
+    } else {
+      const filtered = listings.filter((listing) =>
+        listing.category.some((cat) =>
+          cat.subcategories.some((subcat) => subcat.subcategory === subcategory)
+        )
+      );
 
-    setFilteredListings(filtered); // Update the listings based on subcategory
+      setFilteredListings(filtered); // Update the listings based on subcategory
+    }
   };
 
   // Map change handler (you can implement map-based filtering here)
@@ -72,12 +77,21 @@ const Diningsearch = ({ listings }) => {
         </div>
         <div className=" p-2">
           <h4 className="font-bold p-1 text-center text-2xl m-2">Popular </h4>
+          <div
+            onClick={() => handleSubcategoryClick("All")}
+            style={{ cursor: "pointer" }}
+            className={` p-2 ${
+              selectedSubcategory === "All" ? "bg-blue-200" : ""
+            }`}
+          >
+            All
+          </div>
           {uniqueSubcategories.map(([subcategory, count]) => (
             <div
               key={subcategory}
               onClick={() => handleSubcategoryClick(subcategory)}
               style={{ cursor: "pointer" }}
-              className={`p-2 ${
+              className={` p-2 ${
                 selectedSubcategory === subcategory ? "bg-blue-200" : ""
               }`}
             >

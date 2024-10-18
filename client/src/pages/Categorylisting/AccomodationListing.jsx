@@ -48,24 +48,37 @@ const AccommodationListingPage = () => {
   return (
     <div className="max-w-6xl mx-auto p-4">
       {/* Hero Image Section */}
-      <div className="grid grid-cols-2 gap-2 mb-2 relative ">
-        {imageUrls.map((url, index) =>{
-            <div key={index} className="col-span-1">
-            <img
-              src={url}
-              alt={`${name}${index + 1}`}
-              className="w-full h-auto object-cover rounded-lg shadow-lg"
-            />
-          </div>
-        })}
-        <img
-          src={imageUrls[0]}
-          alt={name}
-          className="w-full h-96 object-cover rounded-lg shadow-lg"
-        />
-        <h2 className="absolute bottom-4 left-4 text-white text-3xl font-bold bg-black bg-opacity-50 p-2 rounded">
-          {name}
-        </h2>
+      <div className="relative">
+        {/* Main Hero Image */}
+        <div className="w-full h-96">
+          <img
+            src={selectedImage}
+            alt={name}
+            className="w-full h-full object-cover rounded-lg shadow-lg"
+          />
+          <h2 className="absolute top-4 left-4 text-white text-3xl font-bold bg-black bg-opacity-50 p-2 rounded">
+            {name}
+          </h2>
+        </div>
+
+        {/* Thumbnail Images */}
+        <div className="flex space-x-2 mt-4">
+          {imageUrls.map((url, index) => (
+            <div
+              key={index}
+              className="w-24 h-24 overflow-hidden cursor-pointer"
+            >
+              <img
+                src={url}
+                alt={`Thumbnail ${index + 1}`}
+                className={`w-full h-full object-cover rounded-lg shadow-lg ${
+                  selectedImage === url ? "border-2 border-blue-500" : ""
+                }`}
+                onClick={() => setSelectedImage(url)} // Update the hero image on click
+              />
+            </div>
+          ))}
+        </div>
       </div>
       {/* Adress section */}
       <div className="flex justify-end  p-1 ">
@@ -96,7 +109,7 @@ const AccommodationListingPage = () => {
             <p className="text-gray-700 text-center text-xl"> {description}</p>
           </div>
           <div className=" p-1 ">
-            <Amenities amenities={amenities}/>
+            <Amenities amenities={amenities} />
           </div>
         </div>
         {/* <div className="flex justify-between items-center mb-4">
@@ -167,7 +180,11 @@ const AccommodationListingPage = () => {
                       className="flex gap-2 overflow-x-auto scrollbar-hide scroll-smooth"
                     >
                       {sub.rooms.map((room) => (
-                        <RoomDisplay key={room._id} room={room}  listingemail={email} />
+                        <RoomDisplay
+                          key={room._id}
+                          room={room}
+                          listingemail={email}
+                        />
                       ))}
                     </div>
 
@@ -213,7 +230,7 @@ const AccommodationListingPage = () => {
                   href={`mailto:${email}`}
                   className="text-blue-500  hover:underline"
                 >
-                 {email} 
+                  {email}
                 </a>
               </p>
             </div>

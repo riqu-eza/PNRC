@@ -2,7 +2,7 @@
 import { useState } from "react";
 import Amenities from "./amenities";
 
-const RoomDisplay = ({ room , listingemail}) => {
+const RoomDisplay = ({ room, listingemail }) => {
   const [showBookingOverlay, setShowBookingOverlay] = useState(false);
   const [selectedImage, setSelectedImage] = useState(room.imageUrls[0]);
 
@@ -22,7 +22,7 @@ const RoomDisplay = ({ room , listingemail}) => {
     }
     return 0;
   };
-console.log("listingemail", listingemail)
+  console.log("listingemail", listingemail);
   const [formData, setFormData] = useState({
     firstName: "",
     lastName: "",
@@ -30,9 +30,8 @@ console.log("listingemail", listingemail)
     contactNumber: "",
     startDate: "",
     endDate: "",
-    numberOfPeople:"",
+    numberOfPeople: "",
     listingEmail: listingemail,
-
   });
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -44,9 +43,9 @@ console.log("listingemail", listingemail)
 
   const handleSubmit = (e) => {
     e.preventDefault();
-console.log("formData", formData)
+    console.log("formData", formData);
     // Perform API call with formData
-    fetch("http://localhost:3000/api/booking/create", {
+    fetch("http://localhost:3000/api/booking/create/room", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
