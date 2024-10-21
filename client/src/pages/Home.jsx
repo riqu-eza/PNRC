@@ -22,10 +22,7 @@ export default function Home() {
   return (
     <div className="bgimage relative  bg-cover bg-center min-h-screen ">
       <header className="fixed top-0 left-0 w-full  m-4  z-50 bg-transparent">
-        <div className="flex justify-between items-center max-w-6xl mx-auto p-4">
-          <Link to="/" className="">
-            <img src={logo} alt="Official Logo" className="h-16 w-auto" />
-          </Link>
+        <div className="flex justify-center">
           <ul
             className={`flex items-center gap-6 ${showLinks ? "flex-col" : "hidden"} sm:flex`}
           >
@@ -56,7 +53,7 @@ export default function Home() {
             </Link>
             <Link to="/getstarted">
               <li className="text-cyan-400 text-lg hover:text-white transition duration-300 ease-in-out">
-                Get Started
+                sign~up
               </li>
             </Link>
             {currentUser && (

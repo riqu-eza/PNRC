@@ -3,7 +3,6 @@ import { useLocation } from "react-router-dom";
 import Amenities from "./amenities";
 import Menu from "./meal";
 import { useState } from "react";
-import "react-image-lightbox/style.css";
 
 const DiningListingPage = () => {
   const { state } = useLocation();

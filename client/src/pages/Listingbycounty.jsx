@@ -4,6 +4,7 @@ import "ldrs/jellyTriangle";
 
 import "./page.css";
 import "../components/loading.css";
+import groud from "../imgaes/resort.jpg";
 
 const ListingsByCounty = () => {
   const [uniqueCounties, setUniqueCounties] = useState([]);
@@ -17,7 +18,9 @@ const ListingsByCounty = () => {
   useEffect(() => {
     const fetchUniqueCounties = async () => {
       try {
-        const res = await fetch("http://localhost:3000/api/listing/unique-counties");
+        const res = await fetch(
+          "http://localhost:3000/api/listing/unique-counties"
+        );
         const data = await res.json();
         setUniqueCounties(data);
 
@@ -34,7 +37,7 @@ const ListingsByCounty = () => {
 
             // Set the background and city info for this county
             backgrounds[county] = imageData.imageUrls || []; // Set to empty array if no imageUrls are found
-            cityInfo[county] = imageData.description || '';  // Set to empty string if no description is found
+            cityInfo[county] = imageData.description || ""; // Set to empty string if no description is found
           } catch (err) {
             // If fetching a specific county's data fails, just log and continue with others
             console.warn(`Failed to fetch data for county: ${county}`, err);
@@ -54,7 +57,6 @@ const ListingsByCounty = () => {
 
     fetchUniqueCounties();
   }, []);
-
 
   const fetchListingsByCounty = async (county) => {
     const backgroundUrl = countyBackgrounds[county];
@@ -86,25 +88,30 @@ const ListingsByCounty = () => {
   return (
     <>
       {introVisible && (
-        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-100 z-50">
-          <div className="text-gray-400 p-8 rounded-md text-center max-w-">
-            <h2 className="text-2xl font-bold">
+        <div
+          className="fixed inset-0 flex items-center justify-center  bg-opacity-100 z-50"
+          role="dialog"
+          aria-modal="true"
+          style={{
+            backgroundImage: `url(${groud})`,
+            backgroundSize: "cover", // or 'contain' depending on the effect you want
+            backgroundPosition: "center",
+          }}
+        >
+          <div className="text-black p-8 rounded-md text-center  bg-gray-100 bg-opacity-40">
+            <h2 className="text-2xl font-bold md:text-3xl">
               Welcome to Our Resort Cities!
             </h2>
-            <p className="mt-4 text-2xl explaintext leading-18">
-              We invite you as you plan to embark on a journey with us through
-              Africa’s most breathtaking Resort Cities (RC) to join our Eco-lens
-              blog and we share our experiences. At Palmnazi RC, we offer more
-              than just a glimpse of stunning destinations but also a kingly
-              treatment since we are dedicated to providing a majestic experience
-              as a gateway to the heart and soul of Africa. Join us and discover
-              how your journey with Palmnazi RC can be both enriching,
-              enthralling, and meaningful, as you experience the true Spirits of
-              Africa like never before.
+            <p className="mt-4 text-2xl explaintext leading-8">
+              Join us on a journey through Africa`s breathtaking Resort Cities.
+              At Palmnazi RC, we provide not just a glimpse of stunning
+              destinations but also a royal treatment, dedicated to delivering a
+              majestic experience at the heart of Africa. Discover how your
+              journey with Palmnazi RC can be enriching and meaningful, as you
+              experience the true spirit of Africa like never before.
             </p>
-
             <button
-              className="mt-6 px-4 py-2 bg-blue-500 text-white rounded-md"
+              className="mt-6 px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-400"
               onClick={() => setIntroVisible(false)}
             >
               Explore Cities
@@ -112,6 +119,7 @@ const ListingsByCounty = () => {
           </div>
         </div>
       )}
+
       {!introVisible && (
         <div>
           <h1 className="text-center text-3xl m-2 text-bold text-blue-400 ">
