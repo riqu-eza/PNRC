@@ -133,144 +133,150 @@ const RoomDisplay = ({ room, listingemail }) => {
             </button>
 
             {/* Overlay Content */}
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-              {/* Room Details */}
-              <div>
-                {room.imageUrls.length > 0 ? (
-                  <div className="relative mb-2">
-                    <img
-                      src={selectedImage}
-                      alt={room.name}
-                      className="w-full h-96 object-cover rounded-lg shadow-lg"
-                    />
-                    <h2 className="absolute bottom-4 left-4 text-white text-3xl font-bold bg-black bg-opacity-50 p-2 rounded">
-                      {room.name}
-                    </h2>
-                    <div className="flex mt-2 space-x-2">
-                      {room.imageUrls.map((url, index) => (
-                        <img
-                          key={index}
-                          src={url}
-                          alt={`Thumbnail ${index + 1}`}
-                          className="w-20 h-20 object-cover rounded cursor-pointer hover:opacity-80"
-                          onClick={() => setSelectedImage(url)}
-                        />
-                      ))}
+            <div className="max-h-[80vh] overflow-auto" >
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                {/* Room Details */}
+                <div>
+                  {room.imageUrls.length > 0 ? (
+                    <div className="relative mb-2">
+                      <img
+                        src={selectedImage}
+                        alt={room.name}
+                        className="w-full h-96 object-cover rounded-lg shadow-lg"
+                      />
+                      <h2 className="absolute bottom-4 left-4 text-white text-3xl font-bold bg-black bg-opacity-50 p-2 rounded">
+                        {room.name}
+                      </h2>
+                      <div className="flex mt-2 space-x-2">
+                        {room.imageUrls.map((url, index) => (
+                          <img
+                            key={index}
+                            src={url}
+                            alt={`Thumbnail ${index + 1}`}
+                            className="w-20 h-20 object-cover rounded cursor-pointer hover:opacity-80"
+                            onClick={() => setSelectedImage(url)}
+                          />
+                        ))}
+                      </div>
                     </div>
+                  ) : (
+                    <div className="w-full h-48 bg-gray-200 rounded-md mb-3 flex items-center justify-center">
+                      <span className="text-gray-500">No Image Available</span>
+                    </div>
+                  )}
+                  <h2 className="text-2xl font-bold">{room.roomType}</h2>
+                  <p className="mt-3 text-gray-600">{room.description}</p>
+
+                  {/* Amenities in Overlay */}
+                  <div className="flex flex-wrap mt-3 space-x-2">
+                    <Amenities amenities={room.amenities} />
                   </div>
-                ) : (
-                  <div className="w-full h-48 bg-gray-200 rounded-md mb-3 flex items-center justify-center">
-                    <span className="text-gray-500">No Image Available</span>
+
+                  {/* Price */}
+                  <p className="font-bold text-lg mt-4">
+                    Price per Night: ${room.pricePerNight}
+                  </p>
+                </div>
+
+                {/* Personal details and booking details */}
+
+                {/* First Name */}
+                <div>
+                  <div>
+                    <label className="block text-sm font-medium">
+                      First Name
+                    </label>
+                    <input
+                      type="text"
+                      name="firstName"
+                      value={formData.firstName}
+                      onChange={handleInputChange}
+                      className="w-full p-2 border border-gray-300 rounded"
+                    />
                   </div>
-                )}
-                <h2 className="text-2xl font-bold">{room.roomType}</h2>
-                <p className="mt-3 text-gray-600">{room.description}</p>
 
-                {/* Amenities in Overlay */}
-                <div className="flex flex-wrap mt-3 space-x-2">
-                  <Amenities amenities={room.amenities} />
+                  {/* Last Name */}
+                  <div>
+                    <label className="block text-sm font-medium">
+                      Last Name
+                    </label>
+                    <input
+                      type="text"
+                      name="lastName"
+                      value={formData.lastName}
+                      onChange={handleInputChange}
+                      className="w-full p-2 border border-gray-300 rounded"
+                    />
+                  </div>
+
+                  {/* Email */}
+                  <div>
+                    <label className="block text-sm font-medium">Email</label>
+                    <input
+                      type="email"
+                      name="email"
+                      value={formData.email}
+                      onChange={handleInputChange}
+                      className="w-full p-2 border border-gray-300 rounded"
+                    />
+                  </div>
+
+                  {/* Contact Number */}
+                  <div>
+                    <label className="block text-sm font-medium">
+                      Contact Number
+                    </label>
+                    <input
+                      type="tel"
+                      name="contactNumber"
+                      value={formData.contactNumber}
+                      onChange={handleInputChange}
+                      className="w-full p-2 border border-gray-300 rounded"
+                    />
+                  </div>
                 </div>
-
-                {/* Price */}
-                <p className="font-bold text-lg mt-4">
-                  Price per Night: ${room.pricePerNight}
-                </p>
-              </div>
-
-              {/* Personal details and booking details */}
-
-              {/* First Name */}
-              <div>
+                {/* Start Date */}
                 <div>
-                  <label className="block text-sm font-medium">
-                    First Name
-                  </label>
-                  <input
-                    type="text"
-                    name="firstName"
-                    value={formData.firstName}
-                    onChange={handleInputChange}
-                    className="w-full p-2 border border-gray-300 rounded"
-                  />
-                </div>
+                  <div>
+                    <label className="block text-sm font-medium">
+                      Start Date
+                    </label>
+                    <input
+                      type="date"
+                      name="startDate"
+                      value={formData.startDate}
+                      onChange={handleInputChange}
+                      className="w-full p-2 border border-gray-300 rounded"
+                    />
+                  </div>
 
-                {/* Last Name */}
-                <div>
-                  <label className="block text-sm font-medium">Last Name</label>
-                  <input
-                    type="text"
-                    name="lastName"
-                    value={formData.lastName}
-                    onChange={handleInputChange}
-                    className="w-full p-2 border border-gray-300 rounded"
-                  />
-                </div>
+                  {/* End Date */}
+                  <div>
+                    <label className="block text-sm font-medium">
+                      End Date
+                    </label>
+                    <input
+                      type="date"
+                      name="endDate"
+                      value={formData.endDate}
+                      onChange={handleInputChange}
+                      className="w-full p-2 border border-gray-300 rounded"
+                    />
+                  </div>
 
-                {/* Email */}
-                <div>
-                  <label className="block text-sm font-medium">Email</label>
-                  <input
-                    type="email"
-                    name="email"
-                    value={formData.email}
-                    onChange={handleInputChange}
-                    className="w-full p-2 border border-gray-300 rounded"
-                  />
-                </div>
+                  {/* Total Price Calculation */}
+                  <p className="font-bold text-lg mt-4">
+                    Total Price: ${calculateTotalPrice()}
+                  </p>
 
-                {/* Contact Number */}
-                <div>
-                  <label className="block text-sm font-medium">
-                    Contact Number
-                  </label>
-                  <input
-                    type="tel"
-                    name="contactNumber"
-                    value={formData.contactNumber}
-                    onChange={handleInputChange}
-                    className="w-full p-2 border border-gray-300 rounded"
-                  />
+                  {/* Confirm Booking Button */}
+                  <button
+                    onClick={handleSubmit} // Call the handleBooking function on click
+                    className="w-full bg-green-500 text-white py-2 rounded hover:bg-green-600 transition"
+                  >
+                    Confirm Booking
+                  </button>
                 </div>
-              </div>
-              {/* Start Date */}
-              <div>
-                <div>
-                  <label className="block text-sm font-medium">
-                    Start Date
-                  </label>
-                  <input
-                    type="date"
-                    name="startDate"
-                    value={formData.startDate}
-                    onChange={handleInputChange}
-                    className="w-full p-2 border border-gray-300 rounded"
-                  />
-                </div>
-
-                {/* End Date */}
-                <div>
-                  <label className="block text-sm font-medium">End Date</label>
-                  <input
-                    type="date"
-                    name="endDate"
-                    value={formData.endDate}
-                    onChange={handleInputChange}
-                    className="w-full p-2 border border-gray-300 rounded"
-                  />
-                </div>
-
-                {/* Total Price Calculation */}
-                <p className="font-bold text-lg mt-4">
-                  Total Price: ${calculateTotalPrice()}
-                </p>
-
-                {/* Confirm Booking Button */}
-                <button
-                  onClick={handleSubmit} // Call the handleBooking function on click
-                  className="w-full bg-green-500 text-white py-2 rounded hover:bg-green-600 transition"
-                >
-                  Confirm Booking
-                </button>
               </div>
             </div>
           </div>
