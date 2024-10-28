@@ -8,13 +8,15 @@ const transporter = nodemailer.createTransport({
   },
 });
 
-export const sendEmail = async (to, subject, content) => {
+export const sendEmail = async (to, subject, content, attachments ) => {
   try {
     await transporter.sendMail({
       from: "vickymuthunga@gmail.com", 
       to: to, 
       subject: subject, 
       html: content, 
+      attachments: attachments, 
+
     });
 
     console.log("Email sent successfully!");

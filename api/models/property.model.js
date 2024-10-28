@@ -55,11 +55,24 @@ const RoomSchema = new mongoose.Schema({
   returnPolicy: [CancellationPolicySchema],
 });
 
+
+const CinemaSchema = new mongoose.Schema({
+  movieTitle: [{ type: String }],
+      cinemaHall: [{ type: String }],
+      showtimes: [{ type: String }],
+      ticketPrice: [{ type: String }],
+      duration: [{ type: String }],
+      rating: [{ type: String }],
+      cinemaLocation: [{ type: String }],
+      availableSeats: [{ type: String }],
+      imageUrls:[{ type: String }],
+})
 const SubcategorySchema = new mongoose.Schema({
   subcategory: { type: String, required: true },
   count: { type: Number }, // Change count to Number for consistency
   rooms: [RoomSchema],
   menuItems: [MenuItemSchema],
+  EntertainmentItems: [CinemaSchema]
 });
 
 const CategorySchema = new mongoose.Schema({

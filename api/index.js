@@ -50,6 +50,8 @@ app.use(cookieParser());
 app.listen(3000, () => {
   console.log("Server is running on port 3000");
 });
+app.use(express.static(path.join(__dirname, "/client/dist")));
+
 
 app.use("/api/user", userRouter);
 app.use("/api/auth", authRouter);
@@ -59,14 +61,16 @@ app.use("/api/admin", adminRouter);
 app.use("/api/inquiries", inquriesRouter);
 app.use("/api/booking", bookingRouter);
 app.use("/api/comment", commentRouter);
-app.use("/api/letter", letterRouter)
+app.use("/api/letter", letterRouter);
 app.use("/api/business", businessRouter)
 
-app.use(express.static(path.join(__dirname, "/client/dist")));
 
 app.get("*", (req, res, next) => {
   res.sendFile(path.join(__dirname, "client", "dist", "index.html"));
 });
+
+
+app.use('/receipts', express.static(path.join(__dirname, 'receipts')));
 
 cron.schedule('0 0 * * *', () => {
   fetchPlaces();
