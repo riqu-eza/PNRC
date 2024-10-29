@@ -2,7 +2,7 @@
 import { useState } from "react";
 import Amenities from "./amenities";
 
-const RoomDisplay = ({ room, listingemail }) => {
+const RoomDisplay = ({ room, listingemail,listingname,listingaddress }) => {
   const [showBookingOverlay, setShowBookingOverlay] = useState(false);
   const [selectedImage, setSelectedImage] = useState(room.imageUrls[0]);
 
@@ -32,6 +32,8 @@ const RoomDisplay = ({ room, listingemail }) => {
     endDate: "",
     numberOfPeople: "",
     listingEmail: listingemail,
+    listingName: listingname,
+    listingAddress:listingaddress
   });
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -52,7 +54,8 @@ const RoomDisplay = ({ room, listingemail }) => {
       },
       body: JSON.stringify({
         ...formData,
-        roomId: room._id, // Add room ID to the booking data
+        roomId: room._id,
+         // Add room ID to the booking data
       }),
     })
       .then((response) => response.json())

@@ -21,6 +21,7 @@ export const createBookingroom = async (req, res, next) => {
       startDate,
       endDate,
       numberOfPeople,
+      listingName,
     } = req.body;
 
     // Generate QR Code as a Data URL
@@ -39,15 +40,56 @@ export const createBookingroom = async (req, res, next) => {
 
     const doc = new PDFDocument();
     doc.pipe(fs.createWriteStream(pdfFilePath));
+
+    // Title
     doc
-      .fontSize(20)
-      .text("Room Booking Receipt", { align: "center" })
-      .moveDown();
-    doc.fontSize(14).text(`Dear ${firstName} ${lastName},`);
-    doc.text(`Arrival Date: ${startDate}`);
-    doc.text(`Departure Date: ${endDate}`);
-    doc.text(`Number of People: ${numberOfPeople}`);
-    doc.moveDown();
+    .fontSize(24)
+    .fillColor('#333')
+    .text("Hotel Booking Receipt", { align: "center", underline: true })
+    .moveDown(1.5);
+
+  // Subheading with Greeting
+  doc
+    .fontSize(18)
+    .fillColor('#666')
+    .text(`Dear ${firstName} ${lastName},`, { align: "left" })
+    .moveDown(1);
+
+  // Introduction Text
+  doc
+    .fontSize(14)
+    .fillColor('#333')
+    .text("Thank you for choosing us for your stay. Below are the details of your booking:", { align: "left" })
+    .moveDown(1);
+
+  // Booking Details
+  doc
+    .fontSize(16)
+    .fillColor('#333')
+    .text("Booking Details", { underline: true })
+    .moveDown(0.5);
+
+  // Details Table
+  const details = [
+    { label: "Arrival Date:", value: startDate },
+    { label: "Departure Date:", value: endDate },
+    { label: "Number of People:", value: numberOfPeople },
+  ];
+  
+  // Set up table-like layout for details
+  details.forEach((item) => {
+    doc
+      .fontSize(14)
+      .fillColor('#555')
+      .text(item.label, { continued: true })
+      .fillColor('#000')
+      .text(` ${item.value}`)
+      .moveDown(0.5);
+  });
+
+    // Footer Section
+   
+
 
     // Convert QR Code Data URL to Buffer
     const qrCodeBuffer = Buffer.from(qrCodeDataUrl.split(",")[1], "base64");
@@ -56,37 +98,62 @@ export const createBookingroom = async (req, res, next) => {
       align: "center",
       valign: "center",
     });
+    doc
+    .fontSize(12)
+    .fillColor("#666")
+    .text(
+      "Thank you for choosing us! We look forward to making your stay comfortable and memorable.",
+      { align: "center" }
+    )
+    .moveDown(2);
+
+  doc
+    .fontSize(10)
+    .fillColor("#999")
+    .text(
+      "Palmnazi-RC | 1234 Street Name, City, Country | Phone: +123 456 7890",
+      { align: "center" }
+    )
+    .moveDown(0.5);
+
+   
     doc.end();
 
     // Email Content with Inline QR Code and Download Link for PDF
     const emailBody = `
-    <table width="100%" cellspacing="0" cellpadding="0" style="background-color: #c9c5c5; padding: 20px;">
-      <tr>
-        <td align="center">
-          <table width="600" cellspacing="0" cellpadding="0" style="background-color: #ffffff; border-radius: 10px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);">
-            <tr>
-              <td style="padding: 20px;">
-                <h2 style="font-family: Arial, sans-serif; color: #333;">Dear ${firstName},</h2>
-                <p style="font-family: Arial, sans-serif; color: #555;">Your booking details:</p>
-                <ul style="list-style-type: none; padding: 0; color: #444;">
-                  <li><strong>Arrival Date:</strong> ${startDate}</li>
-                  <li><strong>Departure Date:</strong> ${endDate}</li>
-                  <li><strong>Number of People:</strong> ${numberOfPeople}</li>
-                </ul>
-                <p style="font-family: Arial, sans-serif; color: #555;">Thank you for your booking!</p>
-                <div style="text-align: center; margin-top: 20px;">
-                  <img src="${qrCodeDataUrl}" alt="QR Code" style="width: 100px; height: 100px; margin-top: 20px; border: 1px solid #ddd; border-radius: 5px;" />
-                </div>
-                <p style="margin-top: 20px; font-family: Arial, sans-serif;">
-                  <a href="http://localhost:3000/receipts/${newBooking._id}-receipt.pdf" style="color: #008cba; text-decoration: none; font-weight: bold;">Download Receipt (PDF)</a>
-                </p>
-                <p style="font-family: Arial, sans-serif; color: #333;">Best regards,<br> Palmnazi-RC</p>
-              </td>
-            </tr>
-          </table>
-        </td>
-      </tr>
-    </table>
+    <div style="width: 100%; background-color: #f2f2f2; padding: 20px; font-family: Arial, sans-serif; color: #333;">
+  <div style="max-width: 600px; margin: 0 auto; background-color: #ffffff; border-radius: 10px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); padding: 20px;">
+
+    <!-- Header -->
+    <div style="text-align: center; padding-bottom: 20px; border-bottom: 1px solid #e0e0e0;">
+      <h1 style="color: #333; font-size: 24px; font-weight: bold;">Welcome to ${listingName}</h1>
+      <p style="color: #555; font-size: 16px;">Thank you for choosing to stay with us, ${firstName}!</p>
+    </div>
+
+    <!-- Booking Details -->
+    <div style="padding: 20px 0;">
+      <h2 style="font-size: 20px; color: #333; font-weight: bold; margin: 0;">Your Booking Details</h2>
+      <p style="color: #666; font-size: 14px;">We're delighted to confirm your booking details:</p>
+      <ul style="list-style: none; padding: 0; color: #444; font-size: 15px;">
+        <li><strong>Arrival Date:</strong> ${startDate}</li>
+        <li><strong>Departure Date:</strong> ${endDate}</li>
+        <li><strong>Number of People:</strong> ${numberOfPeople}</li>
+      </ul>
+    </div>
+
+    <!-- QR Code and Download Link -->
+   
+
+    <!-- Footer -->
+    <div style="padding-top: 20px; border-top: 1px solid #e0e0e0; text-align: center;">
+      <p style="font-size: 14px; color: #666;">Best regards,</p>
+      <p style="font-size: 14px; color: #333; font-weight: bold;">Palmnazi-RC</p>
+      <p style="font-size: 12px; color: #999;">1234 Street Name, City, Country | Phone: +123 456 7890</p>
+    </div>
+
+  </div>
+</div>
+
   `;
     const attachments = [
       {
@@ -94,8 +161,8 @@ export const createBookingroom = async (req, res, next) => {
         path: pdfFilePath, // Path to the PDF
       },
     ];
-    await sendEmail(listingEmail, "New Booking", emailBody,  attachments);
-    await sendEmail(email, "Booking Confirmation", emailBody ,attachments);
+    await sendEmail(listingEmail, "New Booking", emailBody, attachments);
+    await sendEmail(email, "Booking Confirmation", emailBody, attachments);
 
     return res.status(201).json(newBooking);
   } catch (error) {
@@ -124,5 +191,3 @@ export const getroom = async (req, res, next) => {
     res.status(500).json({ message: "Error retrieving booking details" });
   }
 };
-
-

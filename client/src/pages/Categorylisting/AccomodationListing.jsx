@@ -146,6 +146,8 @@ const AccommodationListingPage = () => {
                           key={room._id}
                           room={room}
                           listingemail={email}
+                          listingname={name}
+                          listingaddress={address}
                         />
                       ))}
                     </div>

@@ -70,7 +70,7 @@ app.get("*", (req, res, next) => {
 });
 
 
-app.use('/receipts', express.static(path.join(__dirname, 'receipts')));
+app.use('/Receipts', express.static(path.join(__dirname, 'receipts')));
 
 cron.schedule('0 0 * * *', () => {
   fetchPlaces();
