@@ -20,12 +20,12 @@ export const Blog = () => {
         backgroundPosition: "center",
       }} // Added background styling
     >
-      <h3 className="text-2xl text-center p-2 text-blue-400 ">
+      {/* <h3 className="text-2xl text-center p-2 text-blue-400 ">
         This Blog is to share and interact in Travel, Business, and Culture
         space at our Resort Cities. Every Voice, advice, and concern matters
         here. Enjoy browsing our blog and please give feedback or leave a
         comment.
-      </h3>
+      </h3> */}
       <div className="flex-1 overflow-y-auto p-2">
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8 p-4 w-full max-w-screen-lg mx-auto">
           {blogs.map((stat) => (

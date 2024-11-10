@@ -89,7 +89,7 @@ const RoomForm = ({ setRooms, rooms }) => {
         description,
         pricePerNight,
         amenities: amenities.split(","),
-        images: imageUrls, // Include image URLs in room data
+        imageUrls, // Include image URLs in room data
       };
 
       // Update the room list with the new room
@@ -206,8 +206,8 @@ const RoomForm = ({ setRooms, rooms }) => {
                 <small>Amenities: {room.amenities.join(", ")}</small>
                 {/* Display room images */}
                 <div className="mt-2 grid grid-cols-3 gap-2">
-                  {room.images.map((url, index) => (
-                    <img key={index} src={url} alt="Room" className="w-16 h-16 object-cover rounded-lg" />
+                  {room.imageUrls.map((url, index) => (
+                    <img key={index} src={url} alt="Room" className="w-1 h-1 object-cover rounded-lg" />
                   ))}
                 </div>
               </li>

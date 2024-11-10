@@ -9,7 +9,7 @@ import {
 } from "firebase/storage";
 import { app } from "../firebase";
 
-const CinemaForm = ( details, setDetails ) => {
+const MusicLivePerformances = (details, setDetails) => {
   const [movieTitle, setMovieTitle] = useState(details.movieTitle || "");
   const [movieGenre, setMovieGenre] = useState(details.movieTitle || "");
 
@@ -78,9 +78,8 @@ const CinemaForm = ( details, setDetails ) => {
     setRating("");
     setCinemaLocation("");
     setAvailableSeats("");
-    setMovieGenre("")
-};
-
+    setMovieGenre("");
+  };
 
   const handleImageSubmit = () => {
     if (files.length > 0 && files.length + imageUrls.length < 7) {
@@ -175,7 +174,7 @@ const CinemaForm = ( details, setDetails ) => {
         placeholder="ticketPrice"
         className="w-full p-2 mb-2 border border-gray-300 rounded"
       />
-     
+
       <input
         type="text"
         value={duration}
@@ -229,4 +228,4 @@ const CinemaForm = ( details, setDetails ) => {
   );
 };
 
-export default CinemaForm;
+export default MusicLivePerformances;
