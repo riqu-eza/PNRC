@@ -40,6 +40,7 @@ const MapComponent = ({ formData, setFormData }) => {
       setFormData({
         ...formData,
         address: {
+          // eslint-disable-next-line react/prop-types
           ...formData.address,
           location: {
             address: formatted_address,

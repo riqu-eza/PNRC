@@ -11,7 +11,7 @@ const Footer = () => {
     event.preventDefault();
 
     try {
-      const response = await fetch("http://localhost:3000/api/letter/create", {
+      const response = await fetch("/api/letter/create", {
         method: "post",
         headers: {
           "content-Type": "application/json",

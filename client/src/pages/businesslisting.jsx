@@ -12,7 +12,7 @@ const BusinessDetails = () => {
     const fetchBusiness = async () => {
       try {
         const response = await fetch(
-          `http://localhost:3000/api/business/${id}`
+          `/api/business/${id}`
         );
         const data = await response.json();
         setBusinessDetails(data);

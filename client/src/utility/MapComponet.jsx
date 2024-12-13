@@ -3,6 +3,7 @@ import "leaflet/dist/leaflet.css";
 
 const center = [51.505, -0.09];
 
+// eslint-disable-next-line no-unused-vars
 const MapComponent = (location) => {
 
   // const center = location ? [location.lat, location.lng] : [51.505, -0.09];

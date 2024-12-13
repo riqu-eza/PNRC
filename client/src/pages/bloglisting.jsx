@@ -86,7 +86,7 @@ const Bloglisting = () => {
 
     try {
       
-      const response = await fetch("http://localhost:3000/api/blog/create", {
+      const response = await fetch("/api/blog/create", {
         method: "POST",
         headers:{
           "content-Type": "application/json",

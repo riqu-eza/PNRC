@@ -231,7 +231,7 @@ const CreateListing = () => {
 
   const fetchCounties = async () => {
     try {
-      const response = await fetch("http://localhost:3000/api/admin/cities");
+      const response = await fetch("/api/admin/cities");
       if (!response.ok) {
         throw new Error("Failed to fetch cities");
       }
@@ -251,7 +251,7 @@ const CreateListing = () => {
       setLoading(true);
       setError(false);
       console.log("form data", formData);
-      const res = await fetch("http://localhost:3000/api/listing/create", {
+      const res = await fetch("/api/listing/create", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

@@ -14,7 +14,10 @@ const EntertainmentForm = ({ setEntertainmentItems, Subcategory }) => {
     // Reset entertainmentDetails whenever the selected subcategory changes
     setEntertainmentDetails({});
   }, [Subcategory]);
-
+  const addEntertainmentItem = (item) => {
+    // Add the item to the parent state array
+    setEntertainmentItems((prevItems) => [...prevItems, item]);
+  };
   const renderSubcategoryForm = () => {
     switch (Subcategory) {
       case "Cinema & Theaters":
@@ -22,6 +25,7 @@ const EntertainmentForm = ({ setEntertainmentItems, Subcategory }) => {
           <CinemaForm
             details={entertainmentDetails}
             setDetails={setEntertainmentDetails}
+            addItem={addEntertainmentItem}
           />
         );
       case "Music & Live Performances":
@@ -29,6 +33,7 @@ const EntertainmentForm = ({ setEntertainmentItems, Subcategory }) => {
           <MusicLivePerformances
             details={entertainmentDetails}
             setDetails={setEntertainmentDetails}
+            addItem={addEntertainmentItem}
           />
         );
         case "Gaming & Indoor Fun" :
@@ -36,6 +41,8 @@ const EntertainmentForm = ({ setEntertainmentItems, Subcategory }) => {
             <Gaming 
             details={entertainmentDetails}
             setDetails={setEntertainmentDetails}
+            addItem={addEntertainmentItem}
+
              />
           );
           case "Amusement & Recreation" :
@@ -43,6 +50,7 @@ const EntertainmentForm = ({ setEntertainmentItems, Subcategory }) => {
               <Amusement
               details={entertainmentDetails}
               setDetails={setEntertainmentDetails}
+              addItem={addEntertainmentItem}
                />
             )
       // Add more cases for other subcategories here

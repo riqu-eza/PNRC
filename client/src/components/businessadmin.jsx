@@ -444,7 +444,7 @@ export default function CreateBusinessListing() {
 
   const fetchCounties = async () => {
     try {
-      const response = await fetch("http://localhost:3000/api/admin/cities");
+      const response = await fetch("/api/admin/cities");
       if (!response.ok) {
         throw new Error("Failed to fetch cities");
       }
@@ -674,7 +674,7 @@ export default function CreateBusinessListing() {
       // }
       setLoading(true);
       setError(false);
-      const res = await fetch("http://localhost:3000/api/business/create", {
+      const res = await fetch("/api/business/create", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

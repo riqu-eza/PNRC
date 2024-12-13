@@ -37,7 +37,7 @@ const Countylisting = ({ countyBackgrounds }) => {
         console.log("Fetching listings for county:", county);
 
         const res = await fetch(
-          `http://localhost:3000/api/listing/get-by-county?selectedCounty=${county}`
+          `/api/listing/get-by-county?selectedCounty=${county}`
         );
         const data = await res.json();
         console.log("Fetched data:", data);

@@ -9,78 +9,89 @@ import {
 } from "firebase/storage";
 import { app } from "../firebase";
 
-const CinemaForm = ( details, setDetails ) => {
-  const [movieTitle, setMovieTitle] = useState(details.movieTitle || "");
-  const [movieGenre, setMovieGenre] = useState(details.movieTitle || "");
+const CinemaForm = ({ details, setDetails, addItem }) => {
+  // Combined state for all form inputs
+  const [formData, setFormData] = useState({
+    movieTitle: details.movieTitle || "",
+    movieGenre: details.movieGenre || "",
+    cinemaHall: details.cinemaHall || "",
+    showtimes: details.showtimes || [],
+    ticketPrice: details.ticketPrice || "",
+    duration: details.duration || "",
+    rating: details.rating || "",
+    cinemaLocation: details.cinemaLocation || "",
+    availableSeats: details.availableSeats || "",
+  });
 
-  const [cinemaHall, setCinemaHall] = useState(details.cinemaHall || "");
-  const [showtimes, setShowtimes] = useState(details.showtimes || []);
-  const [ticketPrice, setTicketPrice] = useState(details.ticketPrice || "");
-  const [duration, setDuration] = useState(details.duration || "");
-  const [rating, setRating] = useState(details.rating || "");
-  const [cinemaLocation, setCinemaLocation] = useState(
-    details.cinemaLocation || ""
-  );
-  const [availableSeats, setAvailableSeats] = useState(
-    details.availableSeats || ""
-  );
-
-  // State for storing cinema entries
+  // Other states
   const [cinemaEntries, setCinemaEntries] = useState([]);
   const [files, setFiles] = useState([]);
   const [imageUrls, setImageUrls] = useState([]);
   const [imageUploadError, setImageUploadError] = useState(false);
   const [uploading, setUploading] = useState(false);
-  // Reset form with new details if props change
+
+  // Reset formData if details prop changes
   useEffect(() => {
-    setMovieTitle(details.movieTitle || "");
-    setCinemaHall(details.cinemaHall || "");
-    setShowtimes(details.showtimes || []);
-    setTicketPrice(details.ticketPrice || "");
-    setDuration(details.duration || "");
-    setRating(details.rating || "");
-    setCinemaLocation(details.cinemaLocation || "");
-    setAvailableSeats(details.availableSeats || "");
+    setFormData({
+      movieTitle: details.movieTitle || "",
+      movieGenre: details.movieGenre || "",
+      cinemaHall: details.cinemaHall || "",
+      showtimes: details.showtimes || [],
+      ticketPrice: details.ticketPrice || "",
+      duration: details.duration || "",
+      rating: details.rating || "",
+      cinemaLocation: details.cinemaLocation || "",
+      availableSeats: details.availableSeats || "",
+    });
   }, [details]);
 
-  const handleAddShowtime = () => {
-    const newShowtime = prompt("Enter Showtime (e.g., '1:00 PM'):");
-    if (newShowtime) {
-      setShowtimes((prevShowtimes) => [...prevShowtimes, newShowtime]);
-    }
+  // Update formData on input change
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prevData) => ({
+      ...prevData,
+      [name]: value,
+    }));
   };
+
+  // const handleAddShowtime = () => {
+  //   const newShowtime = prompt("Enter Showtime (e.g., '1:00 PM'):");
+  //   if (newShowtime) {
+  //     setFormData((prevData) => ({
+  //       ...prevData,
+  //       showtimes: [...prevData.showtimes, newShowtime],
+  //     }));
+  //   }
+  // };
 
   const handleSave = (e) => {
     e.preventDefault();
 
-    const newEntry = {
-      movieTitle,
-      cinemaHall,
-      showtimes,
-      ticketPrice,
-      duration,
-      rating,
-      cinemaLocation,
-      availableSeats,
-      movieGenre,
-      imageUrls,
-    };
+    const newEntry = { ...formData, imageUrls };
+    setCinemaEntries((prevEntries) =>
+      Array.isArray(prevEntries) ? [...prevEntries, newEntry] : [newEntry]
+    );
+  
+    setDetails((prevEntries) =>
+      Array.isArray(prevEntries) ? [...prevEntries, newEntry] : [newEntry]
+    );
 
-    setCinemaEntries((prevEntries) => [...(prevEntries || []), newEntry]); // Save entry locally
-    setDetails((prevEntries) => [...(prevEntries || []), newEntry]); // Update parent details
+    addItem(newEntry);
 
     // Clear form fields
-    setMovieTitle("");
-    setCinemaHall("");
-    setShowtimes([]);
-    setTicketPrice("");
-    setDuration("");
-    setRating("");
-    setCinemaLocation("");
-    setAvailableSeats("");
-    setMovieGenre("")
-};
-
+    setFormData({
+      movieTitle: "",
+      movieGenre: "",
+      cinemaHall: "",
+      showtimes: [],
+      ticketPrice: "",
+      duration: "",
+      rating: "",
+      cinemaLocation: "",
+      availableSeats: "",
+    });
+    setImageUrls([]);
+  };
 
   const handleImageSubmit = () => {
     if (files.length > 0 && files.length + imageUrls.length < 7) {
@@ -94,7 +105,7 @@ const CinemaForm = ( details, setDetails ) => {
           setImageUrls((prev) => [...prev, ...urls]);
           setImageUploadError(false);
           setUploading(false);
-          setFiles([]); // Clear selected files after upload
+          setFiles([]);
         })
         .catch((err) => {
           setImageUploadError("Image upload failed (2MB max per image)");
@@ -142,69 +153,76 @@ const CinemaForm = ( details, setDetails ) => {
 
       <input
         type="text"
-        value={movieTitle}
-        onChange={(e) => setMovieTitle(e.target.value)}
+        name="movieTitle"
+        value={formData.movieTitle}
+        onChange={handleInputChange}
         placeholder="Movie Title"
         className="w-full p-2 mb-2 border border-gray-300 rounded"
       />
       <input
         type="text"
-        value={movieGenre}
-        onChange={(e) => setMovieTitle(e.target.value)}
+        name="movieGenre"
+        value={formData.movieGenre}
+        onChange={handleInputChange}
         placeholder="Movie Genre"
         className="w-full p-2 mb-2 border border-gray-300 rounded"
       />
       <input
         type="text"
-        value={cinemaHall}
-        onChange={(e) => setMovieTitle(e.target.value)}
-        placeholder="cinema Hall"
+        name="cinemaHall"
+        value={formData.cinemaHall}
+        onChange={handleInputChange}
+        placeholder="Cinema Hall"
         className="w-full p-2 mb-2 border border-gray-300 rounded"
       />
       <input
         type="text"
-        value={showtimes}
-        onChange={(e) => setMovieTitle(e.target.value)}
-        placeholder="showtimes"
+        name="ticketPrice"
+        value={formData.ticketPrice}
+        onChange={handleInputChange}
+        placeholder="Ticket Price"
         className="w-full p-2 mb-2 border border-gray-300 rounded"
       />
       <input
         type="text"
-        value={ticketPrice}
-        onChange={(e) => setMovieTitle(e.target.value)}
-        placeholder="ticketPrice"
-        className="w-full p-2 mb-2 border border-gray-300 rounded"
-      />
-     
-      <input
-        type="text"
-        value={duration}
-        onChange={(e) => setMovieTitle(e.target.value)}
-        placeholder="duration"
+        name="duration"
+        value={formData.duration}
+        onChange={handleInputChange}
+        placeholder="Duration"
         className="w-full p-2 mb-2 border border-gray-300 rounded"
       />
       <input
         type="text"
-        value={rating}
-        onChange={(e) => setMovieTitle(e.target.value)}
-        placeholder="rating (age)"
+        name="rating"
+        value={formData.rating}
+        onChange={handleInputChange}
+        placeholder="Rating (age)"
         className="w-full p-2 mb-2 border border-gray-300 rounded"
       />
       <input
         type="text"
-        value={cinemaLocation}
-        onChange={(e) => setMovieTitle(e.target.value)}
-        placeholder="cinema Location"
+        name="cinemaLocation"
+        value={formData.cinemaLocation}
+        onChange={handleInputChange}
+        placeholder="Cinema Location"
         className="w-full p-2 mb-2 border border-gray-300 rounded"
       />
       <input
         type="text"
-        value={availableSeats}
-        onChange={(e) => setMovieTitle(e.target.value)}
-        placeholder="availableSeats"
+        name="availableSeats"
+        value={formData.availableSeats}
+        onChange={handleInputChange}
+        placeholder="Available Seats"
         className="w-full p-2 mb-2 border border-gray-300 rounded"
       />
-      {/* Other input fields */}
+      <input
+        type="text"
+        name="showtimes"
+        value={formData.showtimes}
+        onChange={handleInputChange}
+        placeholder="show time(7:pm)"
+        className="w-full p-2 mb-2 border border-gray-300 rounded"
+      />
 
       <button
         onClick={handleSave}
@@ -220,7 +238,6 @@ const CinemaForm = ( details, setDetails ) => {
           {cinemaEntries.map((entry, index) => (
             <li key={index} className="border p-2 mb-2">
               <strong>{entry.movieTitle}</strong> at {entry.cinemaHall}
-              {/* Render other details */}
             </li>
           ))}
         </ul>

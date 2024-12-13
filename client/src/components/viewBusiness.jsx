@@ -26,7 +26,7 @@ const ViewBusiness = () => {
 
   const fetchBusinesses = async () => {
     try {
-      const response = await fetch("http://localhost:3000/api/business/getall");
+      const response = await fetch("/api/business/getall");
       const data = await response.json();
       setBusinesses(data);
     } catch (error) {
@@ -37,7 +37,7 @@ const ViewBusiness = () => {
   // Delete a business
   const handleDeleteBusiness = async (id) => {
     try {
-      await fetch(`http://localhost:3000/api/business/delete/${id}`, {
+      await fetch(`/api/business/delete/${id}`, {
         method: 'DELETE',
       });
       setBusinesses(businesses.filter(business => business._id !== id));
@@ -75,7 +75,7 @@ const ViewBusiness = () => {
   // Update a business
   const handleUpdateBusiness = async (id) => {
     try {
-      const response = await fetch(`http://localhost:3000/api/business/update/${id}`, {
+      const response = await fetch(`/api/business/update/${id}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',

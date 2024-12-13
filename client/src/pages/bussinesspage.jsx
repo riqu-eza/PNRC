@@ -12,7 +12,7 @@ const Bussinesspage = () => {
   useEffect(() => {
     const fethuniquecity = async () => {
       try {
-        const res = await fetch("http://localhost:3000/api/business/cities");
+        const res = await fetch("/api/business/cities");
         if (!res.ok) {
           throw new Error(`Error: ${res.statusText}`);
         }

@@ -16,7 +16,7 @@ const Product = () => {
     const fetchProduct = async () => {
       try {
         const response = await fetch(
-          `http://localhost:3000/api/business/product/${productId}`
+          `/api/business/product/${productId}`
         );
         if (!response.ok) {
           throw new Error("Network response was not ok");

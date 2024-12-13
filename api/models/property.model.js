@@ -8,15 +8,15 @@ const HoursSchema = new mongoose.Schema({
 const MenuItemSchema = new mongoose.Schema({
   DishName: { type: String, required: true },
   description: { type: String, required: true },
-  DietaryInformation: { type: String,  },
+  DietaryInformation: { type: String },
   Price: { type: Number, required: true },
   NutritionInformation: [{ type: String }],
   AllergenInformation: [{ type: String }],
-  dishType: { type: String,  },
+  dishType: { type: String },
   imageUrls: [{ type: String }],
-  ServingTime: { type: String, },
-  ServingSize:{ type: String, },
-  PreparationTime: { type: String, },
+  ServingTime: { type: String },
+  ServingSize: { type: String },
+  PreparationTime: { type: String },
   available: { type: Boolean, default: true },
   orderable: { type: Boolean, default: true },
 });
@@ -55,24 +55,100 @@ const RoomSchema = new mongoose.Schema({
   returnPolicy: [CancellationPolicySchema],
 });
 
-
 const CinemaSchema = new mongoose.Schema({
   movieTitle: [{ type: String }],
-      cinemaHall: [{ type: String }],
-      showtimes: [{ type: String }],
-      ticketPrice: [{ type: String }],
-      duration: [{ type: String }],
-      rating: [{ type: String }],
-      cinemaLocation: [{ type: String }],
-      availableSeats: [{ type: String }],
-      imageUrls:[{ type: String }],
-})
+  cinemaHall: [{ type: String }],
+  showtimes: [{ type: String }],
+  ticketPrice: [{ type: String }],
+  duration: [{ type: String }],
+  rating: [{ type: String }],
+  cinemaLocation: [{ type: String }],
+  availableSeats: [{ type: String }],
+  imageUrls: [{ type: String }],
+});
+const PerformanceShema = new mongoose.Schema(
+  {
+    title: {
+      type: String,
+      trim: true,
+    },
+    date: {
+      type: Date,
+    },
+    location: {
+      venueName: {
+        type: String,
+      },
+      address: {
+        type: String,
+      },
+    },
+    performers: [
+      {
+        name: {
+          type: String,
+          required: true,
+        },
+        genre: {
+          type: String,
+        },
+      },
+    ],
+    cost: {
+      type: Number,
+      required: true,
+    },
+    ticketing: {
+      prices: [
+        {
+          type: {
+            type: String, // Example: "General Admission", "VIP"
+          },
+          price: {
+            type: Number,
+            required: true,
+          },
+        },
+      ],
+      availability: {
+        startDate: {
+          type: Date,
+          required: true,
+        },
+        endDate: {
+          type: Date,
+          required: true,
+        },
+      },
+      isSoldOut: {
+        type: Boolean,
+        default: false,
+      },
+    },
+   
+  },
+  { timestamps: true }
+);
+
+const GamingShema = new mongoose.Schema({
+  name: { type: String },
+  cost: { type: Number },
+  age: { type: String },
+  groupsize: { type: String },
+  duration: { type: String },
+  requiredequipmwnts: { type: String },
+});
+const Entertainmentcategory = new mongoose.Schema({
+  cinema: [CinemaSchema],
+  performance: [PerformanceShema],
+  gaming: [GamingShema],
+});
 const SubcategorySchema = new mongoose.Schema({
   subcategory: { type: String, required: true },
   count: { type: Number }, // Change count to Number for consistency
   rooms: [RoomSchema],
   menuItems: [MenuItemSchema],
-  EntertainmentItems: [CinemaSchema]
+  EntertainmentItems: [Entertainmentcategory],
 });
 
 const CategorySchema = new mongoose.Schema({

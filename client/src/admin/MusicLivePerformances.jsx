@@ -1,228 +1,183 @@
-/* eslint-disable no-unused-vars */
 /* eslint-disable react/prop-types */
-import { useState, useEffect } from "react";
-import {
-  getDownloadURL,
-  getStorage,
-  ref,
-  uploadBytesResumable,
-} from "firebase/storage";
-import { app } from "../firebase";
+import { useState } from "react";
 
-const MusicLivePerformances = (details, setDetails) => {
-  const [movieTitle, setMovieTitle] = useState(details.movieTitle || "");
-  const [movieGenre, setMovieGenre] = useState(details.movieTitle || "");
+const MusicLivePerformances = ({ details, setDetails , addItem}) => {
+  // Initialize the form data and performances state
+  const [formData, setFormData] = useState({
+    title: "",
+    date: "",
+    location: { venueName: "", address: "" },
+    performers: [{ name: "", genre: "" }],
+    cost: "",
+    ticketing: {
+      prices: [{ type: "", price: "" }],
+      availability: { startDate: "", endDate: "" },
+      isSoldOut: false,
+    },
+  });
 
-  const [cinemaHall, setCinemaHall] = useState(details.cinemaHall || "");
-  const [showtimes, setShowtimes] = useState(details.showtimes || []);
-  const [ticketPrice, setTicketPrice] = useState(details.ticketPrice || "");
-  const [duration, setDuration] = useState(details.duration || "");
-  const [rating, setRating] = useState(details.rating || "");
-  const [cinemaLocation, setCinemaLocation] = useState(
-    details.cinemaLocation || ""
-  );
-  const [availableSeats, setAvailableSeats] = useState(
-    details.availableSeats || ""
+  const [performances, setPerformances] = useState(
+    Array.isArray(details) ? details : []
   );
 
-  // State for storing cinema entries
-  const [cinemaEntries, setCinemaEntries] = useState([]);
-  const [files, setFiles] = useState([]);
-  const [imageUrls, setImageUrls] = useState([]);
-  const [imageUploadError, setImageUploadError] = useState(false);
-  const [uploading, setUploading] = useState(false);
-  // Reset form with new details if props change
-  useEffect(() => {
-    setMovieTitle(details.movieTitle || "");
-    setCinemaHall(details.cinemaHall || "");
-    setShowtimes(details.showtimes || []);
-    setTicketPrice(details.ticketPrice || "");
-    setDuration(details.duration || "");
-    setRating(details.rating || "");
-    setCinemaLocation(details.cinemaLocation || "");
-    setAvailableSeats(details.availableSeats || "");
-  }, [details]);
-
-  const handleAddShowtime = () => {
-    const newShowtime = prompt("Enter Showtime (e.g., '1:00 PM'):");
-    if (newShowtime) {
-      setShowtimes((prevShowtimes) => [...prevShowtimes, newShowtime]);
-    }
-  };
-
-  const handleSave = (e) => {
-    e.preventDefault();
-
-    const newEntry = {
-      movieTitle,
-      cinemaHall,
-      showtimes,
-      ticketPrice,
-      duration,
-      rating,
-      cinemaLocation,
-      availableSeats,
-      movieGenre,
-      imageUrls,
-    };
-
-    setCinemaEntries((prevEntries) => [...(prevEntries || []), newEntry]); // Save entry locally
-    setDetails((prevEntries) => [...(prevEntries || []), newEntry]); // Update parent details
-
-    // Clear form fields
-    setMovieTitle("");
-    setCinemaHall("");
-    setShowtimes([]);
-    setTicketPrice("");
-    setDuration("");
-    setRating("");
-    setCinemaLocation("");
-    setAvailableSeats("");
-    setMovieGenre("");
-  };
-
-  const handleImageSubmit = () => {
-    if (files.length > 0 && files.length + imageUrls.length < 7) {
-      setUploading(true);
-      setImageUploadError(false);
-
-      const promises = files.map((file) => storeImage(file));
-
-      Promise.all(promises)
-        .then((urls) => {
-          setImageUrls((prev) => [...prev, ...urls]);
-          setImageUploadError(false);
-          setUploading(false);
-          setFiles([]); // Clear selected files after upload
-        })
-        .catch((err) => {
-          setImageUploadError("Image upload failed (2MB max per image)");
-          console.error(err);
-          setUploading(false);
-        });
-    } else if (files.length === 0) {
-      setImageUploadError("Please select images to upload");
-      setUploading(false);
+  // Update form state for simple and nested fields
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    if (name.includes(".")) {
+      const [parent, child] = name.split(".");
+      setFormData((prev) => ({
+        ...prev,
+        [parent]: { ...prev[parent], [child]: value },
+      }));
     } else {
-      setImageUploadError("You can upload a maximum of 6 images per listing");
-      setUploading(false);
+      setFormData((prev) => ({ ...prev, [name]: value }));
     }
   };
 
-  const storeImage = async (file) => {
-    const storage = getStorage(app);
-    const fileName = `${new Date().getTime()}_${file.name}`;
-    const storageRef = ref(storage, fileName);
-    const uploadTask = uploadBytesResumable(storageRef, file);
-
-    return new Promise((resolve, reject) => {
-      uploadTask.on(
-        "state_changed",
-        (snapshot) => {
-          const progress =
-            (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-          console.log(`Progress: ${progress}%`);
-        },
-        reject,
-        () => {
-          getDownloadURL(uploadTask.snapshot.ref).then(resolve);
-        }
-      );
+  // Update nested array fields (performers, ticket prices)
+  const handleArrayChange = (e, index, field, arrayName) => {
+    const { value } = e.target;
+    setFormData((prev) => {
+      const updatedArray = [...prev[arrayName]];
+      updatedArray[index][field] = value;
+      return { ...prev, [arrayName]: updatedArray };
     });
   };
 
-  const handleRemoveImage = (index) => {
-    setImageUrls((prev) => prev.filter((_, i) => i !== index));
+  // Add items to performers or ticket prices
+  const addItemToArray = (arrayName, itemTemplate) => {
+    setFormData((prev) => ({
+      ...prev,
+      [arrayName]: [...prev[arrayName], itemTemplate],
+    }));
+  };
+
+  // Save the current form data as a performance
+  const handleSavePerformance = (e) => {
+    e.preventDefault();
+
+    // Update performances and details
+    const updatedPerformances = [...performances, formData];
+    setPerformances(updatedPerformances);
+    setDetails(updatedPerformances);
+    addItem(updatedPerformances);
+    // Reset form data
+    setFormData({
+      title: "",
+      date: "",
+      location: { venueName: "", address: "" },
+      performers: [{ name: "", genre: "" }],
+      cost: "",
+      ticketing: {
+        prices: [{ type: "", price: "" }],
+        availability: { startDate: "", endDate: "" },
+        isSoldOut: false,
+      },
+    });
   };
 
   return (
     <div className="p-4 border border-gray-300 rounded mt-4">
-      <h5 className="text-md font-medium mb-2">Cinema Details</h5>
+      <h5 className="text-md font-medium mb-2">Add New Performance</h5>
 
+      {/* Title */}
       <input
         type="text"
-        value={movieTitle}
-        onChange={(e) => setMovieTitle(e.target.value)}
-        placeholder="Movie Title"
-        className="w-full p-2 mb-2 border border-gray-300 rounded"
-      />
-      <input
-        type="text"
-        value={movieGenre}
-        onChange={(e) => setMovieTitle(e.target.value)}
-        placeholder="Movie Genre"
-        className="w-full p-2 mb-2 border border-gray-300 rounded"
-      />
-      <input
-        type="text"
-        value={cinemaHall}
-        onChange={(e) => setMovieTitle(e.target.value)}
-        placeholder="cinema Hall"
-        className="w-full p-2 mb-2 border border-gray-300 rounded"
-      />
-      <input
-        type="text"
-        value={showtimes}
-        onChange={(e) => setMovieTitle(e.target.value)}
-        placeholder="showtimes"
-        className="w-full p-2 mb-2 border border-gray-300 rounded"
-      />
-      <input
-        type="text"
-        value={ticketPrice}
-        onChange={(e) => setMovieTitle(e.target.value)}
-        placeholder="ticketPrice"
+        name="title"
+        value={formData.title}
+        onChange={handleInputChange}
+        placeholder="Event Title"
         className="w-full p-2 mb-2 border border-gray-300 rounded"
       />
 
+      {/* Date */}
       <input
-        type="text"
-        value={duration}
-        onChange={(e) => setMovieTitle(e.target.value)}
-        placeholder="duration"
+        type="date"
+        name="date"
+        value={formData.date}
+        onChange={handleInputChange}
         className="w-full p-2 mb-2 border border-gray-300 rounded"
       />
-      <input
-        type="text"
-        value={rating}
-        onChange={(e) => setMovieTitle(e.target.value)}
-        placeholder="rating (age)"
-        className="w-full p-2 mb-2 border border-gray-300 rounded"
-      />
-      <input
-        type="text"
-        value={cinemaLocation}
-        onChange={(e) => setMovieTitle(e.target.value)}
-        placeholder="cinema Location"
-        className="w-full p-2 mb-2 border border-gray-300 rounded"
-      />
-      <input
-        type="text"
-        value={availableSeats}
-        onChange={(e) => setMovieTitle(e.target.value)}
-        placeholder="availableSeats"
-        className="w-full p-2 mb-2 border border-gray-300 rounded"
-      />
-      {/* Other input fields */}
 
+      {/* Location */}
+      <input
+        type="text"
+        name="location.venueName"
+        value={formData.location.venueName}
+        onChange={handleInputChange}
+        placeholder="Venue Name"
+        className="w-full p-2 mb-2 border border-gray-300 rounded"
+      />
+      <input
+        type="text"
+        name="location.address"
+        value={formData.location.address}
+        onChange={handleInputChange}
+        placeholder="Venue Address"
+        className="w-full p-2 mb-2 border border-gray-300 rounded"
+      />
+
+      {/* Performers */}
+      <h6 className="mt-4 font-medium">Performers</h6>
+      {formData.performers.map((performer, index) => (
+        <div key={index} className="flex gap-2 mb-2">
+          <input
+            type="text"
+            value={performer.name}
+            onChange={(e) => handleArrayChange(e, index, "name", "performers")}
+            placeholder="Performer Name"
+            className="w-1/2 p-2 border border-gray-300 rounded"
+          />
+          <input
+            type="text"
+            value={performer.genre}
+            onChange={(e) => handleArrayChange(e, index, "genre", "performers")}
+            placeholder="Performer Genre"
+            className="w-1/2 p-2 border border-gray-300 rounded"
+          />
+        </div>
+      ))}
       <button
-        onClick={handleSave}
-        className="mt-4 px-4 py-2 bg-blue-500 text-white rounded"
+        type="button"
+        onClick={() =>
+          addItemToArray("performers", { name: "", genre: "" })
+        }
+        className="mt-2 px-4 py-2 bg-blue-500 text-white rounded"
       >
-        Save Cinema Details
+        Add Performer
       </button>
 
-      {/* Display saved entries */}
-      <div className="mt-4">
-        <h6 className="font-semibold">Saved Cinema Entries:</h6>
-        <ul>
-          {cinemaEntries.map((entry, index) => (
-            <li key={index} className="border p-2 mb-2">
-              <strong>{entry.movieTitle}</strong> at {entry.cinemaHall}
-              {/* Render other details */}
-            </li>
-          ))}
-        </ul>
+      {/* Save Button */}
+      <button
+        onClick={handleSavePerformance}
+        className="mt-4 px-4 py-2 bg-blue-500 text-white rounded"
+      >
+        Save Performance
+      </button>
+
+      {/* Display Saved Performances */}
+      <div className="mt-6">
+        <h5 className="text-md font-medium mb-2">Saved Performances</h5>
+        {performances.map((performance, index) => (
+          <div
+            key={index}
+            className="p-4 border border-gray-300 rounded mb-4 bg-gray-100"
+          >
+            <h6 className="font-bold">{performance.title}</h6>
+            <p>Date: {performance.date}</p>
+            <p>Venue: {performance.location.venueName}</p>
+            <p>Address: {performance.location.address}</p>
+            <p>Cost: ${performance.cost}</p>
+            <p>Performers:</p>
+            <ul>
+              {performance.performers.map((performer, idx) => (
+                <li key={idx}>
+                  {performer.name} ({performer.genre})
+                </li>
+              ))}
+            </ul>
+          </div>
+        ))}
       </div>
     </div>
   );

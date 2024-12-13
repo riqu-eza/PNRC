@@ -13,7 +13,7 @@ const SubcategoryForm = ({
   const [selectedSubcategory, setSelectedSubcategory] = useState("");
   const [menuItems, setMenuItems] = useState([]);
   const [rooms, setRooms] = useState([]);
-  const [EntertainmentItems ,setEntertainmentItems] = useState([]);
+  const [EntertainmentItems, setEntertainmentItems] = useState([]);
 
   const handleAddSubcategory = () => {
     if (selectedSubcategory) {
@@ -39,13 +39,19 @@ const SubcategoryForm = ({
         return <RoomForm setRooms={setRooms} rooms={rooms} />;
       case "Dining":
         return <MenuItemForm setMenuItems={setMenuItems} meals={menuItems} />;
-        case "Entertainment":
-          return <EntertainmentForm setEntertainmentItems={setEntertainmentItems} Entertainment={EntertainmentItems} Subcategory={selectedSubcategory}/>
+      case "Entertainment":
+        return (
+          <EntertainmentForm
+            setEntertainmentItems={setEntertainmentItems}
+            Entertainment={EntertainmentItems}
+            Subcategory={selectedSubcategory}
+          />
+        );
       default:
         return null;
     }
   };
-console.log("choosen sucategoryy", selectedSubcategory)
+  console.log("choosen sucategoryy", selectedSubcategory);
   return (
     <div className="bg-white p-4 border border-gray-200 rounded-lg shadow-sm">
       <h4 className="text-lg font-medium mb-2">{category} - Subcategory</h4>

@@ -20,7 +20,7 @@ const BlogPage = () => {
     setShowModal(true);
     try {
       // Increment the view count
-      await fetch(`http://localhost:3000/api/blog/view/${post._id}`, {
+      await fetch(`/api/blog/view/${post._id}`, {
         method: "POST",
       });
     } catch (error) {
@@ -37,7 +37,7 @@ const BlogPage = () => {
     const fetchBlogPosts = async () => {
       try {
         const response = await fetch(
-          `http://localhost:3000/api/blog/allblog?name=${encodeURIComponent(name)}`
+          `/api/blog/allblog?name=${encodeURIComponent(name)}`
         );
         if (!response.ok) {
           throw new Error("Failed to fetch blog posts");

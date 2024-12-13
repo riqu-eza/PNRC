@@ -19,7 +19,7 @@ const ListingsByCounty = () => {
     const fetchUniqueCounties = async () => {
       try {
         const res = await fetch(
-          "http://localhost:3000/api/listing/unique-counties"
+          "/api/listing/unique-counties"
         );
         const data = await res.json();
         setUniqueCounties(data);
@@ -31,7 +31,7 @@ const ListingsByCounty = () => {
           try {
             // Fetch background image and city info for each county
             const imageRes = await fetch(
-              `http://localhost:3000/api/admin/bckimg?county=${encodeURIComponent(county)}`
+              `/api/admin/bckimg?county=${encodeURIComponent(county)}`
             );
             const imageData = await imageRes.json();
 

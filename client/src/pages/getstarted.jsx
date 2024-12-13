@@ -1,11 +1,11 @@
-import React, { useState } from "react";
+/* eslint-disable no-undef */
+import  { useState } from "react";
 import "./getstarted.css";
 import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
 } from "firebase/auth";
 import { db } from "../firebase";
-import { useDispatch  } from "react-redux"
 import { useNavigate } from "react-router-dom";
 import { addDoc, collection } from "firebase/firestore";
 import OAuth from "../components/OAuth";
@@ -14,6 +14,7 @@ import { signInSuccess } from "../redux/user/userSlice";
 const LoginForm = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  // eslint-disable-next-line no-unused-vars
   const [error, setError] = useState(null);
 
   const navigate = useNavigate();
@@ -31,6 +32,7 @@ const LoginForm = () => {
       }
       const user = querySnapshot.docs[0].data();
 
+      // eslint-disable-next-line no-undef
       await signInWithEmailAndPassword(Auth, user.email, password);
       console.log("User logged in successfully");
 

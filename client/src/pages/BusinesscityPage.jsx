@@ -44,7 +44,7 @@ const BusinesscityPage = () => {
     const fetchCityData = async () => {
       try {
         const res = await fetch(
-          `http://localhost:3000/api/business/city?name=${encodeURIComponent(city)}`
+          `/api/business/city?name=${encodeURIComponent(city)}`
         );
         if (!res.ok) {
           throw new Error(`Error: ${res.statusText}`);

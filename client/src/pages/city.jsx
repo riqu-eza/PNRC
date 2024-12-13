@@ -36,7 +36,7 @@ const City = () => {
         ...city,
         username: username, // Include the username from useUser hook
       };
-      const response = await fetch("http://localhost:3000/api/admin/city", {
+      const response = await fetch("/api/admin/city", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -66,7 +66,7 @@ const City = () => {
 
   const fetchCities = async () => {
     try {
-      const response = await fetch("http://localhost:3000/api/admin/cities");
+      const response = await fetch("/api/admin/cities");
       if (!response.ok) {
         throw new Error("Failed to fetch cities");
       }

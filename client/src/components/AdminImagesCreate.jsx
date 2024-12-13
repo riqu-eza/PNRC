@@ -98,7 +98,7 @@ export default function CreateListing() {
   const [countiesInKenya, setCounties] = useState([]);
   const fetchCounties = async () => {
     try {
-      const response = await fetch("http://localhost:3000/api/admin/cities");
+      const response = await fetch("/api/admin/cities");
       if (!response.ok) {
         throw new Error("Failed to fetch cities");
       }
@@ -125,7 +125,7 @@ export default function CreateListing() {
      
       setLoading(true);
       setError(false);
-      const res = await fetch("http://localhost:3000/api/admin/create", {
+      const res = await fetch("/api/admin/create", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

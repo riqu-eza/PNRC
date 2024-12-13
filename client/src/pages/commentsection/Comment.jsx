@@ -57,7 +57,7 @@ console.log(isCurrentUser)
 //   
 const addReply = async (text) => {
     try {
-      const res = await fetch(`http://localhost:3000/api/comment/${props.id}/reply`, {
+      const res = await fetch(`/api/comment/${props.id}/reply`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ content: text }),
@@ -78,7 +78,7 @@ const addReply = async (text) => {
 
 const deleteComment = async () => {
   try {
-    const res = await fetch(`http://localhost:3000/api/comment/${props.id}/delete`, {
+    const res = await fetch(`/api/comment/${props.id}/delete`, {
       method: 'DELETE',
     });
     const data = await res.json();

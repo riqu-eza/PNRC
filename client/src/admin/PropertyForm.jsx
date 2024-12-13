@@ -120,7 +120,7 @@ const PropertyForm = () => {
     };
     try {
       setUploading(true);
-      const res = await fetch("http://localhost:3000/api/listing/create", {
+      const res = await fetch("/api/listing/create", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

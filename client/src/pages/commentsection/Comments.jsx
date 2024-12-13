@@ -13,7 +13,7 @@ useEffect(() => {
     // Fetch initial comments data from the API
     const fetchComments = async () => {
       try {
-        const res = await fetch(`http://localhost:3000/api/comment/getComments/${listingId}`);
+        const res = await fetch(`/api/comment/getComments/${listingId}`);
         const data = await res.json();
         if (data.success) {
           setBackendComments(data.comments || []);
@@ -29,7 +29,7 @@ useEffect(() => {
   }, []);
   const createComment = async (text) => {
     try {
-      const res = await fetch('http://localhost:3000/api/comment/create', {
+      const res = await fetch('/api/comment/create', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ content: text, user: currentUser , listingId: listingId   }),
@@ -60,7 +60,7 @@ const addComment = (text) => {
 
 const deleteComment = async (commentId) => {
     try {
-      const res = await fetch(`http://localhost:3000/api/comment/${commentId}/deletecomment`, { method: 'DELETE' });
+      const res = await fetch(`/api/comment/${commentId}/deletecomment`, { method: 'DELETE' });
       const data = await res.json();
       if (data.success) {
         const updatedBackendComments = backendComments.filter(
@@ -84,7 +84,7 @@ const deleteComment = async (commentId) => {
 //   }
 const updateComment = async (text, commentId) => {
     try {
-      const res = await fetch(`http://localhost:3000/api/comment/${commentId}/updatecomment`, {
+      const res = await fetch(`/api/comment/${commentId}/updatecomment`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ content: text }),

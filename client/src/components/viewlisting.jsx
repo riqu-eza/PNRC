@@ -36,7 +36,7 @@ const ViewListing = () => {
 
   const fetchListings = async () => {
     try {
-      const response = await fetch("http://localhost:3000/api/listing/getall");
+      const response = await fetch("/api/listing/getall");
       const data = await response.json();
       setListings(data);
     } catch (error) {
@@ -47,7 +47,7 @@ const ViewListing = () => {
   // Delete a listing
   const handleDeleteListing = async (id) => {
     try {
-      await fetch(`http://localhost:3000/api/listing/delete/${id}`, {
+      await fetch(`/api/listing/delete/${id}`, {
         method: 'DELETE',
       });
       setListings(listings.filter(listing => listing._id !== id));
@@ -95,7 +95,7 @@ const ViewListing = () => {
   // Update a listing
   const handleUpdateListing = async (id) => {
     try {
-      const response = await fetch(`http://localhost:3000/api/listing/update/${id}`, {
+      const response = await fetch(`/api/listing/update/${id}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
