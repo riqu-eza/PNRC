@@ -51,7 +51,7 @@
       "Archaelogical Sites",
       "Cultural Sites",
       "Heritage Sites",
-      "Religious plsces of interest",
+      "Religious places of interest",
     ],
     Shopping: [
       "Shopping Malls",
@@ -74,13 +74,9 @@
       "Reserch Institution",
     ],
     Health_and_Fitness: [
-      "Sport Clubs",
       "Swimming Pools",
       "Martial arts Studios",
       "Dance Studio",
-      "Rock Climbing Gyms",
-      "Cycling Tracks",
-      "Running Tracks",
       "Hospital",
     ],
     Services: [

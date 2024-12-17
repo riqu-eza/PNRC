@@ -6,7 +6,9 @@ import {prepareSearchTerm} from "../utils/Searchutil.js";
 export const createListing = async (req, res, next) => {
   try {
     console.log("data", req.body)
+    console.log("data", req.body.category.subcategories);
     const listing = await Property.create(req.body);
+    console.log("saved", listing)
     return res.status(201).json(listing);
   } catch (error) {
     next(error);

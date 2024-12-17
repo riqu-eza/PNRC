@@ -138,17 +138,36 @@ const GamingShema = new mongoose.Schema({
   duration: { type: String },
   requiredequipmwnts: { type: String },
 });
-const Entertainmentcategory = new mongoose.Schema({
-  cinema: [CinemaSchema],
-  performance: [PerformanceShema],
-  gaming: [GamingShema],
-});
+
 const SubcategorySchema = new mongoose.Schema({
   subcategory: { type: String, required: true },
   count: { type: Number }, // Change count to Number for consistency
   rooms: [RoomSchema],
   menuItems: [MenuItemSchema],
-  EntertainmentItems: [Entertainmentcategory],
+  EntertainmentItems: {
+    type: mongoose.Schema.Types.Mixed,
+    default: {},
+  },
+  CultureItems: {
+    type: mongoose.Schema.Types.Mixed,
+    default: {},
+  },
+  EducationItems: {
+    type: mongoose.Schema.Types.Mixed,
+    default: {},
+  },
+  HealthItems: {
+    type: mongoose.Schema.Types.Mixed,
+    default: {},
+  },
+  ServicesItems: {
+    type: mongoose.Schema.Types.Mixed,
+    default: {},
+  },
+  ShoppingItems: {
+    type: mongoose.Schema.Types.Mixed,
+    default: {},
+  },
 });
 
 const CategorySchema = new mongoose.Schema({

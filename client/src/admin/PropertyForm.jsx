@@ -118,6 +118,7 @@ const PropertyForm = () => {
       ...propertyData,
       amenities: amenitiesArray, // Now store as an array
     };
+    console.log("final",finalData);
     try {
       setUploading(true);
       const res = await fetch("/api/listing/create", {

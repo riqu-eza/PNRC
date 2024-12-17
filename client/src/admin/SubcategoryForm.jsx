@@ -3,6 +3,11 @@ import { useState } from "react";
 import MenuItemForm from "./MenuItemForm";
 import RoomForm from "./RoomForm";
 import EntertainmentForm from "./ EntertainmentForm";
+import Culture from "./Culture&historicalsites";
+import Shopping from "./Shopping";
+import Education from "./Education&learning";
+import Health from "./Health&fitness";
+import Services from "./Services";
 
 const SubcategoryForm = ({
   category,
@@ -14,6 +19,11 @@ const SubcategoryForm = ({
   const [menuItems, setMenuItems] = useState([]);
   const [rooms, setRooms] = useState([]);
   const [EntertainmentItems, setEntertainmentItems] = useState([]);
+  const [CultureItems, setCultureItems] = useState([]);
+  const [EducationItems, setEducationItems] = useState([]);
+  const [HealthItems, setHealthItems] = useState([]);
+  const [ServicesItems, setServicesItems] = useState([]);
+  const [ShoppingItems, setShoppingItems] = useState([]);
 
   const handleAddSubcategory = () => {
     if (selectedSubcategory) {
@@ -22,12 +32,22 @@ const SubcategoryForm = ({
         menuItems,
         rooms,
         EntertainmentItems,
+        CultureItems,
+        EducationItems,
+        HealthItems,
+        ServicesItems,
+        ShoppingItems,
       };
       setSubcategories([...subcategories, newSubcategory]); // Append new subcategory
       setSelectedSubcategory("");
       setMenuItems([]);
       setRooms([]);
       setEntertainmentItems([]);
+      setCultureItems([]);
+      setEducationItems([]);
+      setHealthItems([]);
+      setServicesItems([]);
+      setShoppingItems([]);
     } else {
       alert("Please select a subcategory.");
     }
@@ -44,6 +64,46 @@ const SubcategoryForm = ({
           <EntertainmentForm
             setEntertainmentItems={setEntertainmentItems}
             Entertainment={EntertainmentItems}
+            Subcategory={selectedSubcategory}
+          />
+        );
+      case "Culture_and_Historicalsites":
+        return (
+          <Culture
+            setCultureItems={setCultureItems}
+            Culture={CultureItems}
+            Subcategory={selectedSubcategory}
+          />
+        );
+      case "Shopping":
+        return (
+          <Shopping
+            setShoppingItems={setShoppingItems}
+            Shopping={ShoppingItems}
+            Subcategory={selectedSubcategory}
+          />
+        );
+      case "Education_and_Learning":
+        return (
+          <Education
+            setEducationItems={setEducationItems}
+            Education={EducationItems}
+            Subcategory={selectedSubcategory}
+          />
+        );
+      case "Health_and_Fitness":
+        return (
+          <Health
+            setHealthItems={setHealthItems}
+            Health={HealthItems}
+            Subcategory={selectedSubcategory}
+          />
+        );
+      case "Services":
+        return (
+          <Services
+            setServicesItems={setServicesItems}
+            Services={ServicesItems}
             Subcategory={selectedSubcategory}
           />
         );
