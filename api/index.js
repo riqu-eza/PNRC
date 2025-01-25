@@ -44,12 +44,19 @@ const __dirname = path.resolve();
 const app = express();
 
 app.use(express.json());
-app.use(cors());
+app.use(
+  cors({
+    origin: ["http://localhost:6054", "https://lskinessentials.com"],
+    methods: ["GET", "POST", "PUT", "DELETE"],
+    credentials: true,
+  })
+);
 app.use(cookieParser());
 
 app.listen(3000, () => {
   console.log("Server is running on port 3000");
 });
+
 app.use(express.static(path.join(__dirname, "/client/dist")));
 
 
@@ -64,6 +71,7 @@ app.use("/api/comment", commentRouter);
 app.use("/api/letter", letterRouter);
 app.use("/api/business", businessRouter)
 
+app.use(express.static(path.join(__dirname, "/client/dist")));
 
 app.get("*", (req, res, next) => {
   res.sendFile(path.join(__dirname, "client", "dist", "index.html"));

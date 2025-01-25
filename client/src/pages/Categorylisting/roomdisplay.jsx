@@ -1,10 +1,14 @@
 /* eslint-disable react/prop-types */
-import { useState } from "react";
+import { useState, useRef } from "react";
 import Amenities from "./amenities";
+import { FaArrowLeft, FaArrowRight } from "react-icons/fa";
 
-const RoomDisplay = ({ room, listingemail,listingname,listingaddress }) => {
+const RoomDisplay = ({ room, listingemail, listingname, listingaddress }) => {
   const [showBookingOverlay, setShowBookingOverlay] = useState(false);
-  const [selectedImage, setSelectedImage] = useState(room.imageUrls[0]);
+  const [selectedImage, setSelectedImage] = useState(room.imageUrls[0] || "");
+
+  // Ref for thumbnail container within the overlay
+  const thumbnailRef = useRef(null);
 
   const handleBookNowClick = () => {
     setShowBookingOverlay(true); // Show the overlay
@@ -13,16 +17,17 @@ const RoomDisplay = ({ room, listingemail,listingname,listingaddress }) => {
   const handleCloseOverlay = () => {
     setShowBookingOverlay(false); // Close the overlay
   };
+
   const calculateTotalPrice = () => {
     if (formData.startDate && formData.endDate) {
       const start = new Date(formData.startDate);
       const end = new Date(formData.endDate);
-      const days = (end - start) / (1000 * 3600 * 24); // Calculate the difference in days
+      const days = Math.ceil((end - start) / (1000 * 3600 * 24)); // Calculate the difference in days
       return days * room.pricePerNight; // Assuming room.pricePerNight is provided
     }
     return 0;
   };
-  console.log("listingemail", listingemail);
+
   const [formData, setFormData] = useState({
     firstName: "",
     lastName: "",
@@ -33,8 +38,9 @@ const RoomDisplay = ({ room, listingemail,listingname,listingaddress }) => {
     numberOfPeople: "",
     listingEmail: listingemail,
     listingName: listingname,
-    listingAddress:listingaddress
+    listingAddress: listingaddress,
   });
+
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormData((prevData) => ({
@@ -55,54 +61,107 @@ const RoomDisplay = ({ room, listingemail,listingname,listingaddress }) => {
       body: JSON.stringify({
         ...formData,
         roomId: room._id,
-         // Add room ID to the booking data
+        // Add room ID to the booking data
       }),
     })
       .then((response) => response.json())
       .then((data) => {
         console.log("Booking successful", data);
+        // Optionally, close the overlay or show a success message
+        setShowBookingOverlay(false);
       })
       .catch((error) => {
         console.error("Error during booking:", error);
+        // Optionally, handle the error (e.g., show an error message)
       });
+  };
+
+  // Scroll functions for thumbnails in overlay
+  const scrollThumbnailsLeft = () => {
+    if (thumbnailRef.current) {
+      thumbnailRef.current.scrollBy({
+        left: -100, // Adjust scroll amount as needed
+        behavior: "smooth",
+      });
+    }
+  };
+
+  const scrollThumbnailsRight = () => {
+    if (thumbnailRef.current) {
+      thumbnailRef.current.scrollBy({
+        left: 100, // Adjust scroll amount as needed
+        behavior: "smooth",
+      });
+    }
   };
 
   return (
     <>
       {/* Room Container */}
-      <div className=" rounded-md p-3 max-w-[450px] mb-2">
+      <div className="rounded-md p-3 mb-4 bg-white shadow-lg flex-shrink-0 snap-center w-full sm:w-full md:w-80 lg:w-96">
         {/* Room Images */}
         {room.imageUrls.length > 0 ? (
           <div className="relative mb-2">
             <img
               src={selectedImage}
               alt={room.name}
-              className="w-full h-96 object-cover rounded-lg shadow-lg"
+              className="w-full h-40 sm:h-48 lg:h-56 object-cover rounded-lg shadow-md"
+              loading="lazy" // Optional: Lazy load images
             />
-            <h2 className="absolute bottom-4 left-4 text-white text-3xl font-bold bg-black bg-opacity-50 p-2 rounded">
-              {room.name}
-            </h2>
-            <div className="flex mt-2 space-x-2">
-              {room.imageUrls.map((url, index) => (
-                <img
-                  key={index}
-                  src={url}
-                  alt={`Thumbnail ${index + 1}`}
-                  className="w-20 h-20 object-cover rounded cursor-pointer hover:opacity-80"
-                  onClick={() => setSelectedImage(url)}
-                />
-              ))}
+
+            {/* Thumbnails Container */}
+            <div className="flex items-center mt-2">
+              {/* Scroll Left Button */}
+              <button
+                onClick={scrollThumbnailsLeft}
+                className="hidden sm:flex items-center justify-center w-8 h-8 bg-gray-300 rounded-full hover:bg-gray-400 transition"
+                aria-label="Scroll Left"
+              >
+                <FaArrowLeft className="text-gray-700" />
+              </button>
+
+              {/* Thumbnails */}
+              <div
+                ref={thumbnailRef}
+                className="flex space-x-2 overflow-x-auto scrollbar-hide scroll-smooth"
+              >
+                {room.imageUrls.map((url, index) => (
+                  <img
+                    key={index}
+                    src={url}
+                    alt={`Thumbnail ${index + 1}`}
+                    className={`w-16 h-16 object-cover rounded cursor-pointer hover:opacity-80 flex-shrink-0 ${
+                      selectedImage === url ? "border-2 border-blue-500" : ""
+                    }`}
+                    onClick={() => setSelectedImage(url)}
+                    loading="lazy" // Optional: Lazy load images
+                  />
+                ))}
+              </div>
+
+              {/* Scroll Right Button */}
+              <button
+                onClick={scrollThumbnailsRight}
+                className="hidden sm:flex items-center justify-center w-8 h-8 bg-gray-300 rounded-full hover:bg-gray-400 transition"
+                aria-label="Scroll Right"
+              >
+                <FaArrowRight className="text-gray-700" />
+              </button>
             </div>
           </div>
         ) : (
-          <div className="w-full h-48 bg-gray-200 rounded-md mb-3 flex items-center justify-center">
+          <div className="w-full h-40 sm:h-48 lg:h-56 bg-gray-200 rounded-md mb-3 flex items-center justify-center">
             <span className="text-gray-500">No Image Available</span>
           </div>
         )}
 
         {/* Room Details */}
-        <h6 className="font-semibold text-center text-xl">{room.roomType}</h6>
-        <p className="text-gray-700 font-serif mt-1">{room.description}</p>
+        <h6 className="font-semibold text-center text-lg sm:text-xl">
+          {room.roomType}
+        </h6>
+        <p className="text-gray-700 font-serif mt-1 text-sm sm:text-base">
+          {room.description}
+        </p>
 
         {/* Amenities */}
         <div className="flex flex-wrap mt-3 space-x-2">
@@ -110,13 +169,13 @@ const RoomDisplay = ({ room, listingemail,listingname,listingaddress }) => {
         </div>
 
         {/* Price and Book Button */}
-        <div className="flex justify-between items-center mt-4">
-          <p className="font-light text-lg">
+        <div className="flex flex-col sm:flex-row justify-between items-center mt-4">
+          <p className="font-light text-md sm:text-lg">
             Price per Night: ${room.pricePerNight}
           </p>
           <button
             onClick={handleBookNowClick}
-            className="bg-blue-600 text-white py-2 px-4 rounded hover:bg-blue-700 transition"
+            className="mt-2 sm:mt-0 bg-blue-600 text-white py-1 px-3 sm:py-2 sm:px-4 rounded hover:bg-blue-700 transition"
           >
             Book Now
           </button>
@@ -125,68 +184,99 @@ const RoomDisplay = ({ room, listingemail,listingname,listingaddress }) => {
 
       {/* Booking Overlay */}
       {showBookingOverlay && (
-        <div className="fixed top-0 left-0 w-full h-full bg-black bg-opacity-75 flex justify-center items-center z-50">
-          <div className="bg-white p-6 rounded-lg shadow-lg w-11/12 md:w-2/3 lg:w-[80%] relative">
+        <div className="fixed top-0 left-0 w-full h-full bg-black bg-opacity-75 flex justify-center items-center z-50 p-4 overflow-y-auto">
+          <div className="bg-white p-6 rounded-lg shadow-lg w-full max-w-4xl relative">
             {/* Close Button */}
             <button
               onClick={handleCloseOverlay}
-              className="absolute top-2 right-2 text-xl font-bold"
+              className="absolute top-2 right-2 text-2xl font-bold text-gray-600 hover:text-gray-800"
+              aria-label="Close Booking Form"
             >
               &times;
             </button>
 
             {/* Overlay Content */}
-            <div className="max-h-[80vh] overflow-auto" >
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                {/* Room Details */}
-                <div>
-                  {room.imageUrls.length > 0 ? (
-                    <div className="relative mb-2">
-                      <img
-                        src={selectedImage}
-                        alt={room.name}
-                        className="w-full h-96 object-cover rounded-lg shadow-lg"
-                      />
-                      <h2 className="absolute bottom-4 left-4 text-white text-3xl font-bold bg-black bg-opacity-50 p-2 rounded">
-                        {room.name}
-                      </h2>
-                      <div className="flex mt-2 space-x-2">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              {/* Room Details */}
+              <div>
+                {room.imageUrls.length > 0 ? (
+                  <div className="relative mb-4">
+                    <img
+                      src={selectedImage}
+                      alt={room.name}
+                      className="w-full h-48 sm:h-56 lg:h-64 object-cover rounded-lg shadow-md"
+                      loading="lazy" // Optional: Lazy load images
+                    />
+
+                    {/* Thumbnails in Overlay */}
+                    <div className="flex items-center mt-2">
+                      {/* Scroll Left Button */}
+                      <button
+                        onClick={scrollThumbnailsLeft}
+                        className="hidden sm:flex items-center justify-center w-8 h-8 bg-gray-300 rounded-full hover:bg-gray-400 transition"
+                        aria-label="Scroll Left"
+                      >
+                        <FaArrowLeft className="text-gray-700" />
+                      </button>
+
+                      {/* Thumbnails */}
+                      <div
+                        ref={thumbnailRef}
+                        className="flex space-x-2 overflow-x-auto scrollbar-hide scroll-smooth"
+                      >
                         {room.imageUrls.map((url, index) => (
                           <img
                             key={index}
                             src={url}
                             alt={`Thumbnail ${index + 1}`}
-                            className="w-20 h-20 object-cover rounded cursor-pointer hover:opacity-80"
+                            className={`w-16 h-16 object-cover rounded cursor-pointer hover:opacity-80 flex-shrink-0 ${
+                              selectedImage === url ? "border-2 border-blue-500" : ""
+                            }`}
                             onClick={() => setSelectedImage(url)}
+                            loading="lazy" // Optional: Lazy load images
                           />
                         ))}
                       </div>
-                    </div>
-                  ) : (
-                    <div className="w-full h-48 bg-gray-200 rounded-md mb-3 flex items-center justify-center">
-                      <span className="text-gray-500">No Image Available</span>
-                    </div>
-                  )}
-                  <h2 className="text-2xl font-bold">{room.roomType}</h2>
-                  <p className="mt-3 text-gray-600">{room.description}</p>
 
-                  {/* Amenities in Overlay */}
-                  <div className="flex flex-wrap mt-3 space-x-2">
-                    <Amenities amenities={room.amenities} />
+                      {/* Scroll Right Button */}
+                      <button
+                        onClick={scrollThumbnailsRight}
+                        className="hidden sm:flex items-center justify-center w-8 h-8 bg-gray-300 rounded-full hover:bg-gray-400 transition"
+                        aria-label="Scroll Right"
+                      >
+                        <FaArrowRight className="text-gray-700" />
+                      </button>
+                    </div>
                   </div>
+                ) : (
+                  <div className="w-full h-48 bg-gray-200 rounded-md mb-4 flex items-center justify-center">
+                    <span className="text-gray-500">No Image Available</span>
+                  </div>
+                )}
+                <h2 className="text-xl sm:text-2xl font-bold mb-2">
+                  {room.roomType}
+                </h2>
+                <p className="mt-2 text-gray-600 text-sm sm:text-base">
+                  {room.description}
+                </p>
 
-                  {/* Price */}
-                  <p className="font-bold text-lg mt-4">
-                    Price per Night: ${room.pricePerNight}
-                  </p>
+                {/* Amenities in Overlay */}
+                <div className="flex flex-wrap mt-3 space-x-2">
+                  <Amenities amenities={room.amenities} />
                 </div>
 
-                {/* Personal details and booking details */}
+                {/* Price */}
+                <p className="font-bold text-md sm:text-lg mt-4">
+                  Price per Night: ${room.pricePerNight}
+                </p>
+              </div>
 
-                {/* First Name */}
-                <div>
+              {/* Booking Form */}
+              <div>
+                <form onSubmit={handleSubmit} className="space-y-4">
+                  {/* First Name */}
                   <div>
-                    <label className="block text-sm font-medium">
+                    <label className="block text-sm font-medium text-gray-700">
                       First Name
                     </label>
                     <input
@@ -194,13 +284,14 @@ const RoomDisplay = ({ room, listingemail,listingname,listingaddress }) => {
                       name="firstName"
                       value={formData.firstName}
                       onChange={handleInputChange}
-                      className="w-full p-2 border border-gray-300 rounded"
+                      required
+                      className="w-full p-2 border border-gray-300 rounded mt-1 focus:outline-none focus:ring-2 focus:ring-blue-500"
                     />
                   </div>
 
                   {/* Last Name */}
                   <div>
-                    <label className="block text-sm font-medium">
+                    <label className="block text-sm font-medium text-gray-700">
                       Last Name
                     </label>
                     <input
@@ -208,25 +299,29 @@ const RoomDisplay = ({ room, listingemail,listingname,listingaddress }) => {
                       name="lastName"
                       value={formData.lastName}
                       onChange={handleInputChange}
-                      className="w-full p-2 border border-gray-300 rounded"
+                      required
+                      className="w-full p-2 border border-gray-300 rounded mt-1 focus:outline-none focus:ring-2 focus:ring-blue-500"
                     />
                   </div>
 
                   {/* Email */}
                   <div>
-                    <label className="block text-sm font-medium">Email</label>
+                    <label className="block text-sm font-medium text-gray-700">
+                      Email
+                    </label>
                     <input
                       type="email"
                       name="email"
                       value={formData.email}
                       onChange={handleInputChange}
-                      className="w-full p-2 border border-gray-300 rounded"
+                      required
+                      className="w-full p-2 border border-gray-300 rounded mt-1 focus:outline-none focus:ring-2 focus:ring-blue-500"
                     />
                   </div>
 
                   {/* Contact Number */}
                   <div>
-                    <label className="block text-sm font-medium">
+                    <label className="block text-sm font-medium text-gray-700">
                       Contact Number
                     </label>
                     <input
@@ -234,14 +329,14 @@ const RoomDisplay = ({ room, listingemail,listingname,listingaddress }) => {
                       name="contactNumber"
                       value={formData.contactNumber}
                       onChange={handleInputChange}
-                      className="w-full p-2 border border-gray-300 rounded"
+                      required
+                      className="w-full p-2 border border-gray-300 rounded mt-1 focus:outline-none focus:ring-2 focus:ring-blue-500"
                     />
                   </div>
-                </div>
-                {/* Start Date */}
-                <div>
+
+                  {/* Start Date */}
                   <div>
-                    <label className="block text-sm font-medium">
+                    <label className="block text-sm font-medium text-gray-700">
                       Start Date
                     </label>
                     <input
@@ -249,13 +344,14 @@ const RoomDisplay = ({ room, listingemail,listingname,listingaddress }) => {
                       name="startDate"
                       value={formData.startDate}
                       onChange={handleInputChange}
-                      className="w-full p-2 border border-gray-300 rounded"
+                      required
+                      className="w-full p-2 border border-gray-300 rounded mt-1 focus:outline-none focus:ring-2 focus:ring-blue-500"
                     />
                   </div>
 
                   {/* End Date */}
                   <div>
-                    <label className="block text-sm font-medium">
+                    <label className="block text-sm font-medium text-gray-700">
                       End Date
                     </label>
                     <input
@@ -263,23 +359,40 @@ const RoomDisplay = ({ room, listingemail,listingname,listingaddress }) => {
                       name="endDate"
                       value={formData.endDate}
                       onChange={handleInputChange}
-                      className="w-full p-2 border border-gray-300 rounded"
+                      required
+                      className="w-full p-2 border border-gray-300 rounded mt-1 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    />
+                  </div>
+
+                  {/* Number of People */}
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700">
+                      Number of People
+                    </label>
+                    <input
+                      type="number"
+                      name="numberOfPeople"
+                      value={formData.numberOfPeople}
+                      onChange={handleInputChange}
+                      required
+                      min="1"
+                      className="w-full p-2 border border-gray-300 rounded mt-1 focus:outline-none focus:ring-2 focus:ring-blue-500"
                     />
                   </div>
 
                   {/* Total Price Calculation */}
-                  <p className="font-bold text-lg mt-4">
+                  <p className="font-bold text-md sm:text-lg">
                     Total Price: ${calculateTotalPrice()}
                   </p>
 
                   {/* Confirm Booking Button */}
                   <button
-                    onClick={handleSubmit} // Call the handleBooking function on click
+                    type="submit"
                     className="w-full bg-green-500 text-white py-2 rounded hover:bg-green-600 transition"
                   >
                     Confirm Booking
                   </button>
-                </div>
+                </form>
               </div>
             </div>
           </div>
