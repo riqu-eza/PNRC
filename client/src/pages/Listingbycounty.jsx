@@ -12,15 +12,13 @@ const ListingsByCounty = () => {
   const [selectedCounty, setSelectedCounty] = useState(null);
   const [countyBackgrounds, setCountyBackgrounds] = useState({});
   const [isLoading, setIsLoading] = useState(true);
-  const [cityinfo, setcityinfo] = useState([]);
+  const [cityinfo, setCityInfo] = useState([]);
   const [introVisible, setIntroVisible] = useState(true);
 
   useEffect(() => {
     const fetchUniqueCounties = async () => {
       try {
-        const res = await fetch(
-          "/api/listing/unique-counties"
-        );
+        const res = await fetch("/api/listing/unique-counties");
         const data = await res.json();
         setUniqueCounties(data);
 
@@ -29,25 +27,19 @@ const ListingsByCounty = () => {
 
         for (const county of data) {
           try {
-            // Fetch background image and city info for each county
             const imageRes = await fetch(
               `/api/admin/bckimg?county=${encodeURIComponent(county)}`
             );
             const imageData = await imageRes.json();
-
-            // Set the background and city info for this county
-            backgrounds[county] = imageData.imageUrls || []; // Set to empty array if no imageUrls are found
-            cityInfo[county] = imageData.description || ""; // Set to empty string if no description is found
+            backgrounds[county] = imageData.imageUrls || [];
+            cityInfo[county] = imageData.description || "";
           } catch (err) {
-            // If fetching a specific county's data fails, just log and continue with others
             console.warn(`Failed to fetch data for county: ${county}`, err);
-            // Continue the loop without setting any background or city info for this county
           }
         }
 
-        // Once all counties have been processed, update the state
         setCountyBackgrounds(backgrounds);
-        setcityinfo(cityInfo);
+        setCityInfo(cityInfo);
         setIsLoading(false);
       } catch (error) {
         console.error("Failed to fetch unique counties", error);
@@ -64,7 +56,7 @@ const ListingsByCounty = () => {
 
     try {
       const res = await fetch(
-        `http://localhost:3000/api/listing/get?selectedCounty=${county}`
+        `/api/listing/get?selectedCounty=${encodeURIComponent(county)}`
       );
       const data = await res.json();
       setListingsByCounty(data);
@@ -73,42 +65,36 @@ const ListingsByCounty = () => {
       console.error(error);
     }
   };
+
   const truncateText = (text, wordLimit) => {
     const words = text.split(" ");
-    if (words.length <= wordLimit) {
-      return text;
-    }
-    return words.slice(0, wordLimit).join(" ") + " ...";
+    return words.length <= wordLimit
+      ? text
+      : `${words.slice(0, wordLimit).join(" ")} ...`;
   };
-  // console.log("Unique Counties:", uniqueCounties);
-  // console.log("Listings By County:", listingsByCounty);
-  // console.log("Selected County:", selectedCounty);
-  // console.log("County Backgrounds:", countyBackgrounds);
 
   return (
     <>
       {introVisible && (
         <div
-          className="fixed inset-0 flex items-center justify-center  bg-opacity-100 z-50"
+          className="fixed inset-0 flex items-center justify-center bg-opacity-100 z-50"
           role="dialog"
           aria-modal="true"
           style={{
             backgroundImage: `url(${groud})`,
-            backgroundSize: "cover", // or 'contain' depending on the effect you want
+            backgroundSize: "cover",
             backgroundPosition: "center",
           }}
         >
-          <div className="text-black p-8 rounded-md text-center  bg-gray-100 bg-opacity-40">
+          <div className="text-black p-8 rounded-md text-center bg-gray-100 bg-opacity-70">
             <h2 className="text-2xl font-bold md:text-3xl">
               Welcome to Our Resort Cities!
             </h2>
-            <p className="mt-4 text-2xl explaintext leading-8">
-              Join us on a journey through Africa`s breathtaking Resort Cities.
-              At Palmnazi RC, we provide not just a glimpse of stunning
-              destinations but also a royal treatment, dedicated to delivering a
-              majestic experience at the heart of Africa. Discover how your
-              journey with Palmnazi RC can be enriching and meaningful, as you
-              experience the true spirit of Africa like never before.
+            <p className="mt-4 text-lg leading-8">
+              Join us on a journey through Africa’s breathtaking Resort Cities.
+              At Palmnazi RC, we provide a glimpse of stunning destinations with
+              royal treatment, delivering a majestic experience at the heart of
+              Africa.
             </p>
             <button
               className="mt-6 px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-400"
@@ -122,11 +108,8 @@ const ListingsByCounty = () => {
 
       {!introVisible && (
         <div>
-          <h1 className="text-center text-3xl m-2 text-bold text-blue-400 ">
-            Welcome to our Resort Cities Destinations
-          </h1>
           {isLoading ? (
-            <div className="flex items-center justify-center h-screen w-screen">
+            <div className="flex items-center justify-center h-screen">
               <l-jelly-triangle
                 size="30"
                 speed="1.75"
@@ -134,42 +117,38 @@ const ListingsByCounty = () => {
               ></l-jelly-triangle>
             </div>
           ) : (
-            <div className=" ">
-              <div className=" max-h-[calc(100vh-4rem)] overflow-y-auto  scrollbar-hidden grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10 m-8  mt-10">
+            <div className="p-4">
+              <h1 className="text-center text-3xl p-4 font-bold text-blue-600">
+                Welcome to Our Resort Cities Destinations
+              </h1>
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
                 {uniqueCounties.map((county) => (
                   <div
                     key={county}
-                    className="county-item relative overflow-hidden border  rounded-lg"
+                    className="relative group overflow-hidden border rounded-lg shadow-lg transform hover:scale-105 transition-transform"
                     style={{
                       backgroundImage: `url(${countyBackgrounds[county]})`,
                       backgroundSize: "cover",
                       backgroundPosition: "center",
-                      height: "250px",
+                      height: "300px",
                     }}
                   >
                     <Link
-                      // to={{
-                      //   pathname: `/listings/${county}`,
-                      //   state: { backgroundUrl: countyBackgrounds[county] },
-                      // }}
-                      to={`/listings/${county}?backgroundUrl=${encodeURIComponent(countyBackgrounds[county])}&county=${encodeURIComponent(county)}&countyInfo=${encodeURIComponent(cityinfo[county])}`}
-                      className="block w-full h-full  items-end justify-center"
-                      onClick={() => {
-                        console.log(
-                          "Navigating to /listings/${county} with background URL:",
-                          countyBackgrounds[county]
-                        );
-
-                        fetchListingsByCounty(county);
-                      }}
+                      to={`/listings/${county}?backgroundUrl=${encodeURIComponent(
+                        countyBackgrounds[county]
+                      )}&county=${encodeURIComponent(
+                        county
+                      )}&countyInfo=${encodeURIComponent(cityinfo[county])}`}
+                      onClick={() => fetchListingsByCounty(county)}
+                      className="block w-full h-full"
                     >
-                      <div className="absolute inset-0 flex items-center justify-center">
-                        <span className="absolute top-0  text-3xl font-bold uppercase countyname">
+                      <div className="absolute inset-0 bg-black bg-opacity-30 flex flex-col justify-between p-4">
+                        <h2 className="text-2xl text-white font-bold uppercase">
                           {county}
-                        </span>
-                        <h4 className="absolute bottom-0  bg-black bg-opacity-30 text-center text-white  countyinfo">
-                          {truncateText(cityinfo[county], 15)}
-                        </h4>
+                        </h2>
+                        <p className="text-sm text-white">
+                          {truncateText(cityinfo[county], 20)}
+                        </p>
                       </div>
                     </Link>
                   </div>
@@ -177,18 +156,29 @@ const ListingsByCounty = () => {
               </div>
 
               {selectedCounty && (
-                <div className="listings-container">
-                  <h2 className="text-xl font-bold mb-4">
-                    {selectedCounty} Listings
+                <div className="mt-8">
+                  <h2 className="text-2xl font-bold mb-4">
+                    Listings in {selectedCounty}
                   </h2>
-                  {listingsByCounty.map((listing) => (
-                    <div key={listing._id} className="listing-item">
-                      {/* Display listing details here */}
+                  {listingsByCounty.length > 0 ? (
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                      {listingsByCounty.map((listing) => (
+                        <div
+                          key={listing._id}
+                          className="p-4 border rounded-lg shadow-md hover:shadow-lg transition-shadow"
+                        >
+                          <h3 className="text-lg font-bold">{listing.title}</h3>
+                          <p className="text-sm text-gray-600">
+                            {truncateText(listing.description, 15)}
+                          </p>
+                        </div>
+                      ))}
                     </div>
-                  ))}
+                  ) : (
+                    <p>No listings found in {selectedCounty}.</p>
+                  )}
                 </div>
               )}
-              {/* <Countylisting countyBackgrounds={countyBackgrounds} /> */}
             </div>
           )}
         </div>

@@ -1,11 +1,9 @@
 /* eslint-disable react/prop-types */
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState } from "react";
 
 const AddressForm = ({ address, setAddress }) => {
   const [cities, setCities] = useState([]);
   const [loading, setLoading] = useState(false);
-  const mapRef = useRef(null); // Reference to map element
-  const markerRef = useRef(null); // Reference to marker
 
   // Function to handle input changes (street, city)
   const handleChange = (e) => {
@@ -20,25 +18,24 @@ const AddressForm = ({ address, setAddress }) => {
   };
 
   // Function to handle lat/lng and address changes
-  const handleLocationChange = (e) => {
-    const { name, value } = e.target;
-    setAddress((prev) => ({
-      ...prev,
-      address: {
-        ...prev.address,
-        location: {
-          ...prev.address.location,
-          [name]: value, // Update latitude, longitude, and location address
-        },
-      },
-    }));
-  };
+  // const handleLocationChange = (e) => {
+  //   const { name, value } = e.target;
+  //   setAddress((prev) => ({
+  //     ...prev,
+  //     address: {
+  //       ...prev.address,
+  //       location: {
+  //         ...prev.address.location,
+  //         [name]: value, // Update latitude, longitude, and location address
+  //       },
+  //     },
+  //   }));
+  // };
 
   // Fetch cities on component mount
   useEffect(() => {
     fetchCities();
-    initMap(); // Initialize Google Map
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const fetchCities = async () => {
@@ -58,64 +55,8 @@ const AddressForm = ({ address, setAddress }) => {
   };
 
   // Initialize Google Map
-  const initMap = () => {
-    const initialPosition = { lat: -1.286389, lng: 36.817223 }; // Default to Nairobi
-
-    const map = new window.google.maps.Map(mapRef.current, {
-      center: initialPosition,
-      zoom: 12,
-    });
-
-    const marker = new window.google.maps.Marker({
-      position: initialPosition,
-      map: map,
-      draggable: true, // Allow dragging the marker
-    });
-
-    markerRef.current = marker;
-
-    // Update form when marker is dragged
-    marker.addListener("dragend", () => {
-      const newLat = marker.getPosition().lat();
-      const newLng = marker.getPosition().lng();
-      setAddress((prev) => ({
-        ...prev,
-        address: {
-          ...prev.address,
-          location: {
-            lat: newLat,
-            lng: newLng,
-            address: "", // Clear until reverse geocoding gets address
-          },
-        },
-      }));
-      reverseGeocode(newLat, newLng); // Fetch address from lat/lng
-    });
-  };
 
   // Reverse Geocode to get address from lat/lng
-  const reverseGeocode = (lat, lng) => {
-    const geocoder = new window.google.maps.Geocoder();
-    geocoder.geocode({ location: { lat, lng } }, (results, status) => {
-      if (status === "OK") {
-        if (results[0]) {
-          const formattedAddress = results[0].formatted_address;
-          setAddress((prev) => ({
-            ...prev,
-            address: {
-              ...prev.address,
-              location: {
-                ...prev.address.location,
-                address: formattedAddress,
-              },
-            },
-          }));
-        }
-      } else {
-        console.error("Geocode failed: " + status);
-      }
-    });
-  };
 
   return (
     <div className="mb-6 p-4 bg-gray-100 rounded-lg">
@@ -154,42 +95,31 @@ const AddressForm = ({ address, setAddress }) => {
         )}
       </select>
 
-      <input
-        type="text"
-        name="address"
-        placeholder="Location Address"
-        value={address.location?.address || ""}
-        onChange={handleLocationChange}
-        required
-        className="w-full p-2 mb-4 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
-      />
+      
 
-      <input
-        type="number"
-        name="lat"
-        placeholder="Latitude"
-        value={address.location?.lat || ""}
-        onChange={handleLocationChange}
-        required
-        className="w-full p-2 mb-4 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
-      />
-
-      <input
-        type="number"
-        name="lng"
-        placeholder="Longitude"
-        value={address.location?.lng || ""}
-        onChange={handleLocationChange}
-        required
-        className="w-full p-2 mb-4 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
-      />
+      <div className="relative">
+        <label htmlFor="mapurl" className="block font-medium mb-2">
+          Map URL
+          <span
+            title="Open Google Maps > Share > Embed a map > Copy the embed URL"
+            className="ml-2 text-blue-500 cursor-pointer"
+          >
+            [?]
+          </span>
+        </label>
+        <input
+          id="mapurl"
+          placeholder="Paste embed URL"
+          type="text"
+          name="mapurl"
+          value={address.mapurl}
+          onChange={handleChange}
+          required
+          className="border rounded p-2 w-full"
+        />
+      </div>
 
       {/* Google Map */}
-      <div
-        ref={mapRef}
-        style={{ height: "300px", width: "100%", marginTop: "20px" }}
-        className="border border-gray-300 rounded"
-      ></div>
     </div>
   );
 };

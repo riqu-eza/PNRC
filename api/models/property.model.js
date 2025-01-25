@@ -55,89 +55,8 @@ const RoomSchema = new mongoose.Schema({
   returnPolicy: [CancellationPolicySchema],
 });
 
-const CinemaSchema = new mongoose.Schema({
-  movieTitle: [{ type: String }],
-  cinemaHall: [{ type: String }],
-  showtimes: [{ type: String }],
-  ticketPrice: [{ type: String }],
-  duration: [{ type: String }],
-  rating: [{ type: String }],
-  cinemaLocation: [{ type: String }],
-  availableSeats: [{ type: String }],
-  imageUrls: [{ type: String }],
-});
-const PerformanceShema = new mongoose.Schema(
-  {
-    title: {
-      type: String,
-      trim: true,
-    },
-    date: {
-      type: Date,
-    },
-    location: {
-      venueName: {
-        type: String,
-      },
-      address: {
-        type: String,
-      },
-    },
-    performers: [
-      {
-        name: {
-          type: String,
-          required: true,
-        },
-        genre: {
-          type: String,
-        },
-      },
-    ],
-    cost: {
-      type: Number,
-      required: true,
-    },
-    ticketing: {
-      prices: [
-        {
-          type: {
-            type: String, // Example: "General Admission", "VIP"
-          },
-          price: {
-            type: Number,
-            required: true,
-          },
-        },
-      ],
-      availability: {
-        startDate: {
-          type: Date,
-          required: true,
-        },
-        endDate: {
-          type: Date,
-          required: true,
-        },
-      },
-      isSoldOut: {
-        type: Boolean,
-        default: false,
-      },
-    },
-   
-  },
-  { timestamps: true }
-);
 
-const GamingShema = new mongoose.Schema({
-  name: { type: String },
-  cost: { type: Number },
-  age: { type: String },
-  groupsize: { type: String },
-  duration: { type: String },
-  requiredequipmwnts: { type: String },
-});
+
 
 const SubcategorySchema = new mongoose.Schema({
   subcategory: { type: String, required: true },
@@ -188,10 +107,9 @@ const PropertyInfoSchema = new mongoose.Schema(
     address: {
       street: { type: String, required: true },
       city: { type: String, required: true },
-      location: {
-        address: { type: String, required: true },
-        lat: { type: Number, required: true }, // Ensure these are Numbers
-        lng: { type: Number, required: true },
+      mapurl: {
+        type: [String],
+        required: false,
       },
     },
   },

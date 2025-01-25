@@ -1,4 +1,3 @@
-import Listing from "../models/listing.model.js";
 import Property from "../models/property.model.js";
 import { errorHandler } from "../utils/error.js";
 import {prepareSearchTerm} from "../utils/Searchutil.js";
@@ -24,7 +23,7 @@ export const deleteListing = async (req, res, next) => {
   //   return next(errorHandler(401, "You can only delete your own listing!"));
   // }
   try {
-    await Listing.findByIdAndDelete(req.params.id);
+    await Property.findByIdAndDelete(req.params.id);
     res.status(200).json("Listing has been deleted!");
   } catch (error) {
     next(error);
@@ -40,7 +39,7 @@ export const updateListing = async (req, res, next) => {
   //   return next(errorHandler(401, "You can only update your own listings!"));
   // }
   try {
-    const updatedListing = await Listing.findByIdAndUpdate(
+    const updatedListing = await Property.findByIdAndUpdate(
       req.params.id,
       req.body,
       { new: true }

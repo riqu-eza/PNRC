@@ -13,11 +13,29 @@ const Health = ({ setHealthItems, Subcategory }) => {
   const [uploading, setUploading] = useState(false);
   
   const subcategoryFields = {
-    "Swimming Pools": [{ name: "name", type: "text", placeholder: "name" }],
-    " Martial arts Studios ": [{ name: "name", type: "text", placeholder: "name" }],
-    "Dance Studio": [{ name: "name", type: "text", placeholder: "name" }],
-    "Hospital":[{ name: "name", type: "text", placeholder: "name" }],
+    "Swimming Pools": [
+      { name: "name", type: "text", placeholder: "name" },
+      { name: "day", type: "text", placeholder: "Day (e.g., Monday)" },
+      { name: "time", type: "text", placeholder: "Time (e.g., 9:30-10:00)" },
+    ],
+    "Martial arts Studios": [
+      { name: "name", type: "text", placeholder: "name" },
+      { name: "day", type: "text", placeholder: "Day (e.g., Monday)" },
+      { name: "time", type: "text", placeholder: "Time (e.g., 9:30-10:00)" },
+    ],
+    "Dance Studio": [
+      { name: "name", type: "text", placeholder: "name" },
+      { name: "price", type: "text", placeholder: "price" },
+      { name: "day", type: "text", placeholder: "Day (e.g., Monday)" },
+      { name: "time", type: "text", placeholder: "Time (e.g., 9:30-10:00)" },
+    ],
+    "Hospital": [
+      { name: "name", type: "text", placeholder: "name" },
+      { name: "day", type: "text", placeholder: "Day (e.g., Monday)" },
+      { name: "time", type: "text", placeholder: "Time (e.g., 9:30-10:00)" },
+    ],
   };
+  
 
   const initialFormState = {
     ...(subcategoryFields[Subcategory]?.reduce((acc, field) => {

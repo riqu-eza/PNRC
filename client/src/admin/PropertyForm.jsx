@@ -1,21 +1,16 @@
-// PropertyForm.jsx
 import { useState } from "react";
 import AddressForm from "./AddressForm";
 import HoursForm from "./HoursForm";
 import CategoryForm from "./CategoryForm";
-import {
-  getDownloadURL,
-  getStorage,
-  ref,
-  uploadBytesResumable,
-} from "firebase/storage";
+import { getDownloadURL, getStorage, ref, uploadBytesResumable } from "firebase/storage";
 import { app } from "../firebase";
 
 const PropertyForm = () => {
   const [imageUploadError, setImageUploadError] = useState(false);
   const [uploading, setUploading] = useState(false);
+  const [loading, setLoading] = useState(false); // State to track form submission
   const [files, setFiles] = useState([]);
-
+  const [currentStep, setCurrentStep] = useState(1);
   const [propertyData, setPropertyData] = useState({
     name: "",
     email: "",
@@ -28,11 +23,7 @@ const PropertyForm = () => {
     address: {
       street: "",
       city: "",
-      location: {
-        address: "",
-        lat: "",
-        lng: "",
-      },
+      mapurl: [],
     },
   });
 
@@ -62,9 +53,8 @@ const PropertyForm = () => {
           setImageUploadError(false);
           setUploading(false);
         })
-        // eslint-disable-next-line no-unused-vars
-        .catch((err) => {
-          setImageUploadError("Image upload fail (2 mb max per image)");
+        .catch(() => {
+          setImageUploadError("Image upload failed (2 MB max per image)");
           setUploading(false);
         });
     } else if (files.length === 0) {
@@ -85,8 +75,7 @@ const PropertyForm = () => {
       uploadTask.on(
         "state_changed",
         (snapshot) => {
-          const progress =
-            (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+          const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
           console.log(`The progress is ${progress}% done`);
         },
         (error) => {
@@ -107,9 +96,12 @@ const PropertyForm = () => {
       imageUrls: propertyData.imageUrls.filter((_, i) => i !== index),
     });
   };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true); // Start loading state
     console.log(propertyData);
+
     const amenitiesArray = propertyData.amenities
       .split(",")
       .map((amenity) => amenity.trim());
@@ -118,59 +110,54 @@ const PropertyForm = () => {
       ...propertyData,
       amenities: amenitiesArray, // Now store as an array
     };
-    console.log("final",finalData);
+
     try {
-      setUploading(true);
       const res = await fetch("/api/listing/create", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({
-          ...finalData,
-        }),
+        body: JSON.stringify(finalData),
       });
 
-      console.log("Response received from server:", res);
       const data = await res.json();
-      console.log("Data received from server:", data);
-
       if (data.success === false) {
         console.log("Error from server:", data.message);
       } else {
         console.log("Listing created successfully");
-
-        // Resetting propertyData to initial state
         setPropertyData({
           name: "",
           email: "",
           description: "",
           contact: "",
-          imageUrls: [], // Resetting array to empty
-          category: [], // Resetting array to empty
-          hours: [], // Resetting array to empty
+          amenities: "",
+          imageUrls: [],
+          category: [],
+          hours: [],
           address: {
             street: "",
             city: "",
-            location: {
-              address: "",
-              lat: "", // Resetting to an empty string
-              lng: "", // Resetting to an empty string
-            },
+            mapurl: [],
           },
-        });
+        }); // Reset form state
       }
     } catch (err) {
-      console.error("Error occurred:", err); // Log errors for debugging
+      console.error("Error occurred:", err);
+    } finally {
+      setLoading(false); // End loading state
     }
   };
 
   const handleHoursUpdate = (newHours) => {
     setPropertyData((prevData) => ({
       ...prevData,
-      hours: newHours, // Updates the hours array
+      hours: newHours,
     }));
   };
+
+  const goNextStep = () => setCurrentStep((prev) => prev + 1);
+  const goPreviousStep = () => setCurrentStep((prev) => prev - 1);
+
 
   return (
     <form
@@ -179,108 +166,146 @@ const PropertyForm = () => {
     >
       <h2 className="text-2xl font-bold mb-4">Property Information</h2>
 
-      <input
-        type="text"
-        name="name"
-        placeholder="Property Name"
-        onChange={handleChange}
-        required
-        className="w-full p-2 mb-4 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
-      />
+      {currentStep === 1 && (
+        <>
+          <input
+            type="text"
+            name="name"
+            value={propertyData.name}
+            placeholder="Property Name"
+            onChange={handleChange}
+            required
+            className="w-full p-2 mb-4 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+          />
+          <input
+            type="email"
+            name="email"
+            value={propertyData.email}
+            placeholder="Email"
+            onChange={handleChange}
+            required
+            className="w-full p-2 mb-4 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+          />
+          <textarea
+            name="description"
+            value={propertyData.description}
+            placeholder="Description"
+            onChange={handleChange}
+            required
+            className="w-full p-2 mb-4 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+          />
+          <input
+            type="text"
+            name="contact"
+            value={propertyData.contact}
+            placeholder="Contact Number"
+            onChange={handleChange}
+            required
+            className="w-full p-2 mb-4 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+          />
+          <input
+            type="text"
+            name="amenities"
+            value={propertyData.amenities}
+            placeholder="Amenities (separated by `,`)"
+            onChange={handleChange}
+            required
+            className="w-full p-2 mb-4 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+          />
+        
+         <p>Add images</p>
+                   <div           className="flex gap-4">
+                     <input
+                       onChange={(e) => setFiles(e.target.files)}
+                       className="p-3 border border-gray-300 rounded w-full"
+                       type="file"
+                       id="images"
+                       accept="image/*"
+                       multiple
+                     />
+                     <button
+                       disabled={uploading}
+                       type="button"
+                       onClick={handleImageSubmit}
+                       className="p-3 text-green-700 border border-green-700 rounded uppercase hover:shadow-lg disabled:opacity-80"
+                     >
+                       {uploading ? "Uploading" : "Upload"}
+                     </button>
+                     <p className="text-red-700 text-sm">{imageUploadError}</p>
+                   </div>
+                   {propertyData.imageUrls.length > 0 &&
+                     propertyData.imageUrls.map((url, index) => (
+                       <div
+                         key={url}
+                         className="flex justify-between p-3 border items-center"
+                       >
+                         <img
+                           src={url}
+                           alt="listing image"
+                           className="w-20 h-20 object-contain rounded-lg"
+                         />
+                         <button
+                           type="button"
+                           onClick={() => handleRemoveImage(index)}
+                           className="p-3 text-red-700 rounded-lg uppercase hover:opacity-75"
+                         >
+                           Delete
+                         </button>
+                       </div>
+                     ))}
+                 </>
+      )}
 
-      <input
-        type="email"
-        name="email"
-        placeholder="Email"
-        onChange={handleChange}
-        required
-        className="w-full p-2 mb-4 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
-      />
+      
 
-      <textarea
-        name="description"
-        placeholder="Description"
-        onChange={handleChange}
-        required
-        className="w-full p-2 mb-4 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
-      />
+      {currentStep === 2 && (
+        <>
+          <AddressForm
+            address={propertyData.address}
+            setAddress={setPropertyData}
+          />
+          <HoursForm hours={propertyData.hours} setHours={handleHoursUpdate} />
+        </>
+      )}
 
-      <input
-        type="text"
-        name="contact"
-        placeholder="Contact Number"
-        onChange={handleChange}
-        required
-        className="w-full p-2 mb-4 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
-      />
-      <input
-        type="text"
-        name="amenities"
-        placeholder="amenities(separeted with `,`)"
-        onChange={handleChange}
-        required
-        className="w-full p-2 mb-4 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
-      />
-      <p>Add images</p>
-
-      <div className="flex gap-4">
-        <input
-          onChange={(e) => setFiles(e.target.files)}
-          className="p-3 border border-gray-300 rounded w-full"
-          type="file"
-          id="images"
-          accept="image/*"
-          multiple
+      {currentStep === 3 && (
+        <CategoryForm
+          setCategories={(categories) =>
+            setPropertyData((prev) => ({ ...prev, category: categories }))
+          }
         />
-        <button
-          disabled={uploading}
-          type="button"
-          onClick={handleImageSubmit}
-          className="p-3 text-green-700 border border-green-700 rounded uppercase hover:shadow-lg disabled:opacity-80"
-        >
-          {uploading ? "uploading" : "upload"}
-        </button>
-        <p className="text-red-700 text-sm">
-          {imageUploadError && imageUploadError}
-        </p>
-      </div>
-      {propertyData.imageUrls.length > 0 &&
-        propertyData.imageUrls.map((url, index) => (
-          <div
-            key={url}
-            className="flex justify-between p-3 border items-center"
-          >
-            <img
-              src={url}
-              alt="listing image"
-              className="w-20 h-20 object-contain rounded-lg"
-            />
-            <button
-              type="button"
-              onClick={() => handleRemoveImage(index)}
-              className="p-3 text-red-700 rounded-lg uppercase hover:opacity-75"
-            >
-              Delete
-            </button>
-          </div>
-        ))}
-      <AddressForm
-        address={propertyData.address}
-        setAddress={setPropertyData}
-      />
-      <HoursForm hours={propertyData.hours} setHours={handleHoursUpdate} />
-      <CategoryForm
-        setCategories={(categories) =>
-          setPropertyData((prev) => ({ ...prev, category: categories }))
-        }
-      />
+      )}
 
-      <button
-        type="submit"
-        className="w-full p-2 bg-blue-500 text-white rounded hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-400"
-      >
-        Submit
-      </button>
+      <div className="flex justify-between mt-4">
+        {currentStep > 1 && (
+          <button
+            type="button"
+            onClick={goPreviousStep}
+            className="p-2 bg-gray-300 text-gray-700 rounded hover:bg-gray-400"
+          >
+            Previous
+          </button>
+        )}
+        {currentStep < 4 ? (
+          <button
+            type="button"
+            onClick={goNextStep}
+            className="p-2 bg-blue-500 text-white rounded hover:bg-blue-600"
+          >
+            Next
+          </button>
+        ) : (
+          <button
+            type="submit"
+            disabled={loading}
+            className={`p-2 text-white rounded ${
+              loading ? "bg-gray-500 cursor-not-allowed" : "bg-green-500 hover:bg-green-600"
+            }`}
+          >
+            {loading ? "Submitting..." : "Submit"}
+          </button>
+        )}
+      </div>
     </form>
   );
 };
