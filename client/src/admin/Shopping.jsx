@@ -13,15 +13,76 @@ const Shopping = ({ setShoppingItems, Subcategory }) => {
   const [uploading, setUploading] = useState(false);
   
   const subcategoryFields = {
-    "Shopping Malls": [{ name: "name", type: "text", placeholder: "name" }],
-    "Boutuquea": [{ name: "name", type: "text", placeholder: "name" }],
-    "Markets": [{ name: "name", type: "text", placeholder: "name" }],
-    "Antique Stores":[{ name: "name", type: "text", placeholder: "name" }],
-    "Aouvenir Shops":[{ name: "name", type: "text", placeholder: "name" }],
-    "Department Stores" :[{ name: "name", type: "text", placeholder: "name" }],
-    "Outlet Stores" :[{ name: "name", type: "text", placeholder: "name" }],
-    "Specialiality Stores": [{ name: "name", type: "text", placeholder: "name" }],
+    "Shopping Malls": [
+      { name: "name", type: "text", placeholder: "Mall Name" },
+      { name: "location", type: "text", placeholder: "Location" },
+      { name: "numberOfStores", type: "number", placeholder: "Number of Stores" },
+      { name: "openingHours", type: "text", placeholder: "Opening Hours" },
+      { name: "parkingAvailability", type: "boolean", placeholder: "Parking Available?" },
+      { name: "foodCourt", type: "boolean", placeholder: "Food Court Available?" },
+      { name: "entertainmentOptions", type: "text", placeholder: "Entertainment Options" },
+      { name: "securityServices", type: "boolean", placeholder: "Security Services Available?" },
+      { name: "facilities", type: "text", placeholder: "Additional Facilities" },
+    ],
+    Boutiques: [
+      { name: "name", type: "text", placeholder: "Boutique Name" },
+      { name: "location", type: "text", placeholder: "Location" },
+      { name: "specialization", type: "text", placeholder: "Specialization (e.g., fashion, accessories)" },
+      { name: "owner", type: "text", placeholder: "Owner Name" },
+      { name: "contact", type: "text", placeholder: "Contact Information" },
+      { name: "openingHours", type: "text", placeholder: "Opening Hours" },
+    ],
+    Markets: [
+      { name: "name", type: "text", placeholder: "Market Name" },
+      { name: "location", type: "text", placeholder: "Location" },
+      { name: "marketType", type: "text", placeholder: "Type (e.g., farmers, flea)" },
+      { name: "operatingDays", type: "text", placeholder: "Operating Days" },
+      { name: "entranceFee", type: "number", placeholder: "Entrance Fee (if any)" },
+      { name: "contact", type: "text", placeholder: "Contact Information" },
+    ],
+    "Antique Stores": [
+      { name: "name", type: "text", placeholder: "Store Name" },
+      { name: "location", type: "text", placeholder: "Location" },
+      { name: "specialty", type: "text", placeholder: "Specialty Items" },
+      { name: "yearEstablished", type: "number", placeholder: "Year Established" },
+      { name: "contact", type: "text", placeholder: "Contact Information" },
+      { name: "authenticityGuarantee", type: "boolean", placeholder: "Authenticity Guarantee?" },
+    ],
+    "Souvenir Shops": [
+      { name: "name", type: "text", placeholder: "Shop Name" },
+      { name: "location", type: "text", placeholder: "Location" },
+      { name: "itemsAvailable", type: "text", placeholder: "Types of Souvenirs" },
+      { name: "pricingRange", type: "text", placeholder: "Pricing Range" },
+      { name: "openingHours", type: "text", placeholder: "Opening Hours" },
+      { name: "contact", type: "text", placeholder: "Contact Information" },
+    ],
+    "Department Stores": [
+      { name: "name", type: "text", placeholder: "Store Name" },
+      { name: "location", type: "text", placeholder: "Location" },
+      { name: "numberOfFloors", type: "number", placeholder: "Number of Floors" },
+      { name: "brandsAvailable", type: "text", placeholder: "Brands Available" },
+      { name: "openingHours", type: "text", placeholder: "Opening Hours" },
+      { name: "parkingAvailability", type: "boolean", placeholder: "Parking Available?" },
+    ],
+    "Outlet Stores": [
+      { name: "name", type: "text", placeholder: "Outlet Name" },
+      { name: "location", type: "text", placeholder: "Location" },
+      { name: "brandsAvailable", type: "text", placeholder: "Brands Available" },
+      { name: "discountRange", type: "text", placeholder: "Discount Range" },
+      { name: "operatingHours", type: "text", placeholder: "Operating Hours" },
+      { name: "contact", type: "text", placeholder: "Contact Information" },
+    ],
+    "Specialiality Stores": [
+      { name: "name", type: "text", placeholder: "Store Name" },
+      { name: "location", type: "text", placeholder: "Location" },
+      { name: "speciality", type: "text", placeholder: "Speciality Items" },
+      { name: "owner", type: "text", placeholder: "Owner Name" },
+      { name: "contact", type: "text", placeholder: "Contact Information" },
+      { name: "openingHours", type: "text", placeholder: "Opening Hours" },
+      { name: "uniqueServices", type: "text", placeholder: "Unique Services Offered" },
+    ],
   };
+  
 
   const initialFormState = {
     ...(subcategoryFields[Subcategory]?.reduce((acc, field) => {

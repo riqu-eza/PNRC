@@ -42,7 +42,7 @@ const Culture = ({ setCultureItems, Subcategory }) => {
       { name: "guidedTours", type: "boolean", placeholder: "Guided Tours Available?" },
       { name: "wheelchairAccess", type: "boolean", placeholder: "Wheelchair Access Available?" },
     ],
-    "Historical Landmarks": [
+    "Historic Landmarks": [
       { name: "name", type: "text", placeholder: "Landmark Name" },
       { name: "location", type: "text", placeholder: "Location" },
       { name: "entryFee", type: "number", placeholder: "Entry Fee" },

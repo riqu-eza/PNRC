@@ -1,15 +1,5 @@
  const categoriesData = {
-    Relaxation: [
-      "Spa & Wellness Centers",
-      "Yoga Studios",
-      "Meditation Centers",
-      "Parks & Gardens",
-      "Beaches",
-      "Lakes & Rivers",
-      "Picnic Areas",
-      "Hot Springs",
-    ],
-
+    
     Accommodation: [
       "Hotels",
       "Resorts",

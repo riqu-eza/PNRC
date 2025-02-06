@@ -13,19 +13,90 @@ const Services = ({ setServicesItems, Subcategory }) => {
   const [uploading, setUploading] = useState(false);
   
   const subcategoryFields = {
-    "Spar & massage centers": [{ name: "name", type: "text", placeholder: "name" }],
-    "Hair Salons": [{ name: "name", type: "text", placeholder: "name" }],
-    "Nail Salons": [{ name: "name", type: "text", placeholder: "name" }],
-    "Dry Cleaners":[{ name: "name", type: "text", placeholder: "name" }],
-    "Pet Groomers":[{ name: "name", type: "text", placeholder: "name" }],
-    "GYM" :[{ name: "name", type: "text", placeholder: "name" }],
-    "Car Washes" :[{ name: "name", type: "text", placeholder: "name" }],
-    "Post Offices": [{ name: "name", type: "text", placeholder: "name" }],
-    "Banks and ATMS": [{ name: "name", type: "text", placeholder: "name" }],
-
-    "legal Services": [{ name: "name", type: "text", placeholder: "name" }],
-
+    "Spar & massage centers": [
+      { name: "name", type: "text", placeholder: "Center Name" },
+      { name: "location", type: "text", placeholder: "Location" },
+      { name: "servicesOffered", type: "text", placeholder: "Services Offered (e.g., Spa, Massage, Facial)" },
+      { name: "priceRange", type: "text", placeholder: "Price Range" },
+      { name: "openingHours", type: "text", placeholder: "Opening Hours" },
+      { name: "contact", type: "text", placeholder: "Contact Information" },
+      { name: "appointmentRequired", type: "boolean", placeholder: "Appointment Required?" }
+    ],
+    "Hair Salons": [
+      { name: "name", type: "text", placeholder: "Salon Name" },
+      { name: "location", type: "text", placeholder: "Location" },
+      { name: "servicesOffered", type: "text", placeholder: "Services Offered (e.g., Haircut, Coloring)" },
+      { name: "pricing", type: "text", placeholder: "Pricing Details" },
+      { name: "openingHours", type: "text", placeholder: "Opening Hours" },
+      { name: "contact", type: "text", placeholder: "Contact Information" },
+      { name: "stylistsCount", type: "number", placeholder: "Number of Stylists" }
+    ],
+    "Nail Salons": [
+      { name: "name", type: "text", placeholder: "Salon Name" },
+      { name: "location", type: "text", placeholder: "Location" },
+      { name: "servicesOffered", type: "text", placeholder: "Services Offered (e.g., Manicure, Pedicure)" },
+      { name: "pricing", type: "text", placeholder: "Pricing Details" },
+      { name: "openingHours", type: "text", placeholder: "Opening Hours" },
+      { name: "contact", type: "text", placeholder: "Contact Information" },
+      { name: "hygieneStandards", type: "text", placeholder: "Hygiene Standards" }
+    ],
+    "Dry Cleaners": [
+      { name: "name", type: "text", placeholder: "Service Name" },
+      { name: "location", type: "text", placeholder: "Location" },
+      { name: "servicesOffered", type: "text", placeholder: "Services Offered (e.g., Dry Cleaning, Alterations)" },
+      { name: "turnaroundTime", type: "text", placeholder: "Turnaround Time" },
+      { name: "pricing", type: "text", placeholder: "Pricing Details" },
+      { name: "contact", type: "text", placeholder: "Contact Information" }
+    ],
+    "Pet Groomers": [
+      { name: "name", type: "text", placeholder: "Groomer Name" },
+      { name: "location", type: "text", placeholder: "Location" },
+      { name: "servicesOffered", type: "text", placeholder: "Services Offered (e.g., Bathing, Haircut)" },
+      { name: "pricing", type: "text", placeholder: "Pricing Details" },
+      { name: "contact", type: "text", placeholder: "Contact Information" },
+      { name: "appointmentRequired", type: "boolean", placeholder: "Appointment Required?" }
+    ],
+    "GYM": [
+      { name: "name", type: "text", placeholder: "Gym Name" },
+      { name: "location", type: "text", placeholder: "Location" },
+      { name: "membershipFees", type: "number", placeholder: "Membership Fees" },
+      { name: "facilities", type: "text", placeholder: "Facilities Available (e.g., weights, cardio machines)" },
+      { name: "personalTraining", type: "boolean", placeholder: "Personal Training Available?" },
+      { name: "openingHours", type: "text", placeholder: "Opening Hours" },
+      { name: "contact", type: "text", placeholder: "Contact Information" }
+    ],
+    "Car Washes": [
+      { name: "name", type: "text", placeholder: "Car Wash Name" },
+      { name: "location", type: "text", placeholder: "Location" },
+      { name: "servicesOffered", type: "text", placeholder: "Services Offered (e.g., manual, automatic)" },
+      { name: "pricing", type: "text", placeholder: "Pricing Details" },
+      { name: "openingHours", type: "text", placeholder: "Opening Hours" },
+      { name: "contact", type: "text", placeholder: "Contact Information" }
+    ],
+    "Post Offices": [
+      { name: "name", type: "text", placeholder: "Office Name" },
+      { name: "location", type: "text", placeholder: "Location" },
+      { name: "servicesOffered", type: "text", placeholder: "Services Offered (e.g., mail, banking services)" },
+      { name: "openingHours", type: "text", placeholder: "Opening Hours" },
+      { name: "contact", type: "text", placeholder: "Contact Information" }
+    ],
+    "Banks and ATMS": [
+      { name: "name", type: "text", placeholder: "Bank/ATM Name" },
+      { name: "location", type: "text", placeholder: "Location" },
+      { name: "servicesOffered", type: "text", placeholder: "Services Offered (e.g., cash withdrawal, account services)" },
+      { name: "operatingHours", type: "text", placeholder: "Operating Hours" },
+      { name: "contact", type: "text", placeholder: "Contact Information" }
+    ],
+    "legal Services": [
+      { name: "name", type: "text", placeholder: "Service Name" },
+      { name: "location", type: "text", placeholder: "Location" },
+      { name: "specialization", type: "text", placeholder: "Specialization (e.g., family law, corporate law)" },
+      { name: "consultationFees", type: "number", placeholder: "Consultation Fees" },
+      { name: "openingHours", type: "text", placeholder: "Office Hours" },
+      { name: "contact", type: "text", placeholder: "Contact Information" }
+    ]
   };
+  
 
   const initialFormState = {
     ...(subcategoryFields[Subcategory]?.reduce((acc, field) => {
