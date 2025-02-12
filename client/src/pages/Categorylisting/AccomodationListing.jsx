@@ -1,6 +1,6 @@
 /* eslint-disable react/prop-types */
 import { useState, useRef } from "react";
-import { FaMapMarkerAlt, FaRegClipboard } from "react-icons/fa";
+import { FaRegClipboard } from "react-icons/fa";
 import { Link, useLocation } from "react-router-dom";
 import Amenities from "./amenities";
 import RoomDisplay from "./roomdisplay";
@@ -89,23 +89,14 @@ const AccommodationListingPage = () => {
       </div>
 
       {/* Address Section */}
+      {/* Address Section */}
       <div className="flex justify-end mt-4 p-2">
         <div className="flex flex-col sm:flex-row sm:items-center gap-2 font-medium">
           <p className="text-lg">Location:</p>
           <p className="text-gray-700">
             {address.street}, {address.city}
           </p>
-          <p className="text-gray-700 flex items-center">
-            <FaMapMarkerAlt className="text-red-500 mr-1" />
-            <a
-              href={`https://www.google.com/maps?q=${address.location.lat},${address.location.lng}`}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-blue-500 hover:underline"
-            >
-              View on Maps
-            </a>
-          </p>
+          {/*  */}
         </div>
       </div>
 

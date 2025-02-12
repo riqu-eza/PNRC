@@ -77,7 +77,7 @@ const ListingsByCounty = () => {
     <>
       {introVisible && (
         <div
-          className="fixed inset-0 flex items-center justify-center bg-opacity-100 z-50"
+          className="fixed inset-0 flex items-center justify-center bg-opacity-100 z-40"
           role="dialog"
           aria-modal="true"
           style={{

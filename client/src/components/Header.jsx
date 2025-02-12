@@ -28,7 +28,7 @@ export default function Header() {
 
   return (
     <>
-      <header className="flex justify-between items-center bg-gradient-to-r from-gray-900 via-gray-800 to-gray-900 px-4 py-4 shadow-md fixed top-0 left-0 w-full z-50">
+      <header className="flex justify-between items-center bg-gradient-to-r from-gray-900 via-blue-800 to-gray-900  mb-2 shadow-md fixed top-0 left-0 w-full z-50">
         {/* Logo */}
         <Link
           to="/"

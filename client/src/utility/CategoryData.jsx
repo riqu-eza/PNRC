@@ -61,7 +61,7 @@
       "Cooking Schools",
       "Language Schools",
       "Workshops & Classes",
-      "Reserch Institution",
+      "Research Institution",
     ],
     Health_and_Fitness: [
       "Swimming Pools",
@@ -78,7 +78,7 @@
       "Gym",
       "Car Washes",
       "Post Offices",
-      "Banks and ATMS",
+      "Banks and atm's",
       "legal Services",
     ],
   };

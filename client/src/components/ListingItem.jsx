@@ -11,7 +11,7 @@ console.log("ITemlistingdin", listing)
   };
 
   return (
-    <div className="bg-white shadow-md hover:shadow-lg border-2 border-blue-400 p-2 transition-shadow overflow-hidden w-[200px] sm:w-[200px] md:w-[260px] lg:w-[250px]">
+    <div className="bg-white shadow-md hover:shadow-lg border-2 border-blue-400 p-2 transition-shadow overflow-hidden w-[170px] sm:w-[170px] md:w-[260px] lg:w-[250px]">
       <div>
         {/* Render the listing details as passed from AccommodationSearch */}
         {listing.imageUrls && listing.imageUrls.length > 0 ? (

@@ -3,7 +3,6 @@
 import { useState, useEffect } from "react";
 import { Link, useParams } from "react-router-dom";
 import GoogleMapReact from "google-map-react";
-
 import ListingItem from "../../components/ListingItem";
 
 const Diningsearch = ({ listings }) => {
@@ -11,9 +10,9 @@ const Diningsearch = ({ listings }) => {
 
   const [uniqueSubcategories, setUniqueSubcategories] = useState([]);
   const [filteredListings, setFilteredListings] = useState(listings);
-  const [selectedSubcategory, setSelectedSubcategory] = useState(null);
+  const [selectedSubcategory, setSelectedSubcategory] = useState("");
 
-  // Extract unique subcategories and their counts
+  // Extract unique subcategories and their counts.
   useEffect(() => {
     const subcategoryCounts = {};
     listings.forEach((listing) => {
@@ -29,12 +28,12 @@ const Diningsearch = ({ listings }) => {
     setFilteredListings(listings); // Initialize with all listings
   }, [listings]);
 
-  // Handle subcategory click and filter listings
+  // Handle subcategory click and filter listings.
   const handleSubcategoryClick = (subcategory) => {
     setSelectedSubcategory(subcategory);
 
     if (subcategory === "All") {
-      // Reset to show all listings when "All" is clicked
+      // Reset to show all listings when "All" is clicked.
       setFilteredListings(listings);
     } else {
       const filtered = listings.filter((listing) =>
@@ -42,24 +41,21 @@ const Diningsearch = ({ listings }) => {
           cat.subcategories.some((subcat) => subcat.subcategory === subcategory)
         )
       );
-
-      setFilteredListings(filtered); // Update the listings based on subcategory
+      setFilteredListings(filtered);
     }
   };
 
-  // Map change handler (you can implement map-based filtering here)
+  // Map change handler (map-based filtering logic can be added here if needed)
   const handleMapChange = ({ center, zoom }) => {
     // Implement map-based filtering logic if needed
   };
 
   return (
-    <div
-      style={{ display: "flex" }}
-      className="border mx-28 mt-2 p-2 gap-2 h-screen bg-gray-100 "
-    >
-      {/* Filters Section */}
-      <div className=" w-[40%] p-2 overflow-y-scroll ">
-        <div className="h-72 mb-4  shadow-lg">
+    <div className="flex flex-col md:flex-row mt-5">
+      {/* Filter Sidebar */}
+      <aside className="md:w-1/4 p-4 border-b md:border-b-0 md:border-r bg-gray-100">
+        {/* Google Map */}
+        <div className="mb-4 h-72 shadow-lg">
           <GoogleMapReact
             defaultCenter={{ lat: 0, lng: 0 }}
             defaultZoom={10}
@@ -75,12 +71,13 @@ const Diningsearch = ({ listings }) => {
             ))}
           </GoogleMapReact>
         </div>
-        <div className=" p-2">
-          <h4 className="font-bold p-1 text-center text-2xl m-2">Popular </h4>
+
+        {/* Subcategory Filter */}
+        <div>
+          <h4 className="font-bold text-center text-2xl mb-4">Popular</h4>
           <div
             onClick={() => handleSubcategoryClick("All")}
-            style={{ cursor: "pointer" }}
-            className={` p-2 ${
+            className={`cursor-pointer p-2 ${
               selectedSubcategory === "All" ? "bg-blue-200" : ""
             }`}
           >
@@ -90,8 +87,7 @@ const Diningsearch = ({ listings }) => {
             <div
               key={subcategory}
               onClick={() => handleSubcategoryClick(subcategory)}
-              style={{ cursor: "pointer" }}
-              className={` p-2 ${
+              className={`cursor-pointer p-2 ${
                 selectedSubcategory === subcategory ? "bg-blue-200" : ""
               }`}
             >
@@ -99,31 +95,31 @@ const Diningsearch = ({ listings }) => {
             </div>
           ))}
         </div>
-      </div>
+      </aside>
 
       {/* Listings Section */}
-      <div className="w-full p-2 space-y-4 m-1">
-        <div>
-          <h2>
+      <main className="md:w-3/4 p-4">
+        <div className="mb-4">
+          <h2 className="text-2xl font-semibold">
             {categoryname} in {county}
           </h2>
         </div>
-        <div>
-          <div className="grid grid-cols-3 gap-2">
-            {filteredListings.map((listings) => {
-              return (
-                <Link
-                  to={`/${county}/${categoryname}/${listings._id}`} // Dynamic path based on category
-                  state={{ listings }} // Pass listing data via state
-                  key={listings._id}
-                >
-                  <ListingItem listing={listings} />
-                </Link>
-              );
-            })}
+        {filteredListings.length > 0 ? (
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2">
+            {filteredListings.map((listing) => (
+              <Link
+                key={listing._id}
+                to={`/${county}/${categoryname}/${listing._id}`}
+                state={{ listing }}
+              >
+                <ListingItem listing={listing} />
+              </Link>
+            ))}
           </div>
-        </div>
-      </div>
+        ) : (
+          <p className="text-xl">No listings found matching your filters.</p>
+        )}
+      </main>
     </div>
   );
 };
