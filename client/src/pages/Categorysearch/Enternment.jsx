@@ -1,53 +1,84 @@
 /* eslint-disable react/prop-types */
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Link, useParams } from "react-router-dom";
 import ListingItem from "../../components/ListingItem";
 
 const EntertainmentSearch = ({ listings }) => {
+  const { county, categoryname } = useParams();
+
   // Filter state values
   const [selectedSubcategory, setSelectedSubcategory] = useState("");
   const [minPrice, setMinPrice] = useState("");
   const [maxPrice, setMaxPrice] = useState("");
-  const { county, categoryname } = useParams();
+  const [filteredListings, setFilteredListings] = useState(listings);
 
-  // Flatten the nested listings structure to pull out all EntertainmentItems.
-  // Each item is enriched with the listing _id and listing name.
-  const entertainmentItems = listings.flatMap((listing) =>
-    listing.category.flatMap((cat) =>
-      cat.subcategories.flatMap((sub) => {
-        if (sub.EntertainmentItems && sub.EntertainmentItems.length > 0) {
-          return sub.EntertainmentItems.map((item) => ({
-            ...item,
-            listingId: listing._id,
-            listingName: listing.name,
-          }));
-        }
-        return [];
-      })
-    )
-  );
+  // Use useEffect to filter the full listing objects—emulating the AccommodationSearch logic.
+  useEffect(() => {
+    let newFilteredListings = listings;
 
-  // Filter logic:
-  let filteredItems = entertainmentItems;
-  if (selectedSubcategory) {
-    filteredItems = filteredItems.filter(
-      (item) => item.subcategory === selectedSubcategory
-    );
-  }
-  if (minPrice) {
-    filteredItems = filteredItems.filter(
-      (item) => parseFloat(item.price) >= parseFloat(minPrice)
-    );
-  }
-  if (maxPrice) {
-    filteredItems = filteredItems.filter(
-      (item) => parseFloat(item.price) <= parseFloat(maxPrice)
-    );
-  }
+    // Filter by subcategory:
+    // Only include listings that have at least one subcategory (with EntertainmentItems) matching the selected subcategory.
+    if (selectedSubcategory) {
+      newFilteredListings = newFilteredListings.filter((listing) =>
+        listing.category.some((cat) =>
+          cat.subcategories.some(
+            (sub) =>
+              sub.subcategory === selectedSubcategory &&
+              sub.EntertainmentItems &&
+              sub.EntertainmentItems.length > 0
+          )
+        )
+      );
+    }
 
-  // Build a list of unique subcategories available from the data.
+    // Filter by minimum price:
+    // Include listings where at least one EntertainmentItem in any subcategory has a price >= minPrice.
+    if (minPrice) {
+      newFilteredListings = newFilteredListings.filter((listing) =>
+        listing.category.some((cat) =>
+          cat.subcategories.some(
+            (sub) =>
+              sub.EntertainmentItems &&
+              sub.EntertainmentItems.some(
+                (item) => Number(item.price) >= Number(minPrice)
+              )
+          )
+        )
+      );
+    }
+
+    // Filter by maximum price:
+    // Include listings where at least one EntertainmentItem in any subcategory has a price <= maxPrice.
+    if (maxPrice) {
+      newFilteredListings = newFilteredListings.filter((listing) =>
+        listing.category.some((cat) =>
+          cat.subcategories.some(
+            (sub) =>
+              sub.EntertainmentItems &&
+              sub.EntertainmentItems.some(
+                (item) => Number(item.price) <= Number(maxPrice)
+              )
+          )
+        )
+      );
+    }
+
+    setFilteredListings(newFilteredListings);
+  }, [selectedSubcategory, minPrice, maxPrice, listings]);
+
+  // Build a list of unique subcategories from listings that include EntertainmentItems.
   const uniqueSubcategories = Array.from(
-    new Set(entertainmentItems.map((item) => item.subcategory))
+    new Set(
+      listings.flatMap((listing) =>
+        listing.category.flatMap((cat) =>
+          cat.subcategories
+            .filter(
+              (sub) => sub.EntertainmentItems && sub.EntertainmentItems.length > 0
+            )
+            .map((sub) => sub.subcategory)
+        )
+      )
+    )
   );
 
   return (
@@ -94,32 +125,27 @@ const EntertainmentSearch = ({ listings }) => {
         </div>
       </aside>
 
-      {/* Products Grid */}
+      {/* Listings Grid */}
       <main className="md:w-[80%] p-4">
         <div>
           <h2>
             {categoryname} in {county}
           </h2>
         </div>
-        {filteredItems.length > 0 ? (
-          // The outer div sets a max-height and enables vertical scrolling.
-          // On small screens, it shows roughly 2 rows (4 items when 2 columns).
-          // On large screens, it shows roughly 2 rows (8 items when 4 columns).
-          <div className="overflow-y-auto max-h-[400px] lg:max-h-[600px]">
-            {/* Grid: default to 2 columns (for small screens), then 4 columns on large screens */}
-            <div className="grid grid-cols-2 lg:grid-cols-4 gap-2">
-              {filteredItems.map((item, index) => (
-                <Link
-                  key={`${item.listingId}-${index}`}
-                  to={`/${county}/${categoryname}/${item.listingId}`}
-                >
-                  <ListingItem listing={item} />
-                </Link>
-              ))}
-            </div>
+        {filteredListings.length > 0 ? (
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-2">
+            {filteredListings.map((listing) => (
+              <Link
+                key={listing._id}
+                to={`/${county}/${categoryname}/${listing._id}`}
+                state={{ listing }} 
+              >
+                <ListingItem listing={listing} />
+              </Link>
+            ))}
           </div>
         ) : (
-          <p className="text-xl">No items found matching your filters.</p>
+          <p className="text-xl">No listings found matching your filters.</p>
         )}
       </main>
     </div>

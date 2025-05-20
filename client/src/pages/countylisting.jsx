@@ -69,7 +69,6 @@ const Countylisting = ({ countyBackgrounds }) => {
     { name: "Entertainment" },
     { name: "Shopping" },
     { name: "Education" },
-    { name: "Fitness" },
     { name: "Services" },
     { name: "Relaxation" },
   ];

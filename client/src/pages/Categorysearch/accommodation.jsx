@@ -147,6 +147,7 @@ const AccommodationSearch = ({ listings }) => {
               <Link
                 key={listing._id}
                 to={`/${county}/${categoryname}/${listing._id}`}
+                state={{ listing }}
               >
                 <ListingItem listing={listing} />
               </Link>
