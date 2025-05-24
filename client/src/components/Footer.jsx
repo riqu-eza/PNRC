@@ -1,30 +1,61 @@
 // src/components/Footer.jsx
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {} from "react-router-dom";
 import "./footer.css";
 import { FaFacebook, FaInstagram, FaLinkedin, FaTwitter } from "react-icons/fa";
 const Footer = () => {
   const [form, setForm] = useState({ name: "", email: "" });
+  const [message, setMessage] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
 
+  useEffect(() => {
+    if (message) {
+      const timer = setTimeout(() => {
+        setMessage("");
+      }, 2000);
+      return () => clearTimeout(timer);
+    }
+  }, [message]);
   const handlesubscribe = async (event) => {
     event.preventDefault();
 
+    if (!form.name || !form.email) {
+      setMessage("Please fill in all fields");
+      return;
+    }
+
+    setIsLoading(true);
+    setMessage("");
+
     try {
       const response = await fetch("/api/letter/create", {
-        method: "post",
+        method: "POST",
         headers: {
-          "content-Type": "application/json",
+          "Content-Type": "application/json",
         },
         body: JSON.stringify(form),
       });
+
+      if (!response.ok) {
+        throw new Error("Subscription failed");
+      }
+
       const data = await response.json();
-      console.log("Post created", data);
-      window.alert("subscribed");
+      console.log("Subscription created", data);
+      
+      // Show success message
+      setMessage("Thank you for subscribing! A confirmation email has been sent.");
+      
+      // Clear the form
+      setForm({ name: "", email: "" });
+
     } catch (error) {
-      console.error("Error creating post:", error);
+      console.error("Error creating subscription:", error);
+      setMessage("Subscription failed. Please try again.");
+    } finally {
+      setIsLoading(false);
     }
-    setForm({ name: "", email: "" });
   };
   const handleChange = (event) => {
     const { id, value } = event.target;
@@ -42,8 +73,8 @@ const Footer = () => {
             Subscribe to our newsletter to get updates and new trends!
           </h1>
           <p className="text-gray-300 mb-8">Join Our Database NOW</p>
+          
           <form
-            action=""
             onSubmit={handlesubscribe}
             className="flex flex-col md:flex-row justify-center items-center"
           >
@@ -52,26 +83,41 @@ const Footer = () => {
               id="name"
               placeholder="Name"
               value={form.name}
-              className="m-2 px-4 py-2 w-full md:w-64 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-600"
+              className="m-2 px-4 py-2 w-full md:w-64 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-600 text-gray-800 bg-white"
               onChange={handleChange}
+              required
             />
             <input
               type="email"
               id="email"
               placeholder="Email Address"
               value={form.email}
-              className="m-2 px-4 py-2 w-full md:w-64 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-600"
+              className="m-2 px-4 py-2 w-full md:w-64 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-600 text-gray-800 bg-white"
               onChange={handleChange}
+              required
             />
             <button
               type="submit"
-              className="m-2 px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-600"
+              disabled={isLoading}
+              className={`m-2 px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-600 ${
+                isLoading ? "opacity-50 cursor-not-allowed" : ""
+              }`}
             >
-              Subscribe
+              {isLoading ? "Subscribing..." : "Subscribe"}
             </button>
           </form>
+          
+          {/* Message display */}
+          {message && (
+            <div className={`mt-4 p-2 rounded-md ${
+              message.includes("Thank you") 
+                ? "bg-green-500" 
+                : "bg-red-500"
+            }`}>
+              {message}
+            </div>
+          )}
         </div>
-
         {/* Footer Sections */}
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center text-center md:text-left">
           {/* Left Section */}
@@ -90,7 +136,7 @@ const Footer = () => {
             <p>
               4th Floor PalmNazi Plaza
               <br />
-              Mombasa
+              Nairobi
             </p>
             <div className="flex justify-center md:justify-start space-x-4 mt-4">
               <a
@@ -123,18 +169,22 @@ const Footer = () => {
           {/* Right Section */}
           <div className="w-full md:w-1/3 px-4 mb-6 md:mb-0">
             <h3 className="text-lg font-semibold mb-2">Send Us a Message</h3>
-            <a
-              href="mailto:info@palmnazi.co.ke"
-              className="hover:underline"
-            >
-              info@palmnazi.co.ke
+            <a href="mailto:info@palmnazi.co.ke" className="hover:underline">
+              info@palmnazi_rc.co.ke
             </a>
           </div>
         </div>
-
         {/* Footer Bottom */}
         <p className="text-center mt-24 text-gray-100">
-          Copyright 2024 @PalmNazi | Developed by kang`ethe Muthunga(Dancah Technology)
+          Copyright 2025 @PalmNazi | powered by{" "}
+          <a
+            href="https://dancahtechnology.co.ke"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="underline hover:text-white transition"
+          >
+            dancah technology
+          </a>
         </p>
       </div>
     </footer>

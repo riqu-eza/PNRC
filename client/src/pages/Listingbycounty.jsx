@@ -77,7 +77,7 @@ const ListingsByCounty = () => {
     <>
       {introVisible && (
         <div
-          className="fixed inset-0 flex items-center justify-center bg-opacity-100 z-40"
+          className="fixed inset-0 flex items-start justify-center bg-opacity-100 z-40"
           role="dialog"
           aria-modal="true"
           style={{
@@ -86,10 +86,11 @@ const ListingsByCounty = () => {
             backgroundPosition: "center",
           }}
         >
-          <div className="text-black p-8 rounded-md text-center bg-gray-100 bg-opacity-70">
+          <div className="text-black p-8 mt-16 rounded-md text-center bg-opacity-70">
             <h2 className="text-2xl font-bold md:text-3xl">
               Welcome to Our Resort Cities!
             </h2>
+
             <p className="mt-4 text-lg leading-8">
               Join us on a journey through Africa’s breathtaking Resort Cities.
               At Palmnazi RC, we provide a glimpse of stunning destinations with

@@ -31,6 +31,7 @@ import PropertyForm from "./admin/PropertyForm";
 import CategorySearch from "./pages/Categorysearch/Categorysearch";
 import AccommodationListingPage from "./pages/Categorylisting/AccomodationListing";
 import DiningListingPage from "./pages/Categorylisting/DiningLisiting";
+import Letters from "./admin/Letter";
 export default function App() {
 
   return (
@@ -66,6 +67,7 @@ export default function App() {
             <Route path="/property" element={<PropertyForm/>} ></Route>
             <Route path="/:county/accommodation/:listingid" element={<AccommodationListingPage/>} ></Route>
             <Route path="/:county/dining/:listingid" element={<DiningListingPage/>} > </Route>
+            <Route path="/viewletters" element={<Letters/>} ></Route>
           </Route>
           {/* <Route path="/listing/:listingId" element={<Listing />} /> */}
           <Route element={<PrivateRoute />}>

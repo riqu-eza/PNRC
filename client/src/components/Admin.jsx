@@ -153,6 +153,13 @@ const Admin = () => {
         >
           View Business
         </Link>
+        <Link 
+          to="/viewletters"
+          className="bg-violet-700 hover:bg-indigo-600 text-white p-4 rounded-lg flex items-center justify-center"
+        >
+          View Letters
+        </Link>
+
       </div>
     </div>
   );
