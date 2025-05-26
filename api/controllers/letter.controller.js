@@ -1,3 +1,4 @@
+import Broadcast from "../models/broadcast.model.js";
 import Letter from "../models/letter.model.js";
 import { sendEmail } from "../utils/email.js";
 
@@ -84,3 +85,84 @@ export const deleteLetter = async (req, res) => {
         res.status(500).json({ error: "Internal server error" });
     }
 };
+
+// Add this new function to your letter.controller.js
+
+export const sendMessageToSubscribers = async (req, res) => {
+    try {
+        const { subject, message } = req.body;
+
+        if (!subject || !message) {
+            return res.status(400).json({ error: "Subject and message are required" });
+        }
+
+        // Get all subscribers
+        const subscribers = await Letter.find();
+        
+        // Create a record of this broadcast before sending
+        const broadcast = new Broadcast({
+            subject,
+            message,
+            recipientsCount: subscribers.length
+        });
+        
+        await broadcast.save();
+
+        // Send email to each subscriber
+        let successfulSends = 0;
+        for (const subscriber of subscribers) {
+            try {
+                const emailContent = `
+                    <h1>Dear ${subscriber.name},</h1>
+                    <p>${message}</p>
+                    <p>Best regards,<br/>The Team</p>
+                `;
+                
+                await sendEmail(subscriber.email, subject, emailContent);
+                successfulSends++;
+            } catch (error) {
+                console.error(`Error sending email to ${subscriber.email}:`, error);
+                // Continue with next subscriber even if one fails
+            }
+        }
+
+        // Update the broadcast record with actual successful sends
+        broadcast.successfulSends = successfulSends;
+        await broadcast.save();
+
+        return res.status(200).json({ 
+            success: true, 
+            message: `Message sent to ${successfulSends} of ${subscribers.length} subscribers`,
+            broadcastId: broadcast._id
+        });
+    } catch (error) {
+        console.error("Error sending message to subscribers:", error);
+        res.status(500).json({ error: "Internal server error" });
+    }
+};
+
+// Add these new functions to your letter.controller.js
+
+export const getBroadcastHistory = async (req, res) => {
+    try {
+        const broadcasts = await Broadcast.find().sort({ sentAt: -1 });
+        return res.status(200).json(broadcasts);
+    } catch (error) {
+        console.error("Error fetching broadcast history:", error);
+        res.status(500).json({ error: "Internal server error" });
+    }
+};
+
+export const getBroadcastById = async (req, res) => {
+    try {
+        const broadcast = await Broadcast.findById(req.params.id);
+        if (!broadcast) {
+            return res.status(404).json({ error: "Broadcast not found" });
+        }
+        return res.status(200).json(broadcast);
+    } catch (error) {
+        console.error("Error fetching broadcast:", error);
+        res.status(500).json({ error: "Internal server error" });
+    }
+};
+
