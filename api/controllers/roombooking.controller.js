@@ -111,7 +111,7 @@ export const createBookingroom = async (req, res, next) => {
     .fontSize(10)
     .fillColor("#999")
     .text(
-      "Palmnazi-RC | 1234 Street Name, City, Country | Phone: +123 456 7890",
+      "Palmnazi-RC | Palmnazi Plaza, Nairobi, Kenya | Phone: +254 794369806",
       { align: "center" }
     )
     .moveDown(0.5);
@@ -120,49 +120,74 @@ export const createBookingroom = async (req, res, next) => {
     doc.end();
 
     // Email Content with Inline QR Code and Download Link for PDF
-    const emailBody = `
-    <div style="width: 100%; background-color: #f2f2f2; padding: 20px; font-family: Arial, sans-serif; color: #333;">
-  <div style="max-width: 600px; margin: 0 auto; background-color: #ffffff; border-radius: 10px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); padding: 20px;">
+    const hotelEmailBody = `
+      <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
+        <h2 style="color: #333;">New Booking Notification</h2>
+        <p>Dear ${listingName} Management,</p>
+        <p>You have received a new booking from ${firstName} ${lastName}:</p>
+        <ul>
+          <li><strong>Dates:</strong> ${startDate} to ${endDate}</li>
+          <li><strong>Guests:</strong> ${numberOfPeople}</li>
+          <li><strong>Guest Email:</strong> ${email}</li>
+        </ul>
+        <p>Please confirm this booking by replying to this email.</p>
+        <p style="color: #666; font-size: 0.9em;">
+          Note: When you reply, your response will go directly to the guest with our system in copy.
+        </p>
+      </div>
+    `;
 
-    <!-- Header -->
-    <div style="text-align: center; padding-bottom: 20px; border-bottom: 1px solid #e0e0e0;">
-      <h1 style="color: #333; font-size: 24px; font-weight: bold;">Welcome to ${listingName}</h1>
-      <p style="color: #555; font-size: 16px;">Thank you for choosing to stay with us, ${firstName}!</p>
-    </div>
+    // Email to Client
+    const clientEmailBody = `
+      <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
+        <h2 style="color: #333;">Booking Received</h2>
+        <p>Dear ${firstName} ${lastName},</p>
+        <p>Thank you for booking with ${listingName}. Your booking details:</p>
+        <ul>
+          <li><strong>Dates:</strong> ${startDate} to ${endDate}</li>
+          <li><strong>Guests:</strong> ${numberOfPeople}</li>
+        </ul>
+        <p>We've notified ${listingName} about your booking. They will confirm shortly.</p>
+        <p style="color: #666; font-size: 0.9em;">
+          Note: When the hotel replies, you'll receive their response directly.
+        </p>
+      </div>
+    `;
 
-    <!-- Booking Details -->
-    <div style="padding: 20px 0;">
-      <h2 style="font-size: 20px; color: #333; font-weight: bold; margin: 0;">Your Booking Details</h2>
-      <p style="color: #666; font-size: 14px;">We're delighted to confirm your booking details:</p>
-      <ul style="list-style: none; padding: 0; color: #444; font-size: 15px;">
-        <li><strong>Arrival Date:</strong> ${startDate}</li>
-        <li><strong>Departure Date:</strong> ${endDate}</li>
-        <li><strong>Number of People:</strong> ${numberOfPeople}</li>
-      </ul>
-    </div>
-
-    <!-- QR Code and Download Link -->
-   
-
-    <!-- Footer -->
-    <div style="padding-top: 20px; border-top: 1px solid #e0e0e0; text-align: center;">
-      <p style="font-size: 14px; color: #666;">Best regards,</p>
-      <p style="font-size: 14px; color: #333; font-weight: bold;">Palmnazi-RC</p>
-      <p style="font-size: 12px; color: #999;">1234 Street Name, City, Country | Phone: +123 456 7890</p>
-    </div>
-
-  </div>
-</div>
-
-  `;
     const attachments = [
       {
         filename: `${newBooking._id}-receipt.pdf`,
-        path: pdfFilePath, // Path to the PDF
+        path: pdfFilePath,
       },
     ];
-    await sendEmail(listingEmail, "New Booking", emailBody, attachments);
-    await sendEmail(email, "Booking Confirmation", emailBody, attachments);
+
+    // Send to Hotel with client email in reply-to
+    const hotelMessageId = await sendEmail(
+      listingEmail,
+      `New Booking: ${firstName} ${lastName} - ${startDate} to ${endDate}`,
+      hotelEmailBody,
+      attachments,
+      {
+        replyTo: email, // Replies will go to client
+        cc: "vickymuthunga@gmail.com", // You get a copy
+        bookingId: newBooking._id.toString()
+      }
+    );
+
+    // Send to Client with hotel email in reply-to
+    await sendEmail(
+      email,
+      `Booking Confirmation: ${listingName}`,
+      clientEmailBody,
+      attachments,
+      {
+        replyTo: listingEmail, // Replies will go to hotel
+        cc: "vickymuthunga@gmail.com", // You get a copy
+        inReplyTo: hotelMessageId, // Thread the conversation
+        bookingId: newBooking._id.toString()
+      }
+    );
+
 
     return res.status(201).json(newBooking);
   } catch (error) {

@@ -33,7 +33,7 @@ const MealModal = ({ meal, onClose }) => {
     console.log("Order confirmed:", formData);
 
     try {
-      const res = await fetch("http://localhost:3000/api/booking/create/meal", {
+      const res = await fetch("/api/booking/create/meal", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

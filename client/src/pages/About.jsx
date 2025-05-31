@@ -5,7 +5,7 @@ export default function About() {
     <>
       <div className="about h-screen pt-6 pb-2 relative overflow-hidden">
         <div className="absolute inset-0 bg-cover bg-center blur-sm opacity-50" style={{ backgroundImage: "url(../images/about1.jpg)" }}></div>
-        <h2 className=" headertop text-blue-500 text-center font-bold relative z-10 mb-2 sm:mb-8 md:mb-6 lg:mb-8 xl:mb-10 text-3xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl">
+        <h2 className="  text-blue-500 text-center font-bold relative z-10 mb-2 sm:mb-8 md:mb-6 lg:mb-8 xl:mb-10 text-3xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl">
           Palmnazi - RC
         </h2>
         <div className="relative z-10 flex flex-col md:flex-row justify-between text-center items-center">

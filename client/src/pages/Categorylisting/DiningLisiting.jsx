@@ -6,9 +6,9 @@ import { useState } from "react";
 
 const DiningListingPage = () => {
   const { state } = useLocation();
-  
+
   // Add a fallback to avoid destructuring undefined 'state' or 'listing'
-  const listing = state?.listings || {};
+  const listing = state?.listing || {};
   console.log("DiningListingPage", listing);
 
   // Destructure with default values to avoid errors
@@ -21,7 +21,7 @@ const DiningListingPage = () => {
     imageUrls = [], // Make sure this is destructured before using it
     amenities = [],
     category = [],
-    hours = "",
+    hours = [],
   } = listing;
 
   // Set the first image as the default hero image
@@ -40,7 +40,6 @@ const DiningListingPage = () => {
               src={selectedImage}
               alt={name}
               className="w-full h-full object-cover rounded-lg shadow-lg"
-              
             />
             <h2 className="absolute top-4 left-4 text-white text-3xl font-bold bg-black bg-opacity-50 p-2 rounded">
               {name}
@@ -50,7 +49,10 @@ const DiningListingPage = () => {
           {/* Thumbnail Images */}
           <div className="flex space-x-2 mt-4">
             {imageUrls.map((url, index) => (
-              <div key={index} className="w-24 h-24 overflow-hidden cursor-pointer">
+              <div
+                key={index}
+                className="w-24 h-24 overflow-hidden cursor-pointer"
+              >
                 <img
                   src={url}
                   alt={`Thumbnail ${index + 1}`}
@@ -59,7 +61,6 @@ const DiningListingPage = () => {
                   }`}
                   onClick={() => setSelectedImage(url)} // Update the hero image on click
                 />
-                
               </div>
             ))}
           </div>
@@ -74,14 +75,14 @@ const DiningListingPage = () => {
             </p>
             <p className="text-gray-700 flex items-center">
               <FaMapMarkerAlt className="text-red-500 mr-2" />
-              <a
-                href={`https://www.google.com/maps?q=${address.location.lat},${address.location.lng}`}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-blue-500 hover:underline"
-              >
-                View on Maps
-              </a>
+              {address.mapurl?.length > 0 ? (
+                <div
+                  className="w-full my-4"
+                  dangerouslySetInnerHTML={{ __html: address.mapurl[0] }}
+                />
+              ) : (
+                <p className="text-gray-500">Map location not available</p>
+              )}
             </p>
           </div>
         </div>
@@ -116,7 +117,8 @@ const DiningListingPage = () => {
                   <div key={hour._id} className="flex gap-1">
                     <FaRegClipboard className="text-gray-700 mt-1" />
                     <p className="text-gray-700">
-                      Opens: {hour.open} <span className="">Hrs</span> - Closes: {hour.close}
+                      Opens: {hour.open} <span className="">Hrs</span> - Closes:{" "}
+                      {hour.close}
                     </p>
                   </div>
                 ))}
@@ -128,7 +130,10 @@ const DiningListingPage = () => {
                 <p className="text-gray-700 mb-2">Contact: {contact}</p>
                 <p className="text-gray-700 mb-2 p-1">
                   Email:{" "}
-                  <a href={`mailto:${email}`} className="text-blue-500 hover:underline">
+                  <a
+                    href={`mailto:${email}`}
+                    className="text-blue-500 hover:underline"
+                  >
                     {email}
                   </a>
                 </p>

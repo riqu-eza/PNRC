@@ -21,7 +21,7 @@ const ListingsByCounty = () => {
         const res = await fetch("/api/listing/unique-counties");
         const data = await res.json();
         setUniqueCounties(data);
-
+console.log("Fetched counties:", data); // Debug output
         const backgrounds = {};
         const cityInfo = {};
 
