@@ -2,7 +2,7 @@
 import { useState } from "react";
 import MealModal from "./mealModal";
 
-const Menu = ({ subcategories }) => {
+const Menu = ({ subcategories, listingemail, listingname, listingaddress }) => {
   const [selectedSubcategory, setSelectedSubcategory] = useState(null);
   const [selectedMeal, setSelectedMeal] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -72,12 +72,8 @@ const Menu = ({ subcategories }) => {
               key={item._id}
               className="flex flex-col p-4 rounded-lg shadow-lg hover:shadow-xl transition gap-1 mb-4"
             >
-              <h3 className=" text-xl font-bold">
-                {item.DishName}
-              </h3>
-              <p className=" text-gray-600 mb-2">
-                {item.description}
-              </p>
+              <h3 className=" text-xl font-bold">{item.DishName}</h3>
+              <p className=" text-gray-600 mb-2">{item.description}</p>
               <p className="text-lg font-semibold text-green-500">
                 ${item.Price}
               </p>
@@ -103,7 +99,15 @@ const Menu = ({ subcategories }) => {
       </div>
 
       {/* Render the MealModal if it's open */}
-      {isModalOpen && <MealModal meal={selectedMeal} onClose={closeModal} />}
+      {isModalOpen && (
+        <MealModal
+          meal={selectedMeal}
+          listingemail={listingemail}
+          listingname={listingname}
+          listingaddress={listingaddress}
+          onClose={closeModal}
+        />
+      )}
     </div>
   );
 };

@@ -20,9 +20,8 @@ const orderSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  paymentMethod: {
+ orderType:{
     type: String,
-    enum: ["credit-card", "paypal", "cash"],
     required: true,
   },
   mealCount: {

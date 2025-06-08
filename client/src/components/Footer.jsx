@@ -134,7 +134,7 @@ const Footer = () => {
           <div className="w-full md:w-1/3 px-4 mb-6 md:mb-0 ">
             <h3 className="text-lg font-semibold mb-2">Come & Drop By</h3>
             <p>
-              4th Floor PalmNazi Plaza
+              4th Floor palmnazi_rc Plaza
               <br />
               Nairobi
             </p>
@@ -169,11 +169,12 @@ const Footer = () => {
           {/* Right Section */}
           <div className="w-full md:w-1/3 px-4 mb-6 md:mb-0">
             <h3 className="text-lg font-semibold mb-2">Send Us a Message</h3>
-            <a href="mailto:info@palmnazi.co.ke" className="hover:underline">
-              info@palmnazi_rc.co.ke
+            <a href="mailto:info@palmnazi_rc.com" className="hover:underline">
+              info@palmnazi_rc.com
             </a>
           </div>
         </div>
+
         {/* Footer Bottom */}
         <p className="text-center mt-24 text-gray-100">
           Copyright 2025 @PalmNazi | powered by{" "}

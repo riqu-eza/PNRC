@@ -1,21 +1,31 @@
 /* eslint-disable react/prop-types */
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import Amenities from "./amenities";
 import { FaArrowLeft, FaArrowRight } from "react-icons/fa";
 
 const RoomDisplay = ({ room, listingemail, listingname, listingaddress }) => {
   const [showBookingOverlay, setShowBookingOverlay] = useState(false);
   const [selectedImage, setSelectedImage] = useState(room.imageUrls[0] || "");
+const [isLoading, setIsLoading] = useState(false);
+  const [showSuccessMessage, setShowSuccessMessage] = useState(false);
 
   // Ref for thumbnail container within the overlay
   const thumbnailRef = useRef(null);
+  const overlayRef = useRef(null);
+
+  useEffect(() => {
+    if (showBookingOverlay && overlayRef.current) {
+      overlayRef.current.scrollTo(0, 0);
+    }
+  }, [showBookingOverlay]);
 
   const handleBookNowClick = () => {
     setShowBookingOverlay(true); // Show the overlay
   };
 
-  const handleCloseOverlay = () => {
-    setShowBookingOverlay(false); // Close the overlay
+   const handleCloseOverlay = () => {
+    setShowBookingOverlay(false);
+    setShowSuccessMessage(false);
   };
 
   const calculateTotalPrice = () => {
@@ -51,9 +61,9 @@ const RoomDisplay = ({ room, listingemail, listingname, listingaddress }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log("formData", formData);
-    // Perform API call with formData
-    fetch("http://localhost:3000/api/booking/create/room", {
+    setIsLoading(true);
+
+    fetch("/api/booking/create/room", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -61,19 +71,38 @@ const RoomDisplay = ({ room, listingemail, listingname, listingaddress }) => {
       body: JSON.stringify({
         ...formData,
         roomId: room._id,
-        // Add room ID to the booking data
       }),
     })
       .then((response) => response.json())
       .then((data) => {
         console.log("Booking successful", data);
-        // Optionally, close the overlay or show a success message
-        setShowBookingOverlay(false);
+        setIsLoading(false);
+        setShowSuccessMessage(true);
+        resetForm();
+        
+        // Hide success message after 5 seconds
+        setTimeout(() => {
+          setShowSuccessMessage(false);
+        }, 5000);
       })
       .catch((error) => {
         console.error("Error during booking:", error);
-        // Optionally, handle the error (e.g., show an error message)
+        setIsLoading(false);
       });
+  };
+const resetForm = () => {
+    setFormData({
+      firstName: "",
+      lastName: "",
+      email: "",
+      contactNumber: "",
+      startDate: "",
+      endDate: "",
+      numberOfPeople: "",
+      listingEmail: listingemail,
+      listingName: listingname,
+      listingAddress: listingaddress,
+    });
   };
 
   // Scroll functions for thumbnails in overlay
@@ -183,9 +212,12 @@ const RoomDisplay = ({ room, listingemail, listingname, listingaddress }) => {
       </div>
 
       {/* Booking Overlay */}
-      {showBookingOverlay && (
-        <div className="fixed top-0 left-0 w-full h-full bg-black bg-opacity-75 flex justify-center items-center z-50 p-4 overflow-y-auto">
-          <div className="bg-white p-6 rounded-lg shadow-lg w-full max-w-4xl relative">
+       {showBookingOverlay && (
+        <div className="fixed top-0 left-0 w-full h-full bg-black bg-opacity-75 flex justify-center items-start z-50 p-4 overflow-y-auto">
+          <div 
+            ref={overlayRef}
+            className="bg-white p-6 rounded-lg shadow-lg w-full max-w-4xl relative my-8 max-h-[90vh] overflow-y-auto"
+          >
             {/* Close Button */}
             <button
               onClick={handleCloseOverlay}
@@ -205,12 +237,11 @@ const RoomDisplay = ({ room, listingemail, listingname, listingaddress }) => {
                       src={selectedImage}
                       alt={room.name}
                       className="w-full h-48 sm:h-56 lg:h-64 object-cover rounded-lg shadow-md"
-                      loading="lazy" // Optional: Lazy load images
+                      loading="lazy"
                     />
 
                     {/* Thumbnails in Overlay */}
                     <div className="flex items-center mt-2">
-                      {/* Scroll Left Button */}
                       <button
                         onClick={scrollThumbnailsLeft}
                         className="hidden sm:flex items-center justify-center w-8 h-8 bg-gray-300 rounded-full hover:bg-gray-400 transition"
@@ -219,7 +250,6 @@ const RoomDisplay = ({ room, listingemail, listingname, listingaddress }) => {
                         <FaArrowLeft className="text-gray-700" />
                       </button>
 
-                      {/* Thumbnails */}
                       <div
                         ref={thumbnailRef}
                         className="flex space-x-2 overflow-x-auto scrollbar-hide scroll-smooth"
@@ -233,12 +263,11 @@ const RoomDisplay = ({ room, listingemail, listingname, listingaddress }) => {
                               selectedImage === url ? "border-2 border-blue-500" : ""
                             }`}
                             onClick={() => setSelectedImage(url)}
-                            loading="lazy" // Optional: Lazy load images
+                            loading="lazy"
                           />
                         ))}
                       </div>
 
-                      {/* Scroll Right Button */}
                       <button
                         onClick={scrollThumbnailsRight}
                         className="hidden sm:flex items-center justify-center w-8 h-8 bg-gray-300 rounded-full hover:bg-gray-400 transition"
@@ -274,6 +303,7 @@ const RoomDisplay = ({ room, listingemail, listingname, listingaddress }) => {
               {/* Booking Form */}
               <div>
                 <form onSubmit={handleSubmit} className="space-y-4">
+                  {/* Form fields remain the same */}
                   {/* First Name */}
                   <div>
                     <label className="block text-sm font-medium text-gray-700">
@@ -388,10 +418,28 @@ const RoomDisplay = ({ room, listingemail, listingname, listingaddress }) => {
                   {/* Confirm Booking Button */}
                   <button
                     type="submit"
-                    className="w-full bg-green-500 text-white py-2 rounded hover:bg-green-600 transition"
+                    className="w-full bg-green-500 text-white py-2 rounded hover:bg-green-600 transition flex justify-center items-center"
+                    disabled={isLoading}
                   >
-                    Confirm Booking
+                    {isLoading ? (
+                      <>
+                        <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                          <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                          <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                        </svg>
+                        Processing...
+                      </>
+                    ) : (
+                      "Confirm Booking"
+                    )}
                   </button>
+
+                  {/* Success Message */}
+                  {showSuccessMessage && (
+                    <div className="mt-4 p-3 bg-green-100 text-green-700 rounded">
+                      Booking successful! Please check your email for confirmation.
+                    </div>
+                  )}
                 </form>
               </div>
             </div>

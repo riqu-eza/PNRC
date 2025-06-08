@@ -102,7 +102,12 @@ const DiningListingPage = () => {
           {/* Category Section */}
           <div className="mb-6 p-1">
             <div className="border bg-gray-100 shadow-lg">
-              <Menu subcategories={subcategories} />
+              <Menu
+                subcategories={subcategories}
+                listingemail={email}
+                listingname={name}
+                listingaddress={address}
+              />
             </div>
           </div>
 
