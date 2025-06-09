@@ -1,7 +1,7 @@
 /* eslint-disable react/prop-types */
 import { useState, useRef } from "react";
 import { FaRegClipboard } from "react-icons/fa";
-import { Link, useLocation } from "react-router-dom";
+import {  useLocation } from "react-router-dom";
 import Amenities from "./amenities";
 import RoomDisplay from "./roomdisplay";
 
@@ -53,53 +53,67 @@ const AccommodationListingPage = () => {
   } = listing;
 
   return (
-    <div className="max-w-6xl mx-auto p-4">
+    <div className="max-w-6xl mx-auto px-4 sm:px-6 pt-8 mt-4">
       {/* Hero Image Section */}
-      <div className="relative">
-        {/* Main Hero Image */}
-        <div className="w-full h-64 sm:h-96">
+      <div className="relative rounded-xl overflow-hidden shadow-2xl">
+        {/* Main Hero Image with Gradient Overlay */}
+        <div className="relative w-full h-64 sm:h-96 lg:h-[32rem]">
           <img
             src={selectedImage}
             alt={name}
-            className="w-full h-full object-cover rounded-lg shadow-lg"
+            className="w-full h-full object-cover transition-opacity duration-300"
           />
-          <h2 className="absolute top-4 left-4 text-white text-xl sm:text-3xl font-bold bg-black bg-opacity-50 p-2 rounded">
-            {name}
-          </h2>
-        </div>
+          {/* Gradient Overlay */}
+          <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
 
-        {/* Thumbnail Images */}
-        <div className="flex space-x-2 mt-4 overflow-x-auto">
+          {/* Title and Location */}
+          <div className="absolute bottom-0 left-0 right-0 p-6 sm:p-8 text-white">
+            <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-2 drop-shadow-lg">
+              {name}
+            </h1>
+            <div className="flex items-center gap-2 text-sm sm:text-base">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="h-5 w-5"
+                viewBox="0 0 20 20"
+                fill="currentColor"
+              >
+                <path
+                  fillRule="evenodd"
+                  d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z"
+                  clipRule="evenodd"
+                />
+              </svg>
+              <span className="font-medium">
+                {address.street}, {address.city}
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Thumbnail Gallery */}
+      <div className="mt-4 px-1">
+        <div className="flex space-x-3 overflow-x-auto pb-2 scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-gray-100">
           {imageUrls.map((url, index) => (
-            <div
+            <button
               key={index}
-              className="w-20 h-20 flex-shrink-0 overflow-hidden cursor-pointer"
+              onClick={() => setSelectedImage(url)}
+              className={`flex-shrink-0 w-16 h-16 sm:w-20 sm:h-20 rounded-lg overflow-hidden transition-all duration-200 ${
+                selectedImage === url
+                  ? "ring-4 ring-blue-500 scale-105"
+                  : "hover:scale-105 opacity-90 hover:opacity-100"
+              }`}
             >
               <img
                 src={url}
                 alt={`Thumbnail ${index + 1}`}
-                className={`w-full h-full object-cover rounded-lg shadow-lg ${
-                  selectedImage === url ? "border-2 border-blue-500" : ""
-                }`}
-                onClick={() => setSelectedImage(url)} // Update the hero image on click
+                className="w-full h-full object-cover"
               />
-            </div>
+            </button>
           ))}
         </div>
       </div>
-
-      {/* Address Section */}
-      {/* Address Section */}
-      <div className="flex justify-end mt-4 p-2">
-        <div className="flex flex-col sm:flex-row sm:items-center gap-2 font-medium">
-          <p className="text-lg">Location:</p>
-          <p className="text-gray-700">
-            {address.street}, {address.city}
-          </p>
-          {/*  */}
-        </div>
-      </div>
-
       {/* Details Section */}
       <div className="bg-white rounded-lg shadow-md p-6 mt-4">
         {/* Description and Amenities */}
@@ -186,14 +200,14 @@ const AccommodationListingPage = () => {
               For Compliments and Complaints:
             </h2>
             <div className="border-2 border-black p-3 rounded-lg bg-gray-50">
-              <p className="text-gray-700 mb-2">Contact: {contact}</p>
+              <p className="text-gray-700 mb-2">Contact: 0794369806</p>
               <p className="text-gray-700 mb-2">
                 Email:{" "}
                 <a
-                  href={`mailto:${email}`}
+                  href={`mailto:info@palmnazi_rc.com`}
                   className="text-blue-500 hover:underline"
                 >
-                  {email}
+                  info@palmnazi_rc.com
                 </a>
               </p>
             </div>
@@ -201,12 +215,7 @@ const AccommodationListingPage = () => {
         </div>
 
         {/* Back to Listing Link */}
-        <Link
-          to={`/${listing.category[0].category}/${listing._id}`}
-          className="inline-block mt-4 px-4 py-2 bg-gray-300 text-gray-800 rounded hover:bg-gray-400 transition duration-200"
-        >
-          Back to Listing
-        </Link>
+        
       </div>
     </div>
   );

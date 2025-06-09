@@ -178,10 +178,10 @@ export const createBookingroom = async (req, res, next) => {
         .fill(primaryColor)
         .fillColor("#FFFFFF")
         .fontSize(10)
-        .text("Palmnazi Resort", 50, footerY + 15)
+        .text("Palmnazi Resort Cities", 50, footerY + 15)
         .text("4th Floor Palmnazi-rc Plaza, Nairobi, Kenya", 50, footerY + 30)
         .text(
-          "Phone: +254 794 369 806 | Email: info@palmnazi.com",
+          "Phone: +254 794 369 806 | Email: info@palmnazi_rc.com",
           50,
           footerY + 45
         )
@@ -204,7 +204,7 @@ export const createBookingroom = async (req, res, next) => {
 <div style="font-family: Arial, sans-serif; background-color: #f9f9f9; padding: 20px;">
     <div style="max-width: 600px; margin: auto; background-color: #ffffff; padding: 30px; border-radius: 8px; box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);">
         <div style="background-color: #FF6B6B; padding: 20px; border-radius: 8px 8px 0 0; margin-bottom: 20px;">
-            <h1 style="color: white; text-align: center; margin: 0;">${listingName}</h1>
+            <h1 style="color: white; text-align: center; margin: 0;"> PALMNAZI RESORT CITIES </h1>
         </div>
         
         <h2 style="color: #333; border-bottom: 2px solid #4ECDC4; padding-bottom: 10px;">New Booking Notification</h2>
@@ -241,7 +241,7 @@ export const createBookingroom = async (req, res, next) => {
         </div>
         
         <div style="margin-top: 30px; padding-top: 20px; border-top: 1px solid #eee;">
-            <p style="font-size: 14px; color: #999; text-align: center;">${listingName} • Nairobi, Kenya<br>Phone: +254 794 369 806 • Email: ${email}</p>
+            <p style="font-size: 14px; color: #999; text-align: center;"> Palmnazi Resort Cities • Nairobi, Kenya<br>Phone: +254 794 369 806 • Email: info@palmnazi_rc.com</p>
         </div>
     </div>
 </div>
@@ -251,7 +251,7 @@ const clientEmailBody = `
 <div style="font-family: Arial, sans-serif; background-color: #f9f9f9; padding: 20px;">
     <div style="max-width: 600px; margin: auto; background-color: #ffffff; padding: 30px; border-radius: 8px; box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);">
         <div style="background-color: #FF6B6B; padding: 20px; border-radius: 8px 8px 0 0; margin-bottom: 20px;">
-            <h1 style="color: white; text-align: center; margin: 0;">${listingName}</h1>
+            <h1 style="color: white; text-align: center; margin: 0;">PALMNAZI RESORT CITIES</h1>
         </div>
         
         <h2 style="color: #333; border-bottom: 2px solid #4ECDC4; padding-bottom: 10px;">Booking Confirmation</h2>
@@ -284,7 +284,7 @@ const clientEmailBody = `
         </div>
         
         <div style="margin-top: 30px; padding-top: 20px; border-top: 1px solid #eee;">
-            <p style="font-size: 14px; color: #999; text-align: center;">${listingName} • Nairobi, Kenya<br>Phone: +254 794 369 806 • Email: ${email}</p>
+            <p style="font-size: 14px; color: #999; text-align: center;"> Palmnazi Resort Cities • Nairobi, Kenya<br>Phone: +254 794 369 806 • Email: info@palmnazi_rc.com</p>
         </div>
     </div>
 </div>

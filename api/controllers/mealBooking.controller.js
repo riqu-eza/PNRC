@@ -171,7 +171,7 @@ export const createBookingmeal = async (req, res, next) => {
         .fill(primaryColor)
         .fillColor("#FFFFFF")
         .fontSize(10)
-        .text("Palmnazi Restaurant", 50, footerY + 15)
+        .text("Palmnazi Resort Cities", 50, footerY + 15)
         .text("4th Floor Palmnazi-rc Plaza, Nairobi, Kenya", 50, footerY + 30)
         .text(
           "Phone: +254 794 369 806 | Email: info@palmnazi.com",
@@ -292,7 +292,7 @@ export const createBookingmeal = async (req, res, next) => {
         </div>
         
         <div style="margin-top: 30px; padding-top: 20px; border-top: 1px solid #eee;">
-            <p style="font-size: 14px; color: #999; text-align: center;">Palmnazi  • 4th Floor Palmnazi-rc Plaza, Nairobi, Kenya<br>Phone: +254 794 369 806 • Email: info@palmnazi_rc.com
+            <p style="font-size: 14px; color: #999; text-align: center;">Palmnazi Resort Cities  • 4th Floor Palmnazi-rc Plaza, Nairobi, Kenya<br>Phone: +254 794 369 806 • Email: info@palmnazi_rc.com
         </div>
     </div>
 </div>

@@ -1,8 +1,8 @@
 /* eslint-disable react/prop-types */
 import { useState } from "react";
-import MealModal from "./mealModal";
+import Entertainmentmodal from "./Entertainmentmodal";
 
-const Menu = ({ subcategories, listingemail, listingname, listingaddress }) => {
+const Entertainmentmenu = ({ subcategories, listingemail, listingname, listingaddress }) => {
   const [selectedSubcategory, setSelectedSubcategory] = useState(null);
   const [selectedMeal, setSelectedMeal] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -15,8 +15,8 @@ const Menu = ({ subcategories, listingemail, listingname, listingaddress }) => {
   // Filter menu items based on the selected subcategory
   const filteredMenuItems = selectedSubcategory
     ? subcategories.find((subcat) => subcat.subcategory === selectedSubcategory)
-        ?.menuItems || []
-    : subcategories.flatMap((subcat) => subcat.menuItems); // Show all if no subcategory is selected
+        ?.EntertainmentItems || []
+    : subcategories.flatMap((subcat) => subcat.EntertainmentItems); // Show all if no subcategory is selected
 
   // Function to open modal with selected meal details
   const handleViewMore = (meal) => {
@@ -32,18 +32,11 @@ const Menu = ({ subcategories, listingemail, listingname, listingaddress }) => {
   if (!Array.isArray(subcategories) || subcategories.length === 0) {
     return <p>No subcategories available.</p>; // Fallback if no subcategories
   }
-
+console.log("filtered subcategory", filteredMenuItems);
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
   {/* Header with subtle animation */}
-  <div className="text-center mb-10 animate-fade-in">
-    <h1 className="text-4xl font-extrabold text-gray-900 sm:text-5xl sm:tracking-tight lg:text-6xl">
-      Our Menu
-    </h1>
-    <p className="mt-3 max-w-2xl mx-auto text-xl text-gray-500 sm:mt-4">
-      Delicious options for every taste
-    </p>
-  </div>
+  
 
   {/* Subcategory Bar - Sticky with gradient background */}
   <div className="sticky top-0 z-10 bg-gradient-to-r from-blue-50 to-indigo-50 backdrop-blur-sm bg-opacity-90 mb-8 py-4 px-2 rounded-xl shadow-sm">
@@ -88,7 +81,7 @@ const Menu = ({ subcategories, listingemail, listingname, listingaddress }) => {
               <div className="relative h-48 overflow-hidden">
                 <img
                   src={item.imageUrls[0]}
-                  alt={item.DishName}
+                  alt={item.name}
                   className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent" />
@@ -99,10 +92,10 @@ const Menu = ({ subcategories, listingemail, listingname, listingaddress }) => {
             <div className="p-5">
               <div className="flex justify-between items-start">
                 <h3 className="text-xl font-bold text-gray-900 truncate">
-                  {item.DishName}
+                  {item.name}
                 </h3>
                 <span className="bg-blue-100 text-blue-800 text-xs font-semibold px-2.5 py-0.5 rounded-full ml-2 whitespace-nowrap">
-                  ${item.Price}
+                  ${item.price}
                 </span>
               </div>
 
@@ -111,25 +104,24 @@ const Menu = ({ subcategories, listingemail, listingname, listingaddress }) => {
               </p>
 
               <div className="mt-4 flex items-center justify-between">
-                {item.time && (
-                  <span className="inline-flex items-center text-sm text-gray-500">
-                    <svg
-                      className="w-4 h-4 mr-1"
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={2}
-                        d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
-                      />
-                    </svg>
-                    {item.time} mins
-                  </span>
-                )}
+                <span className="inline-flex items-center text-sm text-gray-500">
+                  <svg
+                    className="w-4 h-4 mr-1"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
+                    />
+                  </svg>
+                  {item.time} mins
+                </span>
+
                 <button
                   className="inline-flex items-center px-3 py-1.5 border border-transparent text-xs font-medium rounded-full shadow-sm text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors duration-200"
                   onClick={() => handleViewMore(item)}
@@ -168,10 +160,10 @@ const Menu = ({ subcategories, listingemail, listingname, listingaddress }) => {
     )}
   </div>
 
-  {/* Render the MealModal if it's open */}
+  {/* Modal */}
   {isModalOpen && (
-    <MealModal
-      meal={selectedMeal}
+    <Entertainmentmodal
+      event={selectedMeal}
       listingemail={listingemail}
       listingname={listingname}
       listingaddress={listingaddress}
@@ -182,4 +174,4 @@ const Menu = ({ subcategories, listingemail, listingname, listingaddress }) => {
   );
 };
 
-export default Menu;
+export default Entertainmentmenu;
