@@ -362,6 +362,7 @@ const CreateListing = async (req, res, next) => {
               </div>
             </div>
     </form>
+    
   );
 };
 

@@ -4,7 +4,6 @@ import "ldrs/jellyTriangle";
 
 import "./page.css";
 import "../components/loading.css";
-import groud from "../imgaes/resort.jpg";
 
 const ListingsByCounty = () => {
   const [uniqueCounties, setUniqueCounties] = useState([]);
@@ -81,7 +80,7 @@ console.log("Fetched counties:", data); // Debug output
           role="dialog"
           aria-modal="true"
           style={{
-            backgroundImage: `url(${groud})`,
+            backgroundImage: `url(/images/resort.jpg)`,
             backgroundSize: "cover",
             backgroundPosition: "center",
           }}

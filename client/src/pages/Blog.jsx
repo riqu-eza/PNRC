@@ -1,21 +1,18 @@
-import travel from "../imgaes/blogtravel.jpg";
-import culture from "../imgaes/blogculture.jpg";
-import business from "../imgaes/blogbusiness.jpg";
+
 import { Link } from "react-router-dom";
-import palmnazilogkg from "../imgaes/palmnazilogkg.png";
 
 export const Blog = () => {
   const blogs = [
-    { id: 1, name: "Travel", img: [travel] },
-    { id: 2, name: "Business", img: [business] },
-    { id: 3, name: "Culture", img: [culture] },
+    { id: 1, name: "Travel", img: "/images/blogtravel.jpg" },
+    { id: 2, name: "Business", img: "/images/blogbusiness.jpg" },
+    { id: 3, name: "Culture", img: "/images/blogculture.jpg" },
   ];
 
   return (
     <div
       className="h-screen flex flex-col text-pink-500"
       style={{
-        backgroundImage: `url(${palmnazilogkg})`,
+        backgroundImage: `url(/images/palmnazilogkg.png)`,
         backgroundSize: "cover",
         backgroundPosition: "center",
       }} // Added background styling

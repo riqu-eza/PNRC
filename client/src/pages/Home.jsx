@@ -10,7 +10,6 @@ SwiperCore.use([Navigation]);
 import "swiper/css/bundle";
 
 // Images
-import logo from "../imgaes/officiallogo.png";
 
 export default function Home() {
   const { currentUser } = useSelector((state) => state.user);
@@ -260,7 +259,8 @@ export default function Home() {
           {/* Small-Screen Logo (90x90) */}
           <div className="block sm:hidden ">
             <img
-              src={logo}
+              src="/images/officiallogo.png"
+            
               alt="Logo"
               className="w-130 h-130 object-contain mx-auto"
             />
@@ -269,7 +269,7 @@ export default function Home() {
           {/* Large-Screen Logo (150x150) */}
           <div className="hidden sm:block absolute w-[400px] h-[400px] -left-2 top-[40%] transform -translate-y-1/2">
             <img
-              src={logo}
+              src="/images/officiallogo.png"
               alt="Logo"
               className="w-full h-full object-contain"
             />
@@ -277,7 +277,7 @@ export default function Home() {
 
           {/* Headings */}
           <div className="relative flex flex-col items-center justify-center mt-2 sm:mt-0">
-            <h1 className="text-center text-3xl sm:text-4xl md:text-5xl lg:text-6xl tracking-[4px] sm:tracking-[6px] md:tracking-[8px] lg:tracking-[25px] text-[rgb(41,214,236)] main-text1">
+            <h1 className="text-center text-3xl sm:text-4xl md:text-3xl lg:text-6xl tracking-[4px] sm:tracking-[6px] md:tracking-[8px] lg:tracking-[25px] text-[rgb(41,214,236)] main-text1">
               PALMNAZI RC
             </h1>
             <h1 className="text-center text-lg sm:text-xl md:text-2xl lg:text-3xl tracking-[0.5px] sm:tracking-[1px] md:tracking-[1.5px] lg:tracking-[5px] font-extrabold text-white main-text mt-2">

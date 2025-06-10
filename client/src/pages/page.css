@@ -87,7 +87,7 @@
 }
 
 .bgimage {
-  background-image: url("../imgaes/Homebackground.jpg");
+  background-image: url("/images/Homebackground.jpg");
   background-size: cover;
   background-position: center;
 }

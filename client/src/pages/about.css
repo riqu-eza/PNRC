@@ -1,101 +1,29 @@
-@import url("https://fonts.googleapis.com/css2?family=Agbalumo&family=Aladin&family=Anta&family=Bebas+Neue&family=Berkshire+Swash&family=Inconsolata:wdth,wght@113.7,200..900&family=Jacquard+24+Charted&family=Jaro:opsz@6..72&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Ojuju:wght@200..800&family=Reggae+One&family=Sedan+SC&display=swap");
-
-@font-face {
-  font-family: "well";
-  src: url(../Assets/fonts/1AdobeArabic-Regular.otf);
-}
-@font-face {
-  font-family: "Trajanpro";
-  src: url(../Assets/fonts/TrajanPro-Bold.otf) format("opentype");
-  font-weight: bolder;
-  font-style: normal;
-}
-@font-face {
-  font-family: "Lithosregular";
-  src: url(../Assets/fonts/LithosPro-Regular.otf) format("opentype");
-  font-weight:bolder;
-  font-style: normal;
-}
-@font-face{
-  font-family: "Open Sans";
-  src:url(../Assets/fonts/AGaramondPro-Regular.otf);
-  font-weight:100;
-  font-style: italic;
+/* Add to your about.css */
+.about-page {
+  scroll-behavior: smooth;
 }
 
-
-.about::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-image: url(../imgaes/about1.jpg);
-  background-size: cover;
+.hero-section {
   background-position: center;
-  filter :blur(0.2px) opacity(0.5) ;
-  /* z-index: 0; */
-}
-.about {
-  position: relative;
-  overflow: hidden;
+  background-repeat: no-repeat;
+  background-size: cover;
 }
 
-
-
-
-
-.whyus {
-  background-color: black;
-  padding-top: 3px;
+@keyframes fade-in {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
-
-
-.seviceimg{
-  background-image: url(../imgaes/img_1_1685012925610.webp);
-}
-.teamimg{
-  background-image: url(../imgaes/aboutbusiness.jpg);
-  
-}
-.dealimg{
-  background-image: url(../imgaes/holiday-or-vacation-what-s-the-difference-puerto-vallarta.jpg);
-
-}
-.about-content {
-  color: #000;
-  font-size: 50px;
-  text-align: center;
-  padding-top: 2em;
-  font-family: "Aladin", system-ui;
-
+.animate-fade-in {
+  animation: fade-in 1s ease-out forwards;
 }
 
-.about-header {
-  color: #000;
-  font-family: "Sedan SC", serif;
-
-  font-size: 4em;
-  font-weight: 700;
-  text-align: center;
-  letter-spacing: 10px;
-  margin-bottom: 20px;
+@keyframes bounce {
+  0%, 20%, 50%, 80%, 100% {transform: translateY(0);}
+  40% {transform: translateY(-20px);}
+  60% {transform: translateY(-10px);}
 }
 
-.icon1 {
-  background-image: url("../imgaes/channel.png");
-}
-
-.icon2 {
-  background-image: url("../imgaes/traveler.png")
-}
-
-.icon3 {
-  background-image: url("../imgaes/hotel.png");
-}
-
-.icon4 {
-  background-image: url("../imgaes/");
+.animate-bounce {
+  animation: bounce 2s infinite;
 }
