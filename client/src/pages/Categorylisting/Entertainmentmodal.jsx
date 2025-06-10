@@ -32,33 +32,39 @@ const Entertainmentmodal = ({ event, onClose, listingemail, listingname, listing
     setBookingSuccess(false);
   };
 
-  const handleConfirmBooking = async (e) => {
-    e.preventDefault();
-    setIsLoading(true);
-    
-    try {
-      const res = await fetch("/api/booking/create/entertainment", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          ...formData,
-          totalPrice: formData.totalPrice * formData.ticketCount,
-          eventType: event.subcategory,
-          eventTime: event.time,
-          venue: event.venue,
-        }),
-      });
-      const data = await res.json();
-      console.log("Booking created successfully", data);
-      setIsLoading(false);
-      setBookingSuccess(true);
-    } catch (error) {
-      console.log("Error occurred", error);
-      setIsLoading(false);
-    }
+ const handleConfirmBooking = async (e) => {
+  e.preventDefault();
+  setIsLoading(true);
+
+  const bookingData = {
+    ...formData,
+    totalPrice: formData.totalPrice * formData.ticketCount,
+    eventType: event.subcategory,
+    eventTime: event.time,
+    venue: event.venue,
   };
+
+  console.log("Booking request body:", bookingData); // 🔍 Log the request body
+
+  try {
+    const res = await fetch("/api/booking/create/entertainment", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(bookingData),
+    });
+
+    const data = await res.json();
+    console.log("Booking created successfully", data);
+    setIsLoading(false);
+    setBookingSuccess(true);
+  } catch (error) {
+    console.log("Error occurred", error);
+    setIsLoading(false);
+  }
+};
+
 
   const handleCloseForm = () => {
     setShowForm(false);
