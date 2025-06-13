@@ -15,104 +15,239 @@ const Culture = ({ setCultureItems, Subcategory }) => {
   const subcategoryFields = {
     Museums: [
       { name: "name", type: "text", placeholder: "Museum Name" },
-      { name: "location", type: "text", placeholder: "Location" },
       { name: "entryFee", type: "number", placeholder: "Entry Fee" },
       { name: "openingHours", type: "time", placeholder: "Opening Hours" },
-      { name: "contact", type: "text", placeholder: "Contact Information" },
       { name: "exhibits", type: "text", placeholder: "Main Exhibits" },
-      { name: "guidedTours", type: "boolean", placeholder: "Guided Tours Available?" },
-      { name: "audioGuides", type: "boolean", placeholder: "Audio Guides Available?" },
-      { name: "cafeFacilities", type: "boolean", placeholder: "Cafe Facilities?" },
-      { name: "giftShop", type: "boolean", placeholder: "Gift Shop Available?" },
-      { name: "parkingAvailability", type: "boolean", placeholder: "Parking Available?" },
-      { name: "wheelchairAccess", type: "boolean", placeholder: "Wheelchair Access Available?" },
-      { name: "specialExhibitions", type: "text", placeholder: "Special Exhibitions Details" },
+      {
+        name: "specialExhibitions",
+        type: "text",
+        placeholder: "Special Exhibitions Details",
+      },
+
+      {
+        name: "guidedTours",
+        type: "boolean",
+        placeholder: "Guided Tours Available?",
+      },
+      {
+        name: "audioGuides",
+        type: "boolean",
+        placeholder: "Audio Guides Available?",
+      },
+      {
+        name: "cafeFacilities",
+        type: "boolean",
+        placeholder: "Cafe Facilities?",
+      },
+      {
+        name: "giftShop",
+        type: "boolean",
+        placeholder: "Gift Shop Available?",
+      },
+      {
+        name: "parkingAvailability",
+        type: "boolean",
+        placeholder: "Parking Available?",
+      },
+      {
+        name: "wheelchairAccess",
+        type: "boolean",
+        placeholder: "Wheelchair Access Available?",
+      },
     ],
     "Art Galleries": [
       { name: "name", type: "text", placeholder: "Gallery Name" },
-      { name: "location", type: "text", placeholder: "Location" },
       { name: "entryFee", type: "number", placeholder: "Entry Fee" },
-      { name: "openingHours", type: "time", placeholder: "Opening Hours" },
       { name: "featuredArtist", type: "text", placeholder: "Featured Artist" },
       { name: "artStyles", type: "text", placeholder: "Art Styles Displayed" },
       { name: "events", type: "text", placeholder: "Special Events/Workshops" },
-      { name: "numberOfExhibits", type: "number", placeholder: "Number of Exhibits" },
-      { name: "galleryOwner", type: "text", placeholder: "Gallery Owner" },
-      { name: "parkingAvailability", type: "boolean", placeholder: "Parking Available?" },
-      { name: "guidedTours", type: "boolean", placeholder: "Guided Tours Available?" },
-      { name: "wheelchairAccess", type: "boolean", placeholder: "Wheelchair Access Available?" },
+      {
+        name: "numberOfExhibits",
+        type: "number",
+        placeholder: "Number of Exhibits",
+      },
+      {
+        name: "parkingAvailability",
+        type: "boolean",
+        placeholder: "Parking Available?",
+      },
+      {
+        name: "guidedTours",
+        type: "boolean",
+        placeholder: "Guided Tours Available?",
+      },
+      {
+        name: "wheelchairAccess",
+        type: "boolean",
+        placeholder: "Wheelchair Access Available?",
+      },
     ],
     "Historic Landmarks": [
       { name: "name", type: "text", placeholder: "Landmark Name" },
-      { name: "location", type: "text", placeholder: "Location" },
       { name: "entryFee", type: "number", placeholder: "Entry Fee" },
-      { name: "historicalSignificance", type: "text", placeholder: "Historical Significance" },
-      { name: "openingHours", type: "time", placeholder: "Opening Hours" },
+      {
+        name: "historicalSignificance",
+        type: "text",
+        placeholder: "Historical Significance",
+      },
       { name: "yearBuilt", type: "number", placeholder: "Year Built" },
       { name: "architect", type: "text", placeholder: "Architect/Creator" },
-      { name: "UNESCOStatus", type: "boolean", placeholder: "UNESCO World Heritage Site?" },
-      { name: "restorationYear", type: "number", placeholder: "Last Restoration Year" },
-      { name: "visitorCapacity", type: "number", placeholder: "Max Visitor Capacity" },
-      { name: "guidedTours", type: "boolean", placeholder: "Guided Tours Available?" },
+      {
+        name: "UNESCOStatus",
+        type: "boolean",
+        placeholder: "UNESCO World Heritage Site?",
+      },
+      {
+        name: "restorationYear",
+        type: "number",
+        placeholder: "Last Restoration Year",
+      },
+      {
+        name: "visitorCapacity",
+        type: "number",
+        placeholder: "Max Visitor Capacity",
+      },
+      {
+        name: "guidedTours",
+        type: "boolean",
+        placeholder: "Guided Tours Available?",
+      },
     ],
     Monuments: [
       { name: "name", type: "text", placeholder: "Monument Name" },
-      { name: "location", type: "text", placeholder: "Location" },
       { name: "entryFee", type: "number", placeholder: "Entry Fee" },
-      { name: "historicalSignificance", type: "text", placeholder: "Historical Significance" },
-      { name: "openingHours", type: "time", placeholder: "Opening Hours" },
+      {
+        name: "historicalSignificance",
+        type: "text",
+        placeholder: "Historical Significance",
+      },
       { name: "yearBuilt", type: "number", placeholder: "Year Built" },
       { name: "architect", type: "text", placeholder: "Architect/Creator" },
       { name: "height", type: "number", placeholder: "Height (in meters)" },
       { name: "materialsUsed", type: "text", placeholder: "Materials Used" },
-      { name: "visitorGuidelines", type: "text", placeholder: "Visitor Guidelines" },
-      { name: "guidedTours", type: "boolean", placeholder: "Guided Tours Available?" },
+      {
+        name: "visitorGuidelines",
+        type: "text",
+        placeholder: "Visitor Guidelines",
+      },
+      {
+        name: "guidedTours",
+        type: "boolean",
+        placeholder: "Guided Tours Available?",
+      },
     ],
     "Archaelogical Sites": [
       { name: "name", type: "text", placeholder: "Site Name" },
-      { name: "location", type: "text", placeholder: "Location" },
       { name: "entryFee", type: "number", placeholder: "Entry Fee" },
       { name: "discoveryDate", type: "date", placeholder: "Discovery Date" },
-      { name: "significance", type: "text", placeholder: "Archaeological Significance" },
-      { name: "excavationDetails", type: "text", placeholder: "Excavation Details" },
-      { name: "currentResearch", type: "text", placeholder: "Current Research Activities" },
-      { name: "excavationLeader", type: "text", placeholder: "Excavation Leader" },
-      { name: "artifactsFound", type: "text", placeholder: "Key Artifacts Found" },
-      { name: "guidedTours", type: "boolean", placeholder: "Guided Tours Available?" },
-      { name: "visitorCapacity", type: "number", placeholder: "Max Visitor Capacity" },
+      {
+        name: "significance",
+        type: "text",
+        placeholder: "Archaeological Significance",
+      },
+      {
+        name: "excavationDetails",
+        type: "text",
+        placeholder: "Excavation Details",
+      },
+      {
+        name: "currentResearch",
+        type: "text",
+        placeholder: "Current Research Activities",
+      },
+      {
+        name: "excavationLeader",
+        type: "text",
+        placeholder: "Excavation Leader",
+      },
+      {
+        name: "artifactsFound",
+        type: "text",
+        placeholder: "Key Artifacts Found",
+      },
+      {
+        name: "guidedTours",
+        type: "boolean",
+        placeholder: "Guided Tours Available?",
+      },
+      {
+        name: "visitorCapacity",
+        type: "number",
+        placeholder: "Max Visitor Capacity",
+      },
     ],
     "Cultural Sites": [
       { name: "name", type: "text", placeholder: "Site Name" },
-      { name: "location", type: "text", placeholder: "Location" },
       { name: "entryFee", type: "number", placeholder: "Entry Fee" },
-      { name: "openingHours", type: "time", placeholder: "Opening Hours" },
-      { name: "culturalSignificance", type: "text", placeholder: "Cultural Significance" },
+      {
+        name: "culturalSignificance",
+        type: "text",
+        placeholder: "Cultural Significance",
+      },
       { name: "festivals", type: "text", placeholder: "Festivals Celebrated" },
-      { name: "localTraditions", type: "text", placeholder: "Local Traditions" },
-      { name: "performances", type: "text", placeholder: "Cultural Performances" },
-      { name: "foodStalls", type: "boolean", placeholder: "Food Stalls Available?" },
-      { name: "souvenirShops", type: "boolean", placeholder: "Souvenir Shops Available?" },
-      { name: "visitorGuidelines", type: "text", placeholder: "Visitor Guidelines" },
+      {
+        name: "localTraditions",
+        type: "text",
+        placeholder: "Local Traditions",
+      },
+      {
+        name: "visitorGuidelines",
+        type: "text",
+        placeholder: "Visitor Guidelines",
+      },
+
+      {
+        name: "performances",
+        type: "text",
+        placeholder: "Cultural Performances",
+      },
+      {
+        name: "foodStalls",
+        type: "boolean",
+        placeholder: "Food Stalls Available?",
+      },
+      {
+        name: "souvenirShops",
+        type: "boolean",
+        placeholder: "Souvenir Shops Available?",
+      },
     ],
     "Heritage Sites": [
       { name: "name", type: "text", placeholder: "Site Name" },
-      { name: "location", type: "text", placeholder: "Location" },
       { name: "entryFee", type: "number", placeholder: "Entry Fee" },
-      { name: "historicalSignificance", type: "text", placeholder: "Historical Significance" },
-      { name: "openingHours", type: "time", placeholder: "Opening Hours" },
-      { name: "preservationStatus", type: "text", placeholder: "Preservation Status" },
+      {
+        name: "historicalSignificance",
+        type: "text",
+        placeholder: "Historical Significance",
+      },
+      {
+        name: "preservationStatus",
+        type: "text",
+        placeholder: "Preservation Status",
+      },
       { name: "governingBody", type: "text", placeholder: "Governing Body" },
       { name: "siteAge", type: "number", placeholder: "Site Age (in years)" },
-      { name: "visitorCapacity", type: "number", placeholder: "Max Visitor Capacity" },
-      { name: "UNESCOStatus", type: "boolean", placeholder: "UNESCO World Heritage Site?" },
-      { name: "wheelchairAccess", type: "boolean", placeholder: "Wheelchair Access Available?" },
+      {
+        name: "visitorCapacity",
+        type: "number",
+        placeholder: "Max Visitor Capacity",
+      },
+      {
+        name: "UNESCOStatus",
+        type: "boolean",
+        placeholder: "UNESCO World Heritage Site?",
+      },
+      {
+        name: "wheelchairAccess",
+        type: "boolean",
+        placeholder: "Wheelchair Access Available?",
+      },
     ],
     "Religious places of interest": [
       { name: "name", type: "text", placeholder: "Place Name" },
-      { name: "location", type: "text", placeholder: "Location" },
-      { name: "entryFee", type: "number", placeholder: "entry fee"}
-    ]
-  }
+      { name: "entryFee", type: "number", placeholder: "entry fee" },
+    ],
+  };
 
   const initialFormState = {
     ...(subcategoryFields[Subcategory]?.reduce((acc, field) => {
@@ -199,11 +334,6 @@ const Culture = ({ setCultureItems, Subcategory }) => {
     }));
   };
   const handleAddMenuItem = () => {
-    if (Object.values(formData).some((value) => !value)) {
-      alert("Please fill in all fields");
-      return;
-    }
-
     const newEntry = {
       subcategory: Subcategory,
       ...formData,
@@ -212,7 +342,6 @@ const Culture = ({ setCultureItems, Subcategory }) => {
     console.log("New Entry:", newEntry);
 
     setCultureItems((prev) => [...prev, newEntry]);
-
     setFormData(initialFormState);
   };
   return (
@@ -220,18 +349,36 @@ const Culture = ({ setCultureItems, Subcategory }) => {
       <h4 className="text-lg font-medium mb-2">
         Add Details for {Subcategory}
       </h4>
-      {subcategoryFields[Subcategory]?.map((field) => (
-        <input
-          key={field.name}
-          type={field.type}
-          name={field.name}
-          value={formData[field.name]}
-          onChange={handleChange}
-          placeholder={field.placeholder}
-          required
-          className="w-full p-2 mb-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
-        />
-      ))}
+      {subcategoryFields[Subcategory]?.map((field) =>
+        field.type === "boolean" ? (
+          <div key={field.name} className="flex items-center mb-2">
+            <label className="mr-2 text-gray-700">{field.placeholder}:</label>
+            <input
+              type="checkbox"
+              name={field.name}
+              checked={formData[field.name] || false}
+              onChange={(e) => {
+                setFormData((prevData) => ({
+                  ...prevData,
+                  [field.name]: e.target.checked,
+                }));
+              }}
+              className="h-5 w-5 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
+            />
+          </div>
+        ) : (
+          <input
+            key={field.name}
+            type={field.type}
+            name={field.name}
+            value={formData[field.name]}
+            onChange={handleChange}
+            placeholder={field.placeholder}
+            required
+            className="w-full p-2 mb-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+          />
+        )
+      )}
       <p className="font-semibold">Image:</p>
       <div className="flex gap-4">
         <input

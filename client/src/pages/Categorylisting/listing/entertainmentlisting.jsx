@@ -1,7 +1,7 @@
 /* eslint-disable no-unused-vars */
 import { useRef, useState } from "react";
 import { useLocation } from "react-router-dom";
-import Amenities from "./amenities";
+import Amenities from "../amenities";
 import {
   FaEnvelope,
   FaMapMarkerAlt,
@@ -9,7 +9,7 @@ import {
   FaRegClipboard,
   FaRegClock,
 } from "react-icons/fa";
-import Entertainmentmenu from "./entertainmentmenu";
+import Entertainmentmenu from "../menu/entertainmentmenu";
 
 const EntertainmentListingPage = () => {
   const { state } = useLocation();

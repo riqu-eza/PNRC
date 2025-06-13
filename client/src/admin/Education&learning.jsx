@@ -8,87 +8,108 @@ import {
 } from "firebase/storage";
 import { app } from "../firebase";
 const Education = ({ setEducationItems, Subcategory }) => {
-  
   const [files, setFiles] = useState([]);
   const [imageUploadError, setImageUploadError] = useState(false);
   const [uploading, setUploading] = useState(false);
-  
+
   const subcategoryFields = {
     Libraries: [
-      { name: "name", type: "text", placeholder: "Library Name" },
-      { name: "location", type: "text", placeholder: "Location" },
-      { name: "libraryType", type: "text", placeholder: "Type (Public/Private)" },
-      { name: "openingHours", type: "text", placeholder: "Opening Hours" },
-      { name: "contact", type: "text", placeholder: "Contact Information" },
-      { name: "wifiAvailability", type: "boolean", placeholder: "WiFi Available?" },
-      { name: "studyRooms", type: "boolean", placeholder: "Study Rooms Available?" },
-      { name: "collectionSize", type: "number", placeholder: "Number of Books/Resources" },
+      {
+        name: "libraryType",
+        type: "text",
+        placeholder: "Type (Public/Private)",
+      },
+      {
+        name: "wifiAvailability",
+        type: "boolean",
+        placeholder: "WiFi Available?",
+      },
+      {
+        name: "studyRooms",
+        type: "boolean",
+        placeholder: "Study Rooms Available?",
+      },
+      {
+        name: "collectionSize",
+        type: "number",
+        placeholder: "Number of Books/Resources",
+      },
     ],
     Bookstores: [
-      { name: "name", type: "text", placeholder: "Bookstore Name" },
-      { name: "location", type: "text", placeholder: "Location" },
-      { name: "storeType", type: "text", placeholder: "Type (Independent/Chain)" },
-      { name: "openingHours", type: "text", placeholder: "Opening Hours" },
-      { name: "contact", type: "text", placeholder: "Contact Information" },
+      {
+        name: "storeType",
+        type: "text",
+        placeholder: "Type (Independent/Chain)",
+      },
       { name: "genresOffered", type: "text", placeholder: "Genres Offered" },
-      { name: "cafeAvailable", type: "boolean", placeholder: "Cafe Available?" },
+      {
+        name: "cafeAvailable",
+        type: "boolean",
+        placeholder: "Cafe Available?",
+      },
     ],
     "Education Centers": [
-      { name: "name", type: "text", placeholder: "Center Name" },
-      { name: "location", type: "text", placeholder: "Location" },
-      { name: "centerType", type: "text", placeholder: "Type (Tutoring, Language, etc.)" },
+      {
+        name: "centerType",
+        type: "text",
+        placeholder: "Type (Tutoring, Language, etc.)",
+      },
       { name: "coursesOffered", type: "text", placeholder: "Courses Offered" },
-      { name: "contact", type: "text", placeholder: "Contact Information" },
-      { name: "openingHours", type: "text", placeholder: "Opening Hours" },
       { name: "facilities", type: "text", placeholder: "Facilities Available" },
     ],
     "Art Schools": [
-      { name: "name", type: "text", placeholder: "School Name" },
-      { name: "location", type: "text", placeholder: "Location" },
-      { name: "specializations", type: "text", placeholder: "Specializations (e.g., Painting, Sculpture)" },
+      {
+        name: "specializations",
+        type: "text",
+        placeholder: "Specializations (e.g., Painting, Sculpture)",
+      },
       { name: "coursesOffered", type: "text", placeholder: "Courses Offered" },
-      { name: "contact", type: "text", placeholder: "Contact Information" },
       { name: "tuitionFees", type: "number", placeholder: "Tuition Fees" },
       { name: "facilities", type: "text", placeholder: "Facilities Available" },
     ],
     "Cooking Schools": [
-      { name: "name", type: "text", placeholder: "School Name" },
-      { name: "location", type: "text", placeholder: "Location" },
-      { name: "cuisinesOffered", type: "text", placeholder: "Cuisines Offered" },
+      {
+        name: "cuisinesOffered",
+        type: "text",
+        placeholder: "Cuisines Offered",
+      },
       { name: "coursesOffered", type: "text", placeholder: "Courses Offered" },
-      { name: "contact", type: "text", placeholder: "Contact Information" },
       { name: "tuitionFees", type: "number", placeholder: "Course Fees" },
-      { name: "courseDuration", type: "text", placeholder: "Course Duration" },
+      { name: "courseDuration", type: "text", placeholder: "Course Duration In Months" },
     ],
     "Language Schools": [
-      { name: "name", type: "text", placeholder: "School Name" },
-      { name: "location", type: "text", placeholder: "Location" },
-      { name: "languagesTaught", type: "text", placeholder: "Languages Taught" },
+      {
+        name: "languagesTaught",
+        type: "text",
+        placeholder: "Languages Taught",
+      },
       { name: "coursesOffered", type: "text", placeholder: "Courses Offered" },
-      { name: "contact", type: "text", placeholder: "Contact Information" },
       { name: "tuitionFees", type: "number", placeholder: "Course Fees" },
-      { name: "courseDuration", type: "text", placeholder: "Course Duration" },
+      { name: "courseDuration", type: "text", placeholder: "Course Duration in Months" },
     ],
     "Workshops & Classes": [
-      { name: "name", type: "text", placeholder: "Workshop/Class Name" },
-      { name: "location", type: "text", placeholder: "Location" },
       { name: "subject", type: "text", placeholder: "Subject/Topic" },
       { name: "schedule", type: "text", placeholder: "Schedule/Timings" },
       { name: "fees", type: "number", placeholder: "Fees (if applicable)" },
-      { name: "instructor", type: "text", placeholder: "Instructor Name" },
-      { name: "contact", type: "text", placeholder: "Contact Information" },
     ],
-    "reserch Institution": [
-      { name: "name", type: "text", placeholder: "Institution Name" },
-      { name: "location", type: "text", placeholder: "Location" },
-      { name: "fieldOfResearch", type: "text", placeholder: "Field of Research" },
-      { name: "establishedYear", type: "number", placeholder: "Year Established" },
-      { name: "contact", type: "text", placeholder: "Contact Information" },
-      { name: "website", type: "text", placeholder: "Website" },
-      { name: "researchFocus", type: "text", placeholder: "Research Focus Areas" },
-    ],
+    // "research Institution": [
+    //   {
+    //     name: "fieldOfResearch",
+    //     type: "text",
+    //     placeholder: "Field of Research",
+    //   },
+    //   {
+    //     name: "establishedYear",
+    //     type: "number",
+    //     placeholder: "Year Established",
+    //   },
+    //   {
+    //     name: "researchFocus",
+    //     type: "text",
+    //     placeholder: "Research Focus Areas",
+    //   },
+    // ],
   };
-  
 
   const initialFormState = {
     ...(subcategoryFields[Subcategory]?.reduce((acc, field) => {
@@ -97,15 +118,15 @@ const Education = ({ setEducationItems, Subcategory }) => {
     }, {}) || {}),
     imageUrls: [],
   };
-   
-  const [formData , setFormData] = useState(initialFormState)
+
+  const [formData, setFormData] = useState(initialFormState);
 
   const handleChange = (e) => {
-    const {name, value} = e.target;
-    setFormData ((prevData) => ({
-        ...prevData,
-        [name]: value,
-    }) );
+    const { name, value } = e.target;
+    setFormData((prevData) => ({
+      ...prevData,
+      [name]: value,
+    }));
   };
   const handleImageSubmit = () => {
     if (files.length > 0 && formData.imageUrls.length + files.length <= 6) {
@@ -174,84 +195,97 @@ const Education = ({ setEducationItems, Subcategory }) => {
       imageUrls: prevData.imageUrls.filter((_, i) => i !== index),
     }));
   };
-  const handleAddMenuItem = () =>{
-    if (Object.values(formData).some((value) => !value )){
-        alert("Please fill in all fields.");
-        return;
-    }
-
+ const handleAddMenuItem = () => {
     const newEntry = {
-        subcategory:Subcategory,
-        ...formData,
+      subcategory: Subcategory,
+      ...formData,
     };
+
     console.log("New Entry:", newEntry);
 
-    setEducationItems((prev) => [...prev, newEntry] );
-
+    setEducationItems((prev) => [...prev, newEntry]);
     setFormData(initialFormState);
-  }
+  };
   return (
     <form className="bg-white p-4 border border-gray-200 rounded-lg shadow-sm">
       <h4 className="text-lg font-medium mb-2">
         Add Details for {Subcategory}
       </h4>
 
-      {subcategoryFields[Subcategory]?.map((field) => (
-        <input
-          key={field.name}
-          type={field.type}
-          name={field.name}
-          value={formData[field.name]}
-          onChange={handleChange}
-          placeholder={field.placeholder}
-          required
-          className="w-full p-2 mb-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
-        />
-      ))}
- <p className="font-semibold">Image:</p>
-        <div className="flex gap-4">
-          <input
-            onChange={(e) => setFiles(e.target.files)}
-            className="p-3 border border-gray-300 rounded w-full"
-            type="file"
-            id="images"
-            accept="image/*"
-            multiple
-          />
-          <button
-            disabled={uploading}
-            type="button"
-            onClick={handleImageSubmit}
-            className="p-3 text-green-700 border border-green-700 rounded uppercase hover:shadow-lg disabled:opacity-80"
-          >
-            {uploading ? "Uploading..." : "Upload"}
-          </button>
-        </div>
-        <p className="text-red-700 text-sm">
-          {imageUploadError && imageUploadError}
-        </p>
-
-        {/* Display uploaded images */}
-        {formData.imageUrls && formData.imageUrls.length > 0 && (
-          <div className="mt-4 grid grid-cols-3 gap-2">
-            {formData.imageUrls.map((url, index) => (
-              <div key={url} className="flex flex-col items-center">
-                <img
-                  src={url}
-                  alt="Uploaded"
-                  className="w-20 h-20 object-cover rounded-lg"
-                />
-                <button
-                  type="button"
-                  onClick={() => handleRemoveImage(index)}
-                  className="mt-2 text-red-600 text-xs"
-                >
-                  Remove
-                </button>
-              </div>
-            ))}
+      {subcategoryFields[Subcategory]?.map((field) =>
+        field.type === "boolean" ? (
+          <div key={field.name} className="flex items-center mb-2">
+            <label className="mr-2 text-gray-700">{field.placeholder}:</label>
+            <input
+              type="checkbox"
+              name={field.name}
+              checked={formData[field.name] || false}
+              onChange={(e) => {
+                setFormData((prevData) => ({
+                  ...prevData,
+                  [field.name]: e.target.checked,
+                }));
+              }}
+              className="h-5 w-5 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
+            />
           </div>
-        )}
+        ) : (
+          <input
+            key={field.name}
+            type={field.type}
+            name={field.name}
+            value={formData[field.name]}
+            onChange={handleChange}
+            placeholder={field.placeholder}
+            required
+            className="w-full p-2 mb-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+          />
+        )
+      )}
+      <p className="font-semibold">Image:</p>
+      <div className="flex gap-4">
+        <input
+          onChange={(e) => setFiles(e.target.files)}
+          className="p-3 border border-gray-300 rounded w-full"
+          type="file"
+          id="images"
+          accept="image/*"
+          multiple
+        />
+        <button
+          disabled={uploading}
+          type="button"
+          onClick={handleImageSubmit}
+          className="p-3 text-green-700 border border-green-700 rounded uppercase hover:shadow-lg disabled:opacity-80"
+        >
+          {uploading ? "Uploading..." : "Upload"}
+        </button>
+      </div>
+      <p className="text-red-700 text-sm">
+        {imageUploadError && imageUploadError}
+      </p>
+
+      {/* Display uploaded images */}
+      {formData.imageUrls && formData.imageUrls.length > 0 && (
+        <div className="mt-4 grid grid-cols-3 gap-2">
+          {formData.imageUrls.map((url, index) => (
+            <div key={url} className="flex flex-col items-center">
+              <img
+                src={url}
+                alt="Uploaded"
+                className="w-20 h-20 object-cover rounded-lg"
+              />
+              <button
+                type="button"
+                onClick={() => handleRemoveImage(index)}
+                className="mt-2 text-red-600 text-xs"
+              >
+                Remove
+              </button>
+            </div>
+          ))}
+        </div>
+      )}
       <button
         type="button"
         onClick={handleAddMenuItem}

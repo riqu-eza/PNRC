@@ -131,9 +131,9 @@ const Amenities = ({ amenities }) => {
 
   return (
     <div className="p-4 bg-white rounded-xl shadow-sm border border-gray-100">
-      <h3 className="text-2xl font-bold text-gray-800 mb-6 text-center">
+      {/* <h3 className="text-2xl font-bold text-gray-800 mb-6 text-center">
         Amenities & Services
-      </h3>
+      </h3> */}
       
       {amenitiesArray.length > 0 ? (
         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">

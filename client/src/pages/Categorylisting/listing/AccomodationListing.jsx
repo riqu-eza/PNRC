@@ -1,9 +1,10 @@
+/* eslint-disable no-unused-vars */
 /* eslint-disable react/prop-types */
 import { useState, useRef } from "react";
 import { FaRegClipboard } from "react-icons/fa";
 import {  useLocation } from "react-router-dom";
-import Amenities from "./amenities";
-import RoomDisplay from "./roomdisplay";
+import Amenities from "../amenities";
+import RoomDisplay from "../modal/roomdisplay";
 
 const AccommodationListingPage = () => {
   const { state } = useLocation(); // Get the state passed from the Link

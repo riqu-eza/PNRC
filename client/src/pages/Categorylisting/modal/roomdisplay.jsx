@@ -1,7 +1,7 @@
 /* eslint-disable react/prop-types */
 import { useState, useRef, useEffect } from "react";
-import Amenities from "./amenities";
 import { FaArrowLeft, FaArrowRight } from "react-icons/fa";
+import Amenities from "../amenities";
 
 const RoomDisplay = ({ room, listingemail, listingname, listingaddress }) => {
   const [showBookingOverlay, setShowBookingOverlay] = useState(false);

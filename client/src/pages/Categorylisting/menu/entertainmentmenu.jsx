@@ -1,6 +1,6 @@
 /* eslint-disable react/prop-types */
 import { useState } from "react";
-import Entertainmentmodal from "./Entertainmentmodal";
+import Entertainmentmodal from "../modal/Entertainmentmodal";
 
 const Entertainmentmenu = ({ subcategories, listingemail, listingname, listingaddress }) => {
   const [selectedSubcategory, setSelectedSubcategory] = useState(null);

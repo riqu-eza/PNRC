@@ -23,6 +23,7 @@ const CategorySearch = () => {
         if (response.ok) {
           const data = await response.json();
           setListings(data);
+          console.log("Fetched listings:", data);
         } else {
           console.error("Failed to fetch data:", response.statusText);
         }
@@ -35,7 +36,7 @@ const CategorySearch = () => {
 
     fetchData();
   }, [county, categoryname]);
-
+console.log("categoryname", categoryname);
   // Select the appropriate component based on the category
   const renderCategoryComponent = () => {
     switch (categoryname.toLowerCase()) {

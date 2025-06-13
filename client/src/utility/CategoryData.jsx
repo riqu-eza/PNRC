@@ -63,12 +63,7 @@
       "Workshops & Classes",
       "Research Institution",
     ],
-    Health_and_Fitness: [
-      "Swimming Pools",
-      "Martial arts Studios",
-      "Dance Studio",
-      "Hospital",
-    ],
+    
     Services: [
       "Spar & massage centers",
       "Hair Salons",
@@ -80,6 +75,10 @@
       "Post Offices",
       "Banks and atm's",
       "legal Services",
+      "Swimming Pools",
+      "Martial arts Studios",
+      "Dance Studio",
+      "Hospital",
     ],
   };
 

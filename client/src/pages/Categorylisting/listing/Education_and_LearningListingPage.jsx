@@ -1,16 +1,17 @@
 /* eslint-disable no-unused-vars */
 import { FaEnvelope, FaMapMarkerAlt, FaPhone, FaRegClipboard, FaRegClock } from "react-icons/fa";
 import { useLocation } from "react-router-dom";
-import Amenities from "./amenities";
-import Menu from "./meal";
+import Amenities from "../amenities";
+import Menu from "../menu/meal";
 import { useState } from "react";
+import Education_and_Learningmenu from "../menu/Education_and_Learning";
 
-const DiningListingPage = () => {
+const Education_and_LearningListingPage = () => {
   const { state } = useLocation();
 
   // Add a fallback to avoid destructuring undefined 'state' or 'listing'
   const listing = state?.listing || {};
-  console.log("DiningListingPage", listing);
+  console.log("Education_and_LearningListingPage", listing);
 
   // Destructure with default values to avoid errors
   const {
@@ -122,7 +123,7 @@ const DiningListingPage = () => {
           {/* Category Section */}
           <div className="mb-6 p-1">
             <div className="border bg-gray-100 shadow-lg">
-              <Menu
+              <Education_and_Learningmenu
                 subcategories={subcategories}
                 listingemail={email}
                 listingname={name}
@@ -225,4 +226,4 @@ const DiningListingPage = () => {
   );
 };
 
-export default DiningListingPage;
+export default Education_and_LearningListingPage;

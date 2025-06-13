@@ -34,13 +34,11 @@ const Countylisting = ({ countyBackgrounds }) => {
   useEffect(() => {
     const fetchListingsByCounty = async (county) => {
       try {
-        console.log("Fetching listings for county:", county);
 
         const res = await fetch(
           `/api/listing/get-by-county?selectedCounty=${county}`
         );
         const data = await res.json();
-        console.log("Fetched data:", data);
         setListingsByCounty(data);
         setSelectedCounty(county);
 
@@ -68,9 +66,9 @@ const Countylisting = ({ countyBackgrounds }) => {
     { name: "Dining" },
     { name: "Entertainment" },
     { name: "Shopping" },
-    { name: "Education" },
+    { name: "Education_and_Learning" },
     { name: "Services" },
-    { name: "Relaxation" },
+    { name: "Culture_and_Historicalsites" },
   ];
 
   return (
@@ -96,12 +94,12 @@ const Countylisting = ({ countyBackgrounds }) => {
               </Link>
             </div>
           ))}
-          <button
+          {/* <button
             className="bg-black text-white px-4 py-2 text-sm sm:text-base md:text-lg rounded-full hover:bg-gray-400 shadow-md"
             onClick={handleSearch}
           >
             Search
-          </button>
+          </button> */}
         </div>
       </div>
 
