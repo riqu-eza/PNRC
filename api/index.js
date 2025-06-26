@@ -46,7 +46,7 @@ const app = express();
 app.use(express.json());
 app.use(
   cors({
-    origin: ["http://localhost:6054", "https://lskinessentials.com"],
+    origin: ["http://localhost:6054", "https://palmnaziresortcities.com"],
     methods: ["GET", "POST", "PUT", "DELETE"],
     credentials: true,
   })
