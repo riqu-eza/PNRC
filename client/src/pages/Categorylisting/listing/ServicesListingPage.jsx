@@ -2,15 +2,16 @@
 import { FaEnvelope, FaMapMarkerAlt, FaPhone, FaRegClipboard, FaRegClock } from "react-icons/fa";
 import { useLocation } from "react-router-dom";
 import Amenities from "../amenities";
-import Menu from "../menu/meal";
 import { useState } from "react";
+import Servicesmenu from "../menu/Services";
 
 const ServicesListingPage = () => {
   const { state } = useLocation();
 
   // Add a fallback to avoid destructuring undefined 'state' or 'listing'
   const listing = state?.listing || {};
-  console.log("DiningListingPage", listing);
+  console.log("ServiceListingPage", listing);
+
 
   // Destructure with default values to avoid errors
   const {
@@ -122,7 +123,7 @@ const ServicesListingPage = () => {
           {/* Category Section */}
           <div className="mb-6 p-1">
             <div className="border bg-gray-100 shadow-lg">
-              <Menu
+              <Servicesmenu
                 subcategories={subcategories}
                 listingemail={email}
                 listingname={name}

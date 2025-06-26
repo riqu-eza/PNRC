@@ -27,6 +27,7 @@ const Shoppingmodal = ({ event, onClose, listingemail, listingname, listingaddre
     setFormData((prevData) => ({ ...prevData, [name]: value }));
   };
 
+  // eslint-disable-next-line no-unused-vars
   const handleBookingClick = () => {
     setShowForm(true);
     setBookingSuccess(false);
@@ -211,7 +212,7 @@ const Shoppingmodal = ({ event, onClose, listingemail, listingname, listingaddre
           </div>
 
           {/* Right Section: Booking Button */}
-          <div className="flex flex-col pl-4 min-w-0">
+          {/* <div className="flex flex-col pl-4 min-w-0">
             <h3 className="text-xl font-semibold mb-2">Booking Options</h3>
             <button
               className="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 transition mb-2 flex items-center justify-center"
@@ -230,7 +231,7 @@ const Shoppingmodal = ({ event, onClose, listingemail, listingname, listingaddre
                 "Book Now"
               )}
             </button>
-          </div>
+          </div> */}
         </div>
 
         {/* Booking Form Modal */}
