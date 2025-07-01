@@ -82,7 +82,7 @@ const AccommodationSearch = ({ listings }) => {
   return (
     <div className="flex flex-col md:flex-row mt-5">
       {/* Filter Sidebar */}
-      <aside className="md:w-1/4 p-4 border-b md:border-b-0 md:border-r">
+      <aside className="md:w-[20%] p-4 border-b md:border-b-0 md:border-r">
         <h2 className="text-2xl font-bold mb-4">Filters</h2>
 
         {/* Subcategory Filter */}
@@ -135,14 +135,14 @@ const AccommodationSearch = ({ listings }) => {
       </aside>
 
       {/* Listings Grid */}
-      <main className="md:w-3/4 p-4">
+      <main className="md:w-[80%] p-4">
         <div>
           <h2>
             {categoryname} in {county}
           </h2>
         </div>
         {filteredListings.length > 0 ? (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2">
+          <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-2">
             {filteredListings.map((listing) => (
               <Link
                 key={listing._id}

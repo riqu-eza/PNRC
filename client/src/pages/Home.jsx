@@ -264,7 +264,7 @@ export default function Home() {
           </div>
 
           {/* Small-Screen Logo */}
-          <div className="block sm:hidden border-2 mb-4 lg:mb-0 ">
+          <div className="block sm:hidden mb-4 lg:mb-0 ">
             <img
               src="/images/officiallogo2.png"
               alt="Logo"
